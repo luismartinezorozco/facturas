@@ -313,10 +313,8 @@
 
             <!-- VISTA: LOGIN NORMAL -->
             <div id="login-auth-view" class="hidden space-y-4 animate-fade-in">
-                <p class="text-xs font-black text-slate-500 dark:text-slate-400 text-center uppercase tracking-widest mb-2">Selecciona tu perfil</p>
-                <select id="login-user-select" class="w-full px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:border-blue-500 outline-none text-center appearance-none">
-                    <!-- JS Fill -->
-                </select>
+                <p class="text-xs font-black text-slate-500 dark:text-slate-400 text-center uppercase tracking-widest mb-2">Ingresa a tu cuenta</p>
+                <input type="text" id="login-username" placeholder="Nombre de usuario" class="w-full px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:border-blue-500 outline-none text-center">
                 <input type="password" id="login-pin" placeholder="Ingresa tu PIN" maxlength="4" inputmode="numeric" class="w-full px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-center text-xl tracking-[0.5em] font-black focus:border-blue-500 outline-none placeholder:tracking-normal placeholder:font-medium placeholder:text-sm">
                 <button onclick="loginUser()" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-[900] py-4 rounded-xl shadow-xl uppercase tracking-[0.2em] text-xs hover:opacity-90 active:scale-[0.98] transition-all mt-2">
                     Ingresar
@@ -1037,7 +1035,6 @@
                 } else {
                     document.getElementById('login-setup-view').classList.add('hidden');
                     document.getElementById('login-auth-view').classList.remove('hidden');
-                    window.populateUserSelect();
                 }
             } else {
                 loginScreen.classList.add('hidden');
@@ -1054,16 +1051,6 @@
                     window.showSection('crear');
                 }
             }
-        }
-
-        window.populateUserSelect = function() {
-            const select = document.getElementById('login-user-select');
-            const currentVal = select.value;
-            select.innerHTML = '<option value="">-- Seleccionar Perfil --</option>';
-            window.db.usuarios.forEach(u => {
-                select.innerHTML += `<option value="${u.id}">${u.nombre} (${u.role === 'admin' ? 'Admin' : 'Vendedor'})</option>`;
-            });
-            if(currentVal) select.value = currentVal;
         }
 
         window.setupAdmin = async function() {
@@ -1087,25 +1074,28 @@
         };
 
         window.loginUser = function() {
-            const userId = document.getElementById('login-user-select').value;
+            const username = document.getElementById('login-username').value.trim();
             const pin = document.getElementById('login-pin').value;
-            if(!userId || pin.length !== 4) { window.showToast("Selecciona y digita PIN"); return; }
+            if(!username || pin.length !== 4) { window.showToast("Ingresa nombre y PIN"); return; }
 
-            const user = window.db.usuarios.find(u => u.id === userId);
+            const normalizeStr = (str) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            
+            const user = window.db.usuarios.find(u => normalizeStr(u.nombre) === normalizeStr(username));
             if(user && user.pin === pin) {
                 if (user.status === 'suspended') {
-                    window.showToast("Su licencia está suspendida. Contacte a soporte.");
+                    window.showToast("Licencia suspendida. Contacte a soporte.");
                     document.getElementById('login-pin').value = '';
                     return;
                 }
                 
                 window.currentAppUser = user;
                 sessionStorage.setItem('currentLocalUserId', user.id);
+                document.getElementById('login-username').value = '';
                 document.getElementById('login-pin').value = '';
                 window.showToast(`Hola ${user.nombre}`);
                 window.checkLoginState();
             } else {
-                window.showToast("PIN Incorrecto");
+                window.showToast("Credenciales incorrectas");
                 document.getElementById('login-pin').value = '';
             }
         };
