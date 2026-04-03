@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sistema de Facturación</title>
+    <title>Sistema de Facturación PRO</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -100,7 +100,7 @@
             stroke-linejoin: round;
         }
 
-        /* Paneles */
+        /* Paneles con súper bordes redondeados */
         .glass-panel {
             background: white;
             border: 1px solid #e2e8f0;
@@ -112,10 +112,7 @@
             border-color: #334155;
         }
 
-        /* Inputs text-base evita zoom en iOS */
-        input, select, textarea {
-            font-size: 16px !important; 
-        }
+        input, select, textarea { font-size: 16px !important; }
 
         .dark input, .dark select, .dark textarea {
             background-color: #0f172a;
@@ -151,7 +148,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        #confirm-modal { backdrop-filter: blur(8px); }
+        #confirm-modal, #login-screen { backdrop-filter: blur(8px); }
         
         .mobile-viewport-wrapper {
             width: 100%;
@@ -183,7 +180,7 @@
             justify-content: center;
             border-radius: 0.75rem;
             font-size: 0.8rem;
-            font-weight: 600;
+            font-weight: 800;
             cursor: pointer;
             position: relative;
             transition: all 0.2s;
@@ -211,9 +208,7 @@
             border-radius: 50%;
             margin-top: 2px;
         }
-        .calendar-day.selected .event-dot {
-            background-color: white;
-        }
+        .calendar-day.selected .event-dot { background-color: white; }
 
         /* --- RESPONSIVE TABLE --- */
         @media (max-width: 640px) {
@@ -248,7 +243,7 @@
             }
             .responsive-table td::before {
                 content: attr(data-label);
-                font-weight: 700;
+                font-weight: 900;
                 color: #64748b;
                 text-transform: uppercase;
                 font-size: 0.7rem;
@@ -265,7 +260,7 @@
             text-align: center;
             padding: 0.75rem;
             font-size: 0.75rem;
-            font-weight: 800;
+            font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             cursor: pointer;
@@ -283,6 +278,11 @@
             color: #60a5fa;
             border-bottom-color: #60a5fa;
         }
+
+        /* Progreso Ventas */
+        .progress-bar-fill {
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
     </style>
 </head>
 <body class="pb-32 md:pb-10 bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-500 min-h-screen" id="main-body">
@@ -296,16 +296,16 @@
                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"></path></svg>
                 </div>
                 <h2 class="text-2xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Control de Acceso</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mt-1">Sistema de Facturación</p>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mt-1">Sistema Colaborativo</p>
             </div>
 
             <!-- VISTA: CONFIGURAR ADMIN (Solo la primera vez) -->
             <div id="login-setup-view" class="hidden space-y-4 animate-fade-in">
                 <div class="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 p-3 rounded-xl text-[10px] font-bold text-center border border-blue-100 dark:border-blue-800 mb-2 leading-relaxed">
-                    Aún no hay usuarios. Crea el <span class="font-black">Super Administrador</span> maestro para iniciar.
+                    Crea el <span class="font-black">Super Administrador</span> maestro para iniciar el sistema y gestionar a los clientes.
                 </div>
                 <input type="text" id="setup-admin-name" placeholder="Tu Nombre" class="w-full px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:border-blue-500 outline-none text-center">
-                <input type="password" id="setup-admin-pin" placeholder="Crea un PIN de 4 dígitos" maxlength="4" inputmode="numeric" class="w-full px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-center text-xl tracking-[0.5em] font-black focus:border-blue-500 outline-none placeholder:tracking-normal placeholder:font-medium placeholder:text-sm">
+                <input type="password" id="setup-admin-pin" placeholder="Crea un PIN (4 dígitos)" maxlength="4" inputmode="numeric" class="w-full px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-center text-xl tracking-[0.5em] font-black focus:border-blue-500 outline-none placeholder:tracking-normal placeholder:font-medium placeholder:text-sm">
                 <button onclick="setupAdmin()" class="w-full bg-blue-600 text-white font-[900] py-4 rounded-xl shadow-xl shadow-blue-600/20 uppercase tracking-[0.2em] text-xs hover:bg-blue-500 transition-all mt-2">
                     Activar Sistema
                 </button>
@@ -327,36 +327,39 @@
 
     <!-- MENSAJE DE ESTADO -->
     <div id="toast" class="fixed top-5 left-5 right-5 md:left-auto md:w-auto z-toast transform translate-y-[-150%] transition-transform duration-500 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl font-bold text-sm text-center dark:bg-white dark:text-slate-900 border border-white/20">
-        Acción realizada con éxito
+        <span id="toast-msg">Acción realizada con éxito</span>
     </div>
 
     <!-- MODAL DE CONFIRMACIÓN -->
     <div id="confirm-modal" class="fixed inset-0 z-modal bg-slate-900/80 dark:bg-black/90 hidden flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl max-w-sm w-full p-6 transform transition-all scale-100 border border-transparent dark:border-slate-700">
-            <div class="mb-5 text-center">
-                <div class="w-14 h-14 bg-red-50 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-red-500 text-2xl">🗑️</div>
-                <h3 class="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">¿Estás seguro?</h3>
-                <p id="confirm-msg" class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-2 leading-relaxed">Esta acción eliminará el registro de forma permanente.</p>
+        <div class="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl max-w-sm w-full p-8 transform transition-all scale-100 border border-transparent dark:border-slate-700 text-center">
+            <div class="w-16 h-16 bg-red-50 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-6 text-red-500 text-3xl">
+                <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
             </div>
-            <div class="flex flex-col sm:flex-row gap-3">
-                <button type="button" onclick="closeConfirm()" class="w-full py-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-xs uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition-all">
-                    Cancelar
-                </button>
-                <button type="button" id="confirm-btn-yes" class="w-full py-3.5 rounded-xl bg-red-500 text-white font-bold text-xs uppercase tracking-widest hover:bg-red-600 active:scale-95 transition-all shadow-lg shadow-red-500/30">
+            <h3 class="text-2xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">¿Estás seguro?</h3>
+            <p id="confirm-msg" class="text-sm text-slate-500 dark:text-slate-400 font-bold mt-2 mb-8 leading-relaxed">Esta acción eliminará el registro de forma permanente.</p>
+            <div class="flex flex-col gap-3">
+                <button type="button" id="confirm-btn-yes" class="w-full py-4 rounded-xl bg-red-500 text-white font-[900] text-xs uppercase tracking-widest hover:bg-red-600 active:scale-95 transition-all shadow-xl shadow-red-500/30">
                     Sí, Eliminar
+                </button>
+                <button type="button" onclick="closeConfirm()" class="w-full py-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-[900] text-xs uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition-all">
+                    Cancelar
                 </button>
             </div>
         </div>
     </div>
 
     <!-- BOTÓN DE SESIÓN (ARRIBA DERECHA) -->
-    <button onclick="logoutUser()" id="btn-logout" class="fixed top-4 right-4 z-[90] bg-white/90 dark:bg-slate-800/90 backdrop-blur-md px-4 py-2.5 rounded-full shadow-lg border border-slate-200 dark:border-slate-700 text-[10px] font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 flex items-center gap-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all hidden">
-        <span id="current-user-display" class="hidden xs:inline">👤 Vendedor</span>
-        <svg class="w-3.5 h-3.5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+    <button onclick="logoutUser()" id="btn-logout" class="fixed top-4 right-4 z-[90] bg-white/90 dark:bg-slate-800/90 backdrop-blur-md px-5 py-3 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 text-[10px] font-[900] uppercase tracking-widest text-slate-700 dark:text-slate-300 flex items-center gap-2 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-all hidden">
+        <span id="current-user-display" class="hidden xs:flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg> Usuario
+        </span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
     </button>
 
-    <!-- NAVEGACIÓN -->
-    <nav class="nav-liquid fixed bottom-6 left-4 right-4 md:left-1/2 md:right-auto md:-translate-x-1/2 z-50 p-1.5 flex justify-between md:justify-center gap-1 md:gap-2 md:top-6 md:bottom-auto max-w-md mx-auto overflow-x-auto">
+    <!-- NAVEGACIÓN ESTILO LIQUID GLASS -->
+    <nav class="nav-liquid fixed bottom-6 left-4 right-4 md:left-1/2 md:right-auto md:-translate-x-1/2 z-50 p-1.5 flex justify-between md:justify-center gap-1 md:gap-2 md:top-6 md:bottom-auto max-w-lg mx-auto overflow-x-auto">
+        <!-- VENDEDOR NAV -->
         <button onclick="showSection('crear')" id="nav-crear" class="nav-link active flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
             <svg class="nav-icon" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
             <span class="hidden xs:inline">Crear</span>
@@ -365,73 +368,169 @@
             <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
             <span class="hidden xs:inline">Agenda</span>
         </button>
+
+        <!-- ADMIN NAV -->
+        <button onclick="showSection('analisis')" id="nav-analisis" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]" style="display: none;">
+            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            <span class="hidden xs:inline">Análisis</span>
+        </button>
+        <button onclick="showSection('usuarios')" id="nav-usuarios" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]" style="display: none;">
+            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            <span class="hidden xs:inline">Licencias</span>
+        </button>
+
+        <!-- SHARED NAV -->
         <button onclick="showSection('registros')" id="nav-registros" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
             <svg class="nav-icon" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
             <span class="hidden xs:inline">Registros</span>
         </button>
-        <button onclick="showSection('ajustes')" id="nav-ajustes" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]" style="display: none;">
-            <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-            </svg>
+        <button onclick="showSection('ajustes')" id="nav-ajustes" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
+            <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             <span class="hidden xs:inline">Ajustes</span>
         </button>
     </nav>
 
-    <main class="max-w-5xl mx-auto pt-16 px-4 md:pt-32 hidden" id="main-content">
+    <main class="max-w-5xl mx-auto pt-6 px-4 md:pt-32 hidden" id="main-content">
         
-        <!-- SECCIÓN: CREAR DOCUMENTO -->
+        <!-- SECCIÓN: ANÁLISIS DEL ADMINISTRADOR -->
+        <section id="sec-analisis" class="section-content hidden">
+            <div class="glass-panel rounded-[2.5rem] shadow-xl p-8 md:p-12 mb-8 relative overflow-hidden">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-blue-500/10 dark:bg-blue-600/20 rounded-full blur-3xl"></div>
+                <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-purple-500/10 dark:bg-purple-600/20 rounded-full blur-3xl"></div>
+                
+                <h2 class="text-3xl md:text-5xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter relative z-10">Panel de Análisis</h2>
+                <p class="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-[0.3em] mb-10 relative z-10">Métricas Globales del Negocio</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+                    <div class="bg-blue-600 rounded-[2rem] p-6 shadow-xl shadow-blue-600/20 text-white transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-80">Licencias Activas</p>
+                            <svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <h3 class="text-4xl font-[950] tracking-tighter break-words" id="stat-licenses">0</h3>
+                        <p class="text-[9px] font-bold uppercase mt-2 opacity-70">Clientes registrados</p>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 rounded-[2rem] p-6 shadow-xl border border-slate-100 dark:border-slate-700 transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Módulos Premium</p>
+                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3 class="text-4xl font-[950] text-emerald-500 tracking-tighter break-words" id="stat-premium">0</h3>
+                        <p class="text-[9px] font-bold uppercase mt-2 text-slate-400">Add-ons habilitados</p>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 rounded-[2rem] p-6 shadow-xl border border-slate-100 dark:border-slate-700 transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Facturas Emitidas</p>
+                            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </div>
+                        <h3 class="text-4xl font-[950] text-slate-900 dark:text-white tracking-tighter" id="stat-count">0</h3>
+                        <p class="text-[9px] font-bold uppercase mt-2 text-slate-400">Documentos globales</p>
+                    </div>
+                </div>
+
+                <div class="mt-10 pt-8 border-t border-slate-100 dark:border-slate-800 relative z-10">
+                    <h3 class="text-sm font-[900] text-slate-900 dark:text-white uppercase tracking-widest mb-6">Uso del Sistema por Cliente</h3>
+                    <div id="stat-vendedores" class="space-y-5 max-w-3xl">
+                        <!-- JS Fill -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: GESTIÓN DE USUARIOS (SOLO ADMIN) -->
+        <section id="sec-usuarios" class="section-content hidden">
+            <div class="glass-panel rounded-[2.5rem] shadow-xl p-8 md:p-12">
+                <h2 class="text-3xl md:text-4xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter mb-2">Venta de Licencias</h2>
+                <p class="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-[0.3em] mb-10">Activa y gestiona cuentas de clientes</p>
+                
+                <div class="bg-blue-50 dark:bg-slate-800/80 p-6 md:p-8 rounded-[2rem] border border-blue-100 dark:border-slate-700 mb-8 shadow-inner">
+                    <p class="text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] text-center mb-6">Vender Nueva Licencia</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <input type="text" id="new-user-name" placeholder="Nombre del cliente / negocio" class="px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-bold outline-none text-center sm:text-left focus:ring-4 focus:ring-blue-500/20">
+                        <input type="password" id="new-user-pin" placeholder="PIN (4 dígitos)" maxlength="4" inputmode="numeric" class="px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-lg tracking-[0.5em] font-black outline-none text-center focus:ring-4 focus:ring-blue-500/20 placeholder:tracking-normal placeholder:font-medium placeholder:text-sm">
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-6">
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="new-user-registros" class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer">
+                            <label for="new-user-registros" class="text-[10px] font-black text-slate-600 dark:text-slate-300 uppercase tracking-widest cursor-pointer">Registros (Premium)</label>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="new-user-agenda" class="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer">
+                            <label for="new-user-agenda" class="text-[10px] font-black text-slate-600 dark:text-slate-300 uppercase tracking-widest cursor-pointer">Agenda (Premium)</label>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="new-user-saldo" class="w-4 h-4 rounded border-slate-300 text-amber-600 focus:ring-amber-500 cursor-pointer">
+                            <label for="new-user-saldo" class="text-[10px] font-black text-slate-600 dark:text-slate-300 uppercase tracking-widest cursor-pointer">Saldo Pendiente (Premium)</label>
+                        </div>
+                    </div>
+                    <button type="button" onclick="createUser()" class="w-full bg-blue-600 text-white font-[900] py-4 rounded-xl shadow-xl shadow-blue-600/30 uppercase tracking-[0.2em] text-xs hover:bg-blue-500 hover:-translate-y-1 transition-all">
+                        Activar Cliente
+                    </button>
+                </div>
+
+                <h3 class="text-xs font-[900] text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-4">Clientes Activos</h3>
+                <div id="users-list" class="space-y-3">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: CREAR DOCUMENTO (VENDEDOR) -->
         <section id="sec-crear" class="section-content">
             <div id="form-container" class="glass-panel rounded-[2rem] md:rounded-[2.5rem] shadow-xl overflow-hidden transition-all duration-300">
                 <div id="form-header" class="bg-slate-900 p-8 md:p-12 text-white flex flex-col items-center text-center relative">
                     <div class="line-accent bg-blue-500 mb-4 shadow-[0_0_15px_rgba(59,130,246,0.5)]"></div>
                     <h1 id="app-header-title" class="text-2xl md:text-4xl font-[900] tracking-tighter italic uppercase text-white">SISTEMA DE FACTURACIÓN</h1>
-                    <p class="text-slate-400 text-[10px] mt-2 uppercase tracking-[0.3em] font-bold">Gestión de Facturación</p>
+                    <p class="text-slate-400 text-[10px] mt-2 uppercase tracking-[0.3em] font-bold">Gestión Operativa</p>
                 </div>
-                <form id="invoiceForm" class="p-5 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                
+                <form id="invoiceForm" class="p-6 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                     <div class="space-y-1.5">
                         <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Nº de Factura</label>
-                        <input type="text" id="facturaNum" placeholder="Ej: 001" inputmode="numeric" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
+                        <input type="text" id="facturaNum" placeholder="Ej: 001" inputmode="numeric" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
                     </div>
                     <div class="space-y-1.5">
-                        <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Nombre del Evento</label>
-                        <input type="text" id="concepto" placeholder="Ej: Boda de María & Juan" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
+                        <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Nombre del Evento / Concepto</label>
+                        <input type="text" id="concepto" placeholder="Ej: Servicio general" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
                     </div>
                     <div class="space-y-1.5">
                         <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Cliente</label>
-                        <input type="text" id="clienteNombre" list="clientes-lista" placeholder="Nombre completo" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
+                        <input type="text" id="clienteNombre" list="clientes-lista" placeholder="Nombre completo" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
                         <datalist id="clientes-lista"></datalist>
                     </div>
                     <div class="space-y-1.5">
                         <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">NIT / Cédula</label>
-                        <input type="text" id="cc" placeholder="Documento de identidad" inputmode="numeric" required oninput="formatCurrencyInput(this)" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
+                        <input type="text" id="cc" placeholder="Documento de identidad" inputmode="numeric" required oninput="formatCurrencyInput(this)" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
                     </div>
                     <div class="space-y-1.5">
-                        <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Fecha del Servicio</label>
+                        <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Fecha de Emisión</label>
                         <input type="date" id="fechaServicio" required class="w-full px-4 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-600 dark:text-slate-300 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none">
                     </div>
                     <div class="space-y-1.5">
                         <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Correo Electrónico</label>
-                        <input type="email" id="correo" placeholder="ejemplo@correo.com" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
+                        <input type="email" id="correo" placeholder="ejemplo@correo.com" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
                     </div>
-                    <div class="md:col-span-2 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-700 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                        <div class="space-y-1.5">
-                            <label class="block text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">Abono Inicial</label>
-                            <input type="text" id="monto" placeholder="0" inputmode="numeric" required oninput="formatCurrencyInput(this)" class="w-full px-4 py-4 rounded-xl border border-blue-100 dark:border-blue-900 font-black text-lg text-blue-900 dark:text-blue-200 outline-none shadow-sm bg-white">
+                    
+                    <div class="md:col-span-2 bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-700 grid grid-cols-1 sm:grid-cols-2 gap-6 transition-all" id="montos-wrapper">
+                        <div class="space-y-1.5" id="monto-container">
+                            <label id="monto-label" class="block text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">Abono Inicial</label>
+                            <input type="text" id="monto" placeholder="0" inputmode="numeric" required oninput="formatCurrencyInput(this)" class="w-full px-5 py-4 rounded-xl border border-blue-200 dark:border-blue-800 font-black text-xl text-blue-900 dark:text-blue-200 outline-none shadow-sm bg-white dark:bg-slate-900 focus:ring-4 focus:ring-blue-500/20">
                         </div>
-                        <div class="space-y-1.5">
+                        <div class="space-y-1.5" id="saldo-container">
                             <label class="block text-[10px] font-black text-red-500 uppercase tracking-widest">Saldo Pendiente</label>
-                            <input type="text" id="saldoPendienteInput" placeholder="0" inputmode="numeric" oninput="formatCurrencyInput(this)" class="w-full px-4 py-4 rounded-xl border border-red-100 dark:border-red-900 font-bold text-red-600 dark:text-red-300 text-lg outline-none shadow-sm bg-white">
+                            <input type="text" id="saldoPendienteInput" placeholder="0" inputmode="numeric" oninput="formatCurrencyInput(this)" class="w-full px-5 py-4 rounded-xl border border-red-200 dark:border-red-900 font-bold text-red-600 dark:text-red-300 text-xl outline-none shadow-sm bg-white dark:bg-slate-900 focus:ring-4 focus:ring-red-500/20">
                         </div>
                     </div>
+                    
                     <div class="md:col-span-2">
                         <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2">Método de Pago Preferido</label>
-                        <select id="metodoPago" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white text-sm font-bold outline-none">
+                        <select id="metodoPago" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white dark:bg-slate-900 text-sm font-bold outline-none focus:ring-4 focus:ring-blue-500/10">
                             <!-- JS Population -->
                         </select>
                     </div>
+                    
                     <div class="md:col-span-2 pt-6">
-                        <button type="button" onclick="generarPreview()" id="btn-procesar" class="w-full bg-slate-900 text-white dark:bg-blue-600 font-[900] py-5 rounded-2xl shadow-xl shadow-slate-900/30 uppercase tracking-[0.3em] text-xs hover:bg-blue-600 dark:hover:bg-blue-500 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
+                        <button type="button" onclick="generarPreview()" id="btn-procesar" class="w-full bg-slate-900 dark:bg-blue-600 text-white font-[900] py-5 rounded-2xl shadow-xl shadow-slate-900/30 uppercase tracking-[0.3em] text-xs hover:bg-blue-600 dark:hover:bg-blue-500 hover:-translate-y-1 active:scale-[0.98] transition-all duration-300">
                             PROCESAR FACTURA
                         </button>
                     </div>
@@ -441,20 +540,24 @@
             <!-- VISTA PREVIA -->
             <div id="preview-container" class="hidden space-y-6 py-4">
                 <div class="flex flex-col sm:flex-row gap-3">
-                    <button onclick="cerrarPreview()" class="w-full sm:w-auto bg-white border border-slate-200 text-slate-900 px-6 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-50 shadow-sm">
-                        <span>←</span> Editar
+                    <button onclick="cerrarPreview()" class="w-full sm:w-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-6 py-4 rounded-xl font-[900] text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> Editar
                     </button>
-                    <button onclick="compartirPDF()" id="btn-share" class="w-full sm:flex-grow bg-slate-900 text-white py-4 rounded-xl font-[900] shadow-xl text-xs uppercase tracking-[0.2em] hover:bg-blue-600 transition-colors flex items-center justify-center gap-2">
-                        <span>⬇️</span> Descargar PDF
+                    <button onclick="compartirPDF()" id="btn-share" class="w-full sm:flex-grow bg-slate-900 dark:bg-blue-600 text-white py-4 rounded-xl font-[900] shadow-xl text-xs uppercase tracking-[0.2em] hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><polyline points="9 15 12 18 15 15"></polyline></svg> Descargar PDF
                     </button>
                 </div>
+                
                 <div class="mobile-viewport-wrapper">
                     <!-- INVOICE RENDER -->
-                    <div id="invoice-render" class="w-full max-w-2xl md:max-w-none md:w-[800px] bg-white p-6 md:p-10 flex flex-col relative mx-auto transition-all">
+                    <div id="invoice-render" class="w-full max-w-2xl md:max-w-none md:w-[800px] bg-white p-8 md:p-12 flex flex-col relative mx-auto transition-all">
                         <div class="flex flex-col md:flex-row justify-between items-center md:items-start mb-6 md:mb-8 gap-6 md:gap-0">
                             <div class="space-y-3 text-center md:text-left w-full md:w-auto">
                                 <div>
-                                    <div class="line-accent mb-4 mx-auto md:mx-0"></div>
+                                    <div class="mb-4 flex justify-center md:justify-start">
+                                        <img id="pdf-logo" src="" alt="Logo de Empresa" class="hidden h-16 object-contain">
+                                        <div id="pdf-line-accent" class="line-accent"></div>
+                                    </div>
                                     <h1 class="text-3xl md:text-4xl font-[950] text-slate-900 tracking-tighter uppercase italic leading-none" id="pdf-empresa">NOMBRE EMPRESA</h1>
                                     <p class="text-slate-800 font-black text-sm md:text-base tracking-[0.2em] mt-2" id="pdf-propietario">NOMBRE PROPIETARIO</p>
                                     <p class="text-slate-500 font-bold text-[10px] md:text-xs uppercase tracking-widest mt-1" id="pdf-nit">NIT / C.C.</p>
@@ -513,10 +616,14 @@
                             </div>
                         </div>
                         <div class="flex flex-col md:flex-row justify-end mt-6 pt-4 border-t border-slate-100 relative">
-                            <p class="absolute bottom-4 left-0 text-[8px] font-bold text-slate-400 uppercase tracking-widest">Generado por: <span id="pdf-vendedor"></span></p>
+                            <p class="absolute bottom-4 left-0 text-[8px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                                Generado por:
+                                <svg class="w-3 h-3 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                <span id="pdf-vendedor" class="font-black text-slate-900"></span>
+                            </p>
                             <div class="w-full md:w-72 space-y-3">
                                 <div class="flex justify-between text-xs font-bold text-slate-500 uppercase tracking-widest">
-                                    <span>Abono Realizado</span>
+                                    <span id="pdf-abono-label">Abono Realizado</span>
                                     <span class="text-slate-900 font-black" id="calc-abono"></span>
                                 </div>
                                 <div id="row-iva" class="flex justify-between text-xs font-bold text-slate-400 uppercase tracking-widest">
@@ -560,31 +667,37 @@
 
         <!-- SECCIÓN: CALENDARIO -->
         <section id="sec-calendario" class="section-content hidden">
-            <div class="glass-panel rounded-[2rem] shadow-xl p-6 md:p-8">
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-                    <h2 class="text-2xl md:text-3xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Agenda</h2>
-                    <div class="flex gap-2">
-                        <button onclick="changeMonth(-1)" class="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">◀</button>
-                        <span id="calendar-month-year" class="font-black text-slate-900 dark:text-white uppercase tracking-widest self-center text-sm"></span>
-                        <button onclick="changeMonth(1)" class="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">▶</button>
+            <div class="glass-panel rounded-[2.5rem] shadow-xl p-8 md:p-12">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+                    <h2 class="text-3xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Agenda</h2>
+                    <div class="flex gap-2 bg-slate-50 dark:bg-slate-800 p-2 rounded-xl">
+                        <button onclick="changeMonth(-1)" class="bg-white dark:bg-slate-700 p-2 rounded-lg shadow-sm hover:scale-105 transition-transform text-slate-900 dark:text-white">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                        </button>
+                        <span id="calendar-month-year" class="font-black text-slate-900 dark:text-white uppercase tracking-widest self-center text-xs px-4 min-w-[120px] text-center"></span>
+                        <button onclick="changeMonth(1)" class="bg-white dark:bg-slate-700 p-2 rounded-lg shadow-sm hover:scale-105 transition-transform text-slate-900 dark:text-white">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
                     </div>
                 </div>
-                <div class="mb-4">
-                    <div class="grid grid-cols-7 gap-1 text-center mb-2">
-                        <div class="text-[10px] font-bold text-slate-400 uppercase">Dom</div>
-                        <div class="text-[10px] font-bold text-slate-400 uppercase">Lun</div>
-                        <div class="text-[10px] font-bold text-slate-400 uppercase">Mar</div>
-                        <div class="text-[10px] font-bold text-slate-400 uppercase">Mié</div>
-                        <div class="text-[10px] font-bold text-slate-400 uppercase">Jue</div>
-                        <div class="text-[10px] font-bold text-slate-400 uppercase">Vie</div>
-                        <div class="text-[10px] font-bold text-slate-400 uppercase">Sáb</div>
+                
+                <div class="mb-6">
+                    <div class="grid grid-cols-7 gap-1 text-center mb-4">
+                        <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Dom</div>
+                        <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Lun</div>
+                        <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Mar</div>
+                        <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Mié</div>
+                        <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Jue</div>
+                        <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Vie</div>
+                        <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sáb</div>
                     </div>
                     <div id="calendar-grid" class="calendar-grid"></div>
                 </div>
-                <div class="border-t border-slate-100 dark:border-slate-700 pt-6">
-                    <h3 id="selected-date-title" class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest mb-4">Eventos del día</h3>
-                    <div id="day-events-list" class="space-y-3">
-                        <p class="text-center text-xs text-slate-400 italic py-4">Selecciona un día para ver los eventos</p>
+                
+                <div class="border-t-[3px] border-slate-100 dark:border-slate-800 pt-8">
+                    <h3 id="selected-date-title" class="text-sm font-[900] text-slate-900 dark:text-white uppercase tracking-widest mb-6">Eventos del día</h3>
+                    <div id="day-events-list" class="space-y-4">
+                        <p class="text-center text-xs font-bold text-slate-400 uppercase tracking-widest py-4">Selecciona un día</p>
                     </div>
                 </div>
             </div>
@@ -592,24 +705,23 @@
 
         <!-- SECCIÓN: REGISTROS UNIFICADOS -->
         <section id="sec-registros" class="section-content hidden">
-            <div class="glass-panel rounded-[2rem] shadow-xl p-6 md:p-8">
-                <!-- Header Registros -->
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-                    <h2 class="text-2xl md:text-3xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Registros</h2>
+            <div class="glass-panel rounded-[2.5rem] shadow-xl p-8 md:p-12">
+                
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+                    <h2 class="text-3xl md:text-4xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Registros</h2>
                     
-                    <!-- Pestañas -->
-                    <div class="flex bg-slate-100 dark:bg-slate-800/50 p-1 rounded-xl">
-                        <button onclick="switchTab('facturas')" id="tab-btn-facturas" class="tab-btn active-tab">Facturas</button>
-                        <button onclick="switchTab('clientes')" id="tab-btn-clientes" class="tab-btn">Clientes</button>
+                    <div class="flex bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl w-full md:w-auto shadow-inner">
+                        <button onclick="switchTab('facturas')" id="tab-btn-facturas" class="tab-btn active-tab rounded-xl">Facturas</button>
+                        <button onclick="switchTab('clientes')" id="tab-btn-clientes" class="tab-btn rounded-xl">Clientes</button>
                     </div>
                 </div>
 
                 <!-- Contenido Tab Facturas -->
                 <div id="tab-content-facturas" class="block animate-fade-in">
                     <div class="mb-6 flex justify-end">
-                        <button onclick="descargarHistorialPDF()" class="text-[10px] font-black bg-blue-600 text-white px-4 py-2 rounded-lg uppercase tracking-widest hover:bg-blue-500 transition-all shadow-lg flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                            Descargar Reporte
+                        <button onclick="descargarHistorialPDF()" class="text-[10px] font-[900] bg-slate-900 dark:bg-blue-600 text-white px-5 py-3 rounded-xl uppercase tracking-[0.2em] hover:-translate-y-1 transition-all shadow-xl flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><polyline points="9 15 12 18 15 15"></polyline></svg>
+                            Exportar Reporte
                         </button>
                     </div>
                     <div class="space-y-4" id="lista-facturas">
@@ -619,25 +731,23 @@
 
                 <!-- Contenido Tab Clientes -->
                 <div id="tab-content-clientes" class="hidden animate-fade-in">
-                    <div class="mb-4 flex gap-3">
-                        <div class="relative flex-grow">
-                            <input type="text" id="clientSearch" placeholder="Buscar por nombre o documento..." oninput="filterClients(this.value)" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:border-blue-500 outline-none pl-10">
-                            <svg class="absolute left-3 top-3 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        </div>
+                    <div class="mb-6 relative">
+                        <input type="text" id="clientSearch" placeholder="Buscar por nombre o documento..." oninput="filterClients(this.value)" class="w-full px-6 py-4 pl-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
+                        <svg class="absolute left-4 top-4 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-                    <div class="mb-4">
-                        <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest" id="cliente-count">0 Clientes</span>
-                    </div>
+                    
+                    <p class="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-4" id="cliente-count">0 Clientes</p>
+                    
                     <div class="responsive-table">
                         <table class="w-full text-left">
                             <thead>
-                                <tr class="text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-black border-b border-slate-200 dark:border-slate-700">
-                                    <th class="pb-6 px-2">Nombre</th>
-                                    <th class="pb-6 px-2">Documento</th>
-                                    <th class="pb-6 px-2 text-center">Acciones</th>
+                                <tr class="text-[10px] font-black uppercase tracking-widest text-slate-400 border-b-2 border-slate-100 dark:border-slate-800">
+                                    <th class="pb-4 px-2">Nombre</th>
+                                    <th class="pb-4 px-2">Documento</th>
+                                    <th class="pb-4 px-2 text-right">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="lista-clientes-tabla" class="text-sm font-bold text-slate-700 dark:text-slate-300">
+                            <tbody id="lista-clientes-tabla" class="text-sm font-bold text-slate-700 dark:text-slate-300 divide-y divide-slate-100 dark:divide-slate-800/50">
                                 <!-- JS fill -->
                             </tbody>
                         </table>
@@ -646,76 +756,75 @@
             </div>
         </section>
 
-        <!-- SECCIÓN: AJUSTES -->
+        <!-- SECCIÓN: AJUSTES GLOBALES (AMBOS, PERO CONDICIONAL) -->
         <section id="sec-ajustes" class="section-content hidden">
-            <div class="glass-panel rounded-[2rem] shadow-xl p-6 md:p-8 border border-slate-200 dark:border-slate-800 max-w-2xl mx-auto">
-                <div class="mb-8 text-center">
-                    <h2 class="text-2xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Configuración</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 font-bold mt-2 uppercase tracking-widest">Personaliza tus propios datos de factura</p>
+            <div class="glass-panel rounded-[2.5rem] shadow-xl p-8 md:p-12 max-w-3xl mx-auto border-t-4 border-blue-500">
+                <div class="mb-10 text-center">
+                    <h2 class="text-3xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Ajustes</h2>
+                    <p class="text-[10px] text-slate-500 font-bold mt-2 uppercase tracking-[0.3em]">Configuración del Sistema</p>
                 </div>
                 
-                <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 mb-6">
+                <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 mb-8">
                     <div>
-                        <p class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wide">Modo Oscuro</p>
-                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Cambiar la apariencia de la aplicación</p>
+                        <p class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">Modo Oscuro</p>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 font-bold">Cambiar la apariencia visual</p>
                     </div>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" id="toggle-darkmode" class="sr-only peer" onchange="toggleDarkMode()">
-                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <div class="w-12 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                     </label>
                 </div>
 
-                <!-- COPIA DE SEGURIDAD LOCAL -->
-                <div class="mb-6 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
-                    <p class="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3">Copia de Seguridad</p>
-                    <div class="flex gap-3">
-                        <button type="button" onclick="exportarDatos()" class="flex-1 bg-green-600 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-green-500 transition-all flex items-center justify-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0l-4-4m4 4V4"></path></svg>
-                            Exportar
-                        </button>
-                        <button type="button" onclick="document.getElementById('import-file').click()" class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-blue-500 transition-all flex items-center justify-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0l-4-4m4-4v12"></path></svg>
-                            Importar
-                        </button>
-                        <input type="file" id="import-file" class="hidden" accept=".json" onchange="importarDatos(this)">
-                    </div>
-                    <p class="text-[9px] text-slate-400 mt-2 text-center">Descarga un archivo .json para guardar tus datos o sube uno para restaurarlos.</p>
-                </div>
-
+                <!-- DATOS DEL EMISOR (OCULTO PARA ADMIN, VISIBLE PARA VENDEDORES) -->
                 <form id="configForm" onsubmit="guardarConfig(event)" class="space-y-6">
+                    <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest border-b-2 border-slate-100 dark:border-slate-800 pb-3">Tus Datos de Facturación</h3>
+                    
+                    <div class="md:col-span-2 space-y-1.5 mb-6">
+                        <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Logo de tu Empresa (Opcional)</label>
+                        <div class="flex items-center gap-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-4 rounded-xl">
+                            <div id="logo-preview" class="w-20 h-20 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 flex items-center justify-center overflow-hidden flex-shrink-0">
+                                <span class="text-[9px] text-slate-400 font-bold uppercase">Sin logo</span>
+                            </div>
+                            <div class="flex-grow">
+                                <input type="file" id="cfg-logo" accept="image/*" class="w-full text-xs font-bold text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-black file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100 cursor-pointer" onchange="previewLogo(this)">
+                                <button type="button" onclick="removeLogo()" class="text-[9px] text-red-500 hover:text-red-600 font-black uppercase tracking-widest mt-2 block">Borrar Logo</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div class="space-y-1.5">
-                            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Nombre Empresa</label>
-                            <input type="text" id="cfg-empresa" required class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:border-blue-500 outline-none">
+                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Nombre Empresa</label>
+                            <input type="text" id="cfg-empresa" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
                         </div>
                         <div class="space-y-1.5">
-                            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Nombre Propietario</label>
-                            <input type="text" id="cfg-propietario" required class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:border-blue-500 outline-none">
+                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Propietario / Agente</label>
+                            <input type="text" id="cfg-propietario" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
                         </div>
                         <div class="space-y-1.5">
-                            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest">NIT / Documento</label>
-                            <input type="text" id="cfg-nit" required oninput="formatCurrencyInput(this)" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:border-blue-500 outline-none">
+                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">NIT / Documento</label>
+                            <input type="text" id="cfg-nit" required oninput="formatCurrencyInput(this)" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
                         </div>
                         <div class="space-y-1.5">
-                            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Ciudad</label>
-                            <input type="text" id="cfg-ciudad" required class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:border-blue-500 outline-none">
+                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Ciudad</label>
+                            <input type="text" id="cfg-ciudad" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
                         </div>
                         <div class="space-y-1.5">
-                            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Teléfono</label>
-                            <input type="text" id="cfg-telefono" required class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:border-blue-500 outline-none">
+                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Teléfono</label>
+                            <input type="text" id="cfg-telefono" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
                         </div>
                         <div class="space-y-1.5">
-                            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Correo Electrónico</label>
-                            <input type="email" id="cfg-email" required class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:border-blue-500 outline-none">
+                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Correo Electrónico</label>
+                            <input type="email" id="cfg-email" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
                         </div>
                     </div>
                     
                     <!-- GESTIÓN DE MÉTODOS DE PAGO -->
-                    <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
-                        <div class="flex justify-between items-center mb-4">
-                            <p class="text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">Tus Métodos de Pago</p>
-                            <button type="button" onclick="addPaymentMethodUI()" class="text-[10px] bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-3 py-1.5 rounded-lg font-bold uppercase tracking-widest hover:opacity-80 transition-opacity">
-                                + Agregar
+                    <div class="pt-8">
+                        <div class="flex justify-between items-center mb-4 border-b-2 border-slate-100 dark:border-slate-800 pb-3">
+                            <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest">Métodos de Pago</h3>
+                            <button type="button" onclick="addPaymentMethodUI()" class="text-[10px] font-black text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:scale-105 transition-transform uppercase tracking-wider">
+                                + Añadir
                             </button>
                         </div>
                         <div id="payment-methods-list" class="space-y-3">
@@ -723,97 +832,87 @@
                         </div>
                     </div>
 
-                    <div class="pt-6">
-                        <button type="submit" class="w-full bg-slate-900 text-white dark:bg-blue-600 font-[900] py-4 rounded-xl shadow-xl uppercase tracking-[0.2em] text-xs hover:bg-blue-600 dark:hover:bg-blue-500 transition-all">
-                            Guardar Mis Ajustes
+                    <div class="pt-8">
+                        <button type="submit" class="w-full bg-blue-600 text-white font-[900] py-4 rounded-xl shadow-xl uppercase tracking-[0.2em] text-xs hover:-translate-y-1 transition-all">
+                            Guardar Preferencias
                         </button>
                     </div>
                 </form>
-
-                <!-- GESTIÓN DE USUARIOS Y ROLES (SOLO ADMIN) -->
-                <div id="admin-users-section" class="pt-8 mt-8 border-t-[4px] border-slate-900 dark:border-slate-700 hidden">
-                    <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-                        <div>
-                            <h3 class="text-lg font-[950] text-slate-900 dark:text-white uppercase tracking-tighter flex items-center gap-2">
-                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                                Gestión de Usuarios
-                            </h3>
-                            <p class="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest mt-1">Crea cuentas y asigna roles</p>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-blue-50 dark:bg-slate-800/80 p-5 rounded-2xl border border-blue-100 dark:border-slate-700 mb-6 space-y-4 shadow-inner">
-                        <p class="text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest text-center mb-2">Crear Nuevo Usuario</p>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            <input type="text" id="new-user-name" placeholder="Nombre completo" class="px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-bold outline-none text-center sm:text-left">
-                            <input type="password" id="new-user-pin" placeholder="PIN (4 dígitos)" maxlength="4" inputmode="numeric" class="px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm tracking-widest font-black outline-none text-center">
-                            <select id="new-user-role" class="px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-bold outline-none text-center">
-                                <option value="user">Rol: Vendedor</option>
-                                <option value="admin">Rol: Administrador</option>
-                            </select>
-                        </div>
-                        <button type="button" onclick="createUser()" class="w-full bg-blue-600 text-white font-[900] py-3.5 rounded-xl uppercase tracking-[0.2em] text-[10px] hover:bg-blue-500 transition-all shadow-md">
-                            Crear Usuario
-                        </button>
-                    </div>
-
-                    <div id="users-list" class="space-y-3">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
             </div>
         </section>
 
         <!-- PLANTILLA REPORTE HISTÓRICO (PDF) -->
         <div id="history-report-container" class="hidden" style="position:absolute; top:0; left:0; z-index:-100; opacity: 0; pointer-events: none; width:100%; max-width: 1080px;">
-            <div id="history-report" class="p-8 bg-white w-full h-auto min-h-screen">
-                <div class="flex justify-between items-start mb-6 border-b-2 border-slate-900 pb-4">
+            <div id="history-report" class="p-8 bg-white w-full h-auto min-h-screen text-slate-900">
+                <div class="flex justify-between items-start mb-6 border-b-4 border-slate-900 pb-4">
                     <div>
-                        <h1 class="text-xl font-black uppercase text-slate-900 tracking-tight">Reporte Contable de Ingresos</h1>
-                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mt-1" id="hist-empresa">Nombre Empresa</p>
+                        <h1 class="text-2xl font-[950] uppercase tracking-tighter">Reporte Contable</h1>
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1" id="hist-empresa">Empresa</p>
                     </div>
                     <div class="text-right">
-                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Fecha de Corte</p>
-                        <p class="text-xs font-black text-slate-900" id="report-date"></p>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Fecha de Corte</p>
+                        <p class="text-sm font-[900]" id="report-date"></p>
                     </div>
                 </div>
                 
-                <table class="w-full text-left text-[9px] mb-4 border-collapse table-fixed">
+                <table class="w-full text-left text-[10px] mb-4 border-collapse table-fixed">
                     <thead>
-                        <tr class="uppercase text-slate-900 font-black tracking-wider border-b border-slate-300">
-                            <th class="pb-2 pl-1 w-[8%]">Fecha</th>
-                            <th class="pb-2 w-[8%]">No.</th>
-                            <th class="pb-2 w-[12%]">NIT / CC</th>
-                            <th class="pb-2 w-[20%]">Tercero / Cliente</th>
-                            <th class="pb-2 w-[17%]">Concepto</th>
-                            <th class="pb-2 w-[10%]">Medio Pago</th>
-                            <th class="pb-2 w-[10%] text-blue-600">Vendedor</th>
-                            <th class="pb-2 text-right pr-1 w-[15%]">Valor Total</th>
+                        <tr class="text-slate-500 border-b-2 border-slate-200 font-black uppercase tracking-widest">
+                            <th class="pb-3 w-[10%]">Fecha</th>
+                            <th class="pb-3 w-[8%]">No.</th>
+                            <th class="pb-3 w-[12%]">NIT / CC</th>
+                            <th class="pb-3 w-[20%]">Cliente</th>
+                            <th class="pb-3 w-[18%]">Concepto</th>
+                            <th class="pb-3 w-[10%]">Pago</th>
+                            <th class="pb-3 w-[10%]">Vendedor</th>
+                            <th class="pb-3 text-right w-[12%]">Total</th>
                         </tr>
                     </thead>
-                    <tbody id="report-body" class="text-slate-600 font-medium"></tbody>
+                    <tbody id="report-body" class="font-bold"></tbody>
                 </table>
 
-                <div class="mt-6 flex justify-end gap-8 border-t-2 border-slate-900 pt-4">
+                <div class="mt-8 flex justify-end gap-8 border-t-4 border-slate-900 pt-4">
                     <div class="text-right">
-                        <p class="text-[8px] font-black uppercase tracking-widest text-slate-400">Total Recaudado</p>
-                        <p class="text-xl font-[950] text-slate-900 tracking-tighter" id="report-total"></p>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Recaudado</p>
+                        <p class="text-2xl font-[950] tracking-tighter" id="report-total"></p>
                     </div>
                 </div>
                 
-                <div class="mt-12 text-[8px] text-slate-400 text-center uppercase tracking-widest">
-                    <p>Fin del Reporte - Generado por Sistema</p>
+                <div class="mt-16 text-[9px] font-bold text-slate-400 text-center uppercase tracking-widest">
+                    <p>Fin del Reporte - Generado Automáticamente</p>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- LOGICA LOCAL -->
-    <script>
+    <!-- LOGICA FIREBASE Y APP -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+          apiKey: "AIzaSyDk346f7TPFPR9GCdUI4pxpOGj7EJMHXfo",
+          authDomain: "facturacionesnodian.firebaseapp.com",
+          databaseURL: "https://facturacionesnodian-default-rtdb.firebaseio.com",
+          projectId: "facturacionesnodian",
+          storageBucket: "facturacionesnodian.firebasestorage.app",
+          messagingSenderId: "932941479555",
+          appId: "1:932941479555:web:2528e067e560345d6c65b6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const dbFirestore = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'facturacion-app-pro';
+
+        const getCol = (colName) => collection(dbFirestore, 'artifacts', appId, 'public', 'data', colName);
+        const getDocPath = (colName, docId) => doc(dbFirestore, 'artifacts', appId, 'public', 'data', colName, docId);
+
         // ESTADO GLOBAL
-        window.currentAppUser = null; // Usuario de la aplicación (Admin o Vendedor)
+        window.currentAppUser = null; 
         const defaultConfig = {
-            empresa: "", propietario: "", nit: "", ciudad: "", telefono: "", email: "", darkMode: false,
+            empresa: "", propietario: "", nit: "", ciudad: "", telefono: "", email: "", darkMode: false, logo: null,
             paymentMethods: [
                 { name: "Bancolombia", bank: "Ahorros", account: "000-000-000-00" },
                 { name: "Efectivo", bank: "Caja", account: "N/A" }
@@ -822,40 +921,60 @@
         
         window.db = { facturas: [], clientes: {}, usuarios: [], config: { ...defaultConfig } };
 
-        // CARGAR BASE DE DATOS LOCAL
-        function loadDB() {
-            if (localStorage.getItem('eventosLalyDB_v3') && !localStorage.getItem('eventosLalyDB_v4')) {
-                try {
-                    const oldData = JSON.parse(localStorage.getItem('eventosLalyDB_v3'));
-                    db.facturas = oldData.facturas || [];
-                    db.clientes = oldData.clientes || {};
-                    db.config = { ...defaultConfig, ...(oldData.config || {}) };
-                    saveDB();
-                } catch(e) {}
-            }
+        let initialLoadUsuarios = true;
 
-            try {
-                const loaded = localStorage.getItem('eventosLalyDB_v4');
-                if (loaded) {
-                    const parsed = JSON.parse(loaded);
-                    db.facturas = parsed.facturas || [];
-                    db.clientes = parsed.clientes || {};
-                    db.usuarios = parsed.usuarios || [];
-                    db.config = { ...defaultConfig, ...(parsed.config || {}) };
+        function setupListeners() {
+            if(!auth.currentUser) return;
+
+            onSnapshot(getCol("usuarios"), (snap) => {
+                window.db.usuarios = snap.docs.map(d => d.data());
+                
+                if(initialLoadUsuarios) {
+                    initialLoadUsuarios = false;
+                    window.checkLoginState();
+                } else {
+                    if(window.currentAppUser) {
+                        const updatedMe = window.db.usuarios.find(u => u.id === window.currentAppUser.id);
+                        if(updatedMe) {
+                            window.currentAppUser = updatedMe;
+                            if(updatedMe.status === 'suspended') window.logoutUser();
+                        }
+                        window.renderUsersList();
+                        window.applyRolePermissions();
+                    }
                 }
-            } catch (e) { console.error("Error cargando DB local", e); }
+            }, (err) => console.error("Firebase Snapshot Error (Usuarios):", err));
+
+            onSnapshot(getCol("facturas"), (snap) => {
+                window.db.facturas = snap.docs.map(d => d.data());
+                if(window.currentAppUser) {
+                    window.renderListas();
+                    if(window.currentAppUser.role === 'admin') window.renderAnalisis();
+                    if(!document.getElementById('sec-calendario').classList.contains('hidden')) window.renderCalendar(currentCalendarDate);
+                }
+            }, (err) => console.error("Firebase Snapshot Error (Facturas):", err));
+
+            onSnapshot(getCol("clientes"), (snap) => {
+                window.db.clientes = {};
+                snap.docs.forEach(d => window.db.clientes[d.id] = d.data());
+                if(window.currentAppUser) window.renderListas();
+            }, (err) => console.error("Firebase Snapshot Error (Clientes):", err));
+
+            onSnapshot(getDocPath("config", "main"), (snap) => {
+                if(snap.exists()) {
+                    window.db.config = { ...defaultConfig, ...snap.data() };
+                }
+                if(window.currentAppUser) {
+                    window.updateAppHeader();
+                    window.applyTheme();
+                }
+            }, (err) => console.error("Firebase Snapshot Error (Config):", err));
         }
 
-        function saveDB() {
-            try { localStorage.setItem('eventosLalyDB_v4', JSON.stringify(db)); } 
-            catch(e) { showToast("⚠️ Error: Espacio de almacenamiento lleno"); }
-        }
-
-        // --- SISTEMA DE CONFIGURACIÓN POR USUARIO ---
+        // FUNCIONES CORE
         window.getUserConfig = function() {
             if (window.currentAppUser) {
                 if (!window.currentAppUser.config) {
-                    // Si no tiene config propia, hereda la global del sistema
                     window.currentAppUser.config = JSON.parse(JSON.stringify(window.db.config));
                 }
                 return window.currentAppUser.config;
@@ -863,77 +982,47 @@
             return window.db.config;
         };
 
-        window.saveUserConfig = function(config) {
-            if (window.currentAppUser) {
-                const uIndex = window.db.usuarios.findIndex(u => u.id === window.currentAppUser.id);
-                if (uIndex > -1) {
-                    window.db.usuarios[uIndex].config = config;
-                    window.currentAppUser.config = config;
+        window.saveUserConfig = async function(config) {
+            if(!auth.currentUser) return;
+            try {
+                if (window.currentAppUser) {
+                    const updatedUser = { ...window.currentAppUser, config: config };
+                    await setDoc(getDocPath("usuarios", window.currentAppUser.id), updatedUser);
+                    window.currentAppUser = updatedUser;
+                } else {
+                    await setDoc(getDocPath("config", "main"), config);
                 }
-            } else {
-                window.db.config = config;
-            }
-            saveDB();
+                window.showToast("Ajustes guardados en la nube");
+            } catch(e) { console.error(e); window.showToast("Error al sincronizar"); }
         };
 
+        // --- LOGO UPLOAD ---
+        let currentLogoBase64 = null;
+        window.previewLogo = function(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentLogoBase64 = e.target.result;
+                    document.getElementById('logo-preview').innerHTML = `<img src="${currentLogoBase64}" class="w-full h-full object-contain">`;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
+        window.removeLogo = function() {
+            currentLogoBase64 = null;
+            document.getElementById('cfg-logo').value = '';
+            document.getElementById('logo-preview').innerHTML = `<span class="text-[9px] text-slate-400 font-bold uppercase">Sin logo</span>`;
+        };
 
-        // --- EXPORTAR E IMPORTAR DATOS ---
-        function exportarDatos() {
-            const dataStr = JSON.stringify(db, null, 2);
-            const blob = new Blob([dataStr], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `backup_facturacion_${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            showToast("Datos exportados correctamente");
-        }
-
-        function importarDatos(input) {
-            const file = input.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    if (!data || typeof data !== 'object') throw new Error("Formato incorrecto");
-
-                    db.facturas = Array.isArray(data.facturas) ? data.facturas : [];
-                    db.clientes = (data.clientes && typeof data.clientes === 'object') ? data.clientes : {};
-                    db.usuarios = Array.isArray(data.usuarios) ? data.usuarios : [];
-                    
-                    if (data.config) {
-                        db.config = { ...defaultConfig, ...data.config };
-                        if (!db.config.paymentMethods) db.config.paymentMethods = [...defaultConfig.paymentMethods];
-                    } else {
-                        db.config = { ...defaultConfig };
-                    }
-
-                    saveDB();
-                    showToast("Copia de seguridad restaurada con éxito");
-                    setTimeout(() => location.reload(), 1000);
-                } catch (err) {
-                    showToast("Error: El archivo no es válido o está dañado");
-                }
-            };
-            reader.readAsText(file);
-            input.value = ''; 
-        }
-
-        // --- AUTH & RBAC (Control de Acceso) ---
-        function checkLoginState() {
+        // --- AUTH & RBAC ---
+        window.checkLoginState = function() {
             const loginScreen = document.getElementById('login-screen');
             const mainContent = document.getElementById('main-content');
             const btnLogout = document.getElementById('btn-logout');
 
             if(!window.currentAppUser) {
                 const sessionUser = sessionStorage.getItem('currentLocalUserId');
-                if(sessionUser) {
-                    window.currentAppUser = window.db.usuarios.find(u => u.id === sessionUser);
-                }
+                if(sessionUser) window.currentAppUser = window.db.usuarios.find(u => u.id === sessionUser);
             }
 
             if (!window.currentAppUser) {
@@ -948,70 +1037,75 @@
                 } else {
                     document.getElementById('login-setup-view').classList.add('hidden');
                     document.getElementById('login-auth-view').classList.remove('hidden');
-                    populateUserSelect();
+                    window.populateUserSelect();
                 }
             } else {
                 loginScreen.classList.add('hidden');
                 mainContent.classList.remove('hidden');
                 btnLogout.classList.remove('hidden');
                 
-                applyRolePermissions();
-                renderListas();
-                updateAppHeader();
-                updatePaymentSelect();
-                applyTheme();
-                renderUsersList();
-                if(!document.getElementById('sec-calendario').classList.contains('hidden')){
-                    renderCalendar(currentCalendarDate);
+                window.applyRolePermissions();
+                window.updateAppHeader();
+                window.applyTheme();
+                
+                if (window.currentAppUser.role === 'admin') {
+                    window.showSection('analisis');
+                } else {
+                    window.showSection('crear');
                 }
             }
         }
 
-        function populateUserSelect() {
+        window.populateUserSelect = function() {
             const select = document.getElementById('login-user-select');
             const currentVal = select.value;
-            select.innerHTML = '<option value="">-- Seleccionar Usuario --</option>';
+            select.innerHTML = '<option value="">-- Seleccionar Perfil --</option>';
             window.db.usuarios.forEach(u => {
                 select.innerHTML += `<option value="${u.id}">${u.nombre} (${u.role === 'admin' ? 'Admin' : 'Vendedor'})</option>`;
             });
             if(currentVal) select.value = currentVal;
         }
 
-        window.setupAdmin = function() {
+        window.setupAdmin = async function() {
+            if(!auth.currentUser) return;
             const name = document.getElementById('setup-admin-name').value.trim();
             const pin = document.getElementById('setup-admin-pin').value;
-            if(!name || pin.length !== 4) { showToast("Completa tu nombre y un PIN de 4 dígitos"); return; }
+            if(!name || pin.length !== 4) { window.showToast("Nombre y PIN 4 dígitos requeridos"); return; }
             
             const userId = Date.now().toString();
-            // Iniciar config de usuario clonada de la global
             const userConfig = JSON.parse(JSON.stringify(window.db.config));
-            const userObj = { id: userId, nombre: name, pin: pin, role: 'admin', fechaCreacion: new Date().toISOString(), config: userConfig };
+            const userObj = { id: userId, nombre: name, pin: pin, role: 'admin', status: 'active', canViewRegistros: true, canViewAgenda: true, canViewSaldo: true, fechaCreacion: new Date().toISOString(), config: userConfig };
             
-            window.db.usuarios.push(userObj);
-            saveDB();
-
-            window.currentAppUser = userObj;
-            sessionStorage.setItem('currentLocalUserId', userId);
-            
-            document.getElementById('setup-admin-pin').value = '';
-            showToast("¡Super Administrador Creado!");
-            checkLoginState();
+            try {
+                await setDoc(getDocPath("usuarios", userId), userObj);
+                window.currentAppUser = userObj;
+                sessionStorage.setItem('currentLocalUserId', userId);
+                document.getElementById('setup-admin-pin').value = '';
+                window.showToast("Admin Creado en la nube");
+                window.checkLoginState();
+            } catch(e) { console.error(e); window.showToast("Error al conectar"); }
         };
 
         window.loginUser = function() {
             const userId = document.getElementById('login-user-select').value;
             const pin = document.getElementById('login-pin').value;
-            if(!userId || pin.length !== 4) { showToast("Selecciona un usuario y digita el PIN"); return; }
+            if(!userId || pin.length !== 4) { window.showToast("Selecciona y digita PIN"); return; }
 
             const user = window.db.usuarios.find(u => u.id === userId);
             if(user && user.pin === pin) {
+                if (user.status === 'suspended') {
+                    window.showToast("Su licencia está suspendida. Contacte a soporte.");
+                    document.getElementById('login-pin').value = '';
+                    return;
+                }
+                
                 window.currentAppUser = user;
                 sessionStorage.setItem('currentLocalUserId', user.id);
                 document.getElementById('login-pin').value = '';
-                showToast(`Bienvenido(a) ${user.nombre}`);
-                checkLoginState();
+                window.showToast(`Hola ${user.nombre}`);
+                window.checkLoginState();
             } else {
-                showToast("PIN Incorrecto");
+                window.showToast("PIN Incorrecto");
                 document.getElementById('login-pin').value = '';
             }
         };
@@ -1019,91 +1113,254 @@
         window.logoutUser = function() {
             window.currentAppUser = null;
             sessionStorage.removeItem('currentLocalUserId');
-            showSection('crear');
-            checkLoginState();
+            window.checkLoginState();
         };
 
-        function applyRolePermissions() {
+        // --- CONTROL DE VISTAS POR ROL ---
+        window.applyRolePermissions = function() {
             if (!window.currentAppUser) return;
-            const navAjustes = document.getElementById('nav-ajustes');
-            const adminSection = document.getElementById('admin-users-section');
-            const display = document.getElementById('current-user-display');
-            
-            display.innerText = `👤 ${window.currentAppUser.nombre}`;
+            const role = window.currentAppUser.role;
+            const hasRegistros = window.currentAppUser.canViewRegistros === true;
+            const hasAgenda = window.currentAppUser.canViewAgenda === true;
+            const hasSaldo = window.currentAppUser.canViewSaldo === true;
 
-            // AHORA TODOS LOS USUARIOS TIENEN ACCESO A LA PESTAÑA AJUSTES
-            navAjustes.style.display = 'flex';
+            document.getElementById('current-user-display').innerHTML = `
+                <svg class="w-3.5 h-3.5 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                ${window.currentAppUser.nombre}
+            `;
 
-            // PERO SOLO LOS ADMINS PUEDEN CREAR/BORRAR OTROS USUARIOS
-            if (window.currentAppUser.role === 'admin') {
-                adminSection.classList.remove('hidden');
+            if (role === 'admin') {
+                document.getElementById('nav-crear').style.display = 'none';
+                document.getElementById('nav-calendario').style.display = 'none';
+                document.getElementById('nav-registros').style.display = 'none';
+                document.getElementById('nav-analisis').style.display = 'flex';
+                document.getElementById('nav-usuarios').style.display = 'flex';
+                document.getElementById('configForm').style.display = 'none';
             } else {
-                adminSection.classList.add('hidden');
+                document.getElementById('nav-crear').style.display = 'flex';
+                document.getElementById('nav-calendario').style.display = hasAgenda ? 'flex' : 'none';
+                document.getElementById('nav-registros').style.display = hasRegistros ? 'flex' : 'none';
+                document.getElementById('nav-analisis').style.display = 'none';
+                document.getElementById('nav-usuarios').style.display = 'none';
+                document.getElementById('configForm').style.display = 'block';
+            }
+
+            const wrapper = document.getElementById('montos-wrapper');
+            if (wrapper) {
+                if (hasSaldo) {
+                    document.getElementById('saldo-container').style.display = 'block';
+                    document.getElementById('monto-label').innerText = 'ABONO INICIAL';
+                    wrapper.classList.add('sm:grid-cols-2');
+                    wrapper.classList.remove('sm:grid-cols-1');
+                } else {
+                    document.getElementById('saldo-container').style.display = 'none';
+                    if(document.getElementById('saldoPendienteInput')) document.getElementById('saldoPendienteInput').value = '';
+                    document.getElementById('monto-label').innerText = 'VALOR TOTAL DEL SERVICIO';
+                    wrapper.classList.remove('sm:grid-cols-2');
+                    wrapper.classList.add('sm:grid-cols-1');
+                }
             }
         }
 
-        window.createUser = function() {
+        // --- FUNCIONES DEL ADMIN (ANALISIS Y USUARIOS) ---
+        window.renderAnalisis = function() {
+            const clientes = window.db.usuarios.filter(u => u.role !== 'admin');
+            const totalLicencias = clientes.length;
+            
+            let totalPremium = 0;
+            clientes.forEach(c => {
+                if(c.canViewRegistros) totalPremium++;
+                if(c.canViewAgenda) totalPremium++;
+                if(c.canViewSaldo) totalPremium++;
+            });
+
+            const totalFacturas = window.db.facturas.length;
+
+            let usoPorCliente = {};
+            window.db.facturas.forEach(f => {
+                const v = f.vendedor || 'Desconocido';
+                if(!usoPorCliente[v]) usoPorCliente[v] = 0;
+                usoPorCliente[v] += 1;
+            });
+
+            document.getElementById('stat-licenses').innerText = totalLicencias;
+            document.getElementById('stat-premium').innerText = totalPremium;
+            document.getElementById('stat-count').innerText = totalFacturas;
+
+            const vContainer = document.getElementById('stat-vendedores');
+            vContainer.innerHTML = '';
+            
+            const maxUso = Math.max(...Object.values(usoPorCliente), 1);
+
+            Object.entries(usoPorCliente).sort((a,b) => b[1]-a[1]).forEach(([nombre, count]) => {
+                const percent = (count / maxUso) * 100;
+                vContainer.innerHTML += `
+                    <div>
+                        <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-2">
+                            <span>${nombre}</span>
+                            <span>${count} ${count === 1 ? 'factura' : 'facturas'}</span>
+                        </div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-3">
+                            <div class="bg-blue-600 h-3 rounded-full progress-bar-fill" style="width: 0%" data-width="${percent}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            setTimeout(() => {
+                document.querySelectorAll('.progress-bar-fill').forEach(bar => {
+                    bar.style.width = bar.getAttribute('data-width');
+                });
+            }, 100);
+        }
+
+        window.createUser = async function() {
             if(window.currentAppUser.role !== 'admin') return;
+            if(!auth.currentUser) return;
             const name = document.getElementById('new-user-name').value.trim();
             const pin = document.getElementById('new-user-pin').value;
-            const role = document.getElementById('new-user-role').value;
+            const role = 'user'; 
+            const canViewReg = document.getElementById('new-user-registros').checked;
+            const canViewAge = document.getElementById('new-user-agenda').checked;
+            const canViewSal = document.getElementById('new-user-saldo').checked;
             
-            if(!name || pin.length !== 4) { showToast("Nombre y PIN de 4 dígitos obligatorios"); return; }
+            if(!name || pin.length !== 4) { window.showToast("Datos incompletos"); return; }
             
             const userId = Date.now().toString();
-            // Heredamos la configuración actual del Admin para que el vendedor no inicie en blanco
             const userConfig = JSON.parse(JSON.stringify(window.getUserConfig()));
+            const userObj = { id: userId, nombre: name, pin: pin, role: role, status: 'active', canViewRegistros: canViewReg, canViewAgenda: canViewAge, canViewSaldo: canViewSal, fechaCreacion: new Date().toISOString(), config: userConfig };
             
-            const userObj = { id: userId, nombre: name, pin: pin, role: role, fechaCreacion: new Date().toISOString(), config: userConfig };
-            
-            window.db.usuarios.push(userObj);
-            saveDB();
-            
-            document.getElementById('new-user-name').value = '';
-            document.getElementById('new-user-pin').value = '';
-            showToast("Usuario creado con éxito");
-            renderUsersList();
+            try {
+                await setDoc(getDocPath("usuarios", userId), userObj);
+                document.getElementById('new-user-name').value = '';
+                document.getElementById('new-user-pin').value = '';
+                document.getElementById('new-user-registros').checked = false;
+                document.getElementById('new-user-agenda').checked = false;
+                document.getElementById('new-user-saldo').checked = false;
+                window.showToast("Licencia activada");
+            } catch(e) { console.error(e); window.showToast("Error al guardar"); }
+        };
+
+        window.toggleUserStatus = async function(userId) {
+            if(window.currentAppUser.role !== 'admin') return;
+            if(!auth.currentUser) return;
+            const user = window.db.usuarios.find(u => u.id === userId);
+            if(user) {
+                const newStatus = (user.status || 'active') === 'active' ? 'suspended' : 'active';
+                await setDoc(getDocPath("usuarios", userId), { ...user, status: newStatus });
+                window.showToast(newStatus === 'active' ? "Licencia Reactivada" : "Licencia Suspendida");
+            }
+        };
+
+        window.toggleUserRegistros = async function(userId) {
+            if(window.currentAppUser.role !== 'admin') return;
+            if(!auth.currentUser) return;
+            const user = window.db.usuarios.find(u => u.id === userId);
+            if(user) {
+                await setDoc(getDocPath("usuarios", userId), { ...user, canViewRegistros: !user.canViewRegistros });
+                window.showToast(!user.canViewRegistros ? "Módulo Registros Activado" : "Módulo Registros Desactivado");
+            }
+        };
+
+        window.toggleUserAgenda = async function(userId) {
+            if(window.currentAppUser.role !== 'admin') return;
+            if(!auth.currentUser) return;
+            const user = window.db.usuarios.find(u => u.id === userId);
+            if(user) {
+                await setDoc(getDocPath("usuarios", userId), { ...user, canViewAgenda: !user.canViewAgenda });
+                window.showToast(!user.canViewAgenda ? "Módulo Agenda Activado" : "Módulo Agenda Desactivado");
+            }
+        };
+
+        window.toggleUserSaldo = async function(userId) {
+            if(window.currentAppUser.role !== 'admin') return;
+            if(!auth.currentUser) return;
+            const user = window.db.usuarios.find(u => u.id === userId);
+            if(user) {
+                await setDoc(getDocPath("usuarios", userId), { ...user, canViewSaldo: !user.canViewSaldo });
+                window.showToast(!user.canViewSaldo ? "Módulo Saldo Activado" : "Módulo Saldo Desactivado");
+            }
+        };
+
+        window.togglePinDisplay = function(elementId, realPin) {
+            if(window.currentAppUser.role !== 'admin') return;
+            const el = document.getElementById(elementId);
+            if (el.innerText.includes('****')) {
+                el.innerHTML = `${realPin} <svg class="w-4 h-4 inline-block ml-1 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.29 3.29m0 0a10.05 10.05 0 015.188-1.583c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg>`;
+            } else {
+                el.innerHTML = `**** <svg class="w-4 h-4 inline-block ml-1 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>`;
+            }
         };
 
         window.deleteUser = function(userId) {
             if(window.currentAppUser.role !== 'admin') return;
-            if(userId === window.currentAppUser.id) { showToast("No puedes eliminar tu propia cuenta activa"); return; }
+            if(!auth.currentUser) return;
+            if(userId === window.currentAppUser.id) { window.showToast("No te puedes eliminar"); return; }
             
-            showConfirm("¿Eliminar acceso a este usuario?", () => {
-                window.db.usuarios = window.db.usuarios.filter(u => u.id !== userId);
-                saveDB();
-                showToast("Usuario eliminado");
-                renderUsersList();
+            window.showConfirm("¿Eliminar usuario?", async () => {
+                try {
+                    await deleteDoc(getDocPath("usuarios", userId));
+                    window.closeConfirm();
+                    window.showToast("Usuario eliminado");
+                } catch(e) { window.showToast("Error al eliminar"); }
             });
         };
 
-        function renderUsersList() {
+        window.renderUsersList = function() {
             const list = document.getElementById('users-list');
             if(!list) return;
             list.innerHTML = '';
             
             window.db.usuarios.forEach(u => {
                 const isAdmin = u.role === 'admin';
+                const hasReg = u.canViewRegistros === true;
+                const hasAge = u.canViewAgenda === true;
+                const hasSal = u.canViewSaldo === true;
+                const isSuspended = u.status === 'suspended';
+                
                 const html = `
-                    <div class="bg-white dark:bg-slate-700 p-3 rounded-xl border border-slate-100 dark:border-slate-600 flex justify-between items-center">
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 transition-all">
                         <div>
-                            <p class="text-sm font-bold text-slate-900 dark:text-white">${u.nombre}</p>
-                            <p class="text-[10px] font-black uppercase tracking-widest ${isAdmin ? 'text-blue-500' : 'text-slate-500'}">
-                                ${isAdmin ? 'Administrador' : 'Vendedor'} • PIN: ****
+                            <div class="flex items-center gap-2">
+                                <p class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                    ${u.nombre}
+                                </p>
+                                ${isAdmin ? `<span class="bg-blue-100 text-blue-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">ADMIN</span>` : 
+                                 (isSuspended ? `<span class="bg-red-100 text-red-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">SUSPENDIDO</span>` : `<span class="bg-emerald-100 text-emerald-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">ACTIVO</span>`)}
+                            </div>
+                            
+                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mt-1.5 pl-6 flex items-center gap-1">
+                                PIN: <span id="pin-display-${u.id}" class="cursor-pointer text-blue-500 hover:text-blue-600 transition-colors inline-flex items-center" onclick="togglePinDisplay('pin-display-${u.id}', '${u.pin}')">**** <svg class="w-4 h-4 inline-block ml-1 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></span>
                             </p>
                         </div>
-                        ${u.id !== (window.currentAppUser ? window.currentAppUser.id : '') ? `
-                        <button type="button" onclick="deleteUser('${u.id}')" class="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors" title="Eliminar">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                        </button>` : `<span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest px-2">Activo</span>`}
+                        <div class="flex items-center gap-2 flex-wrap">
+                            ${!isAdmin && u.id !== (window.currentAppUser ? window.currentAppUser.id : '') ? `
+                            <button type="button" onclick="toggleUserStatus('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2 rounded-lg transition-colors border ${isSuspended ? 'bg-red-50 text-red-600 border-red-200 dark:bg-red-900/30' : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800'}" title="Activar/Suspender Licencia">
+                                ${isSuspended ? 'Reactivar' : 'Suspender'}
+                            </button>
+                            <button type="button" onclick="toggleUserRegistros('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2 rounded-lg transition-colors border ${hasReg ? 'bg-blue-100 text-blue-600 border-blue-200 dark:bg-blue-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}" title="Alternar Módulo Registros">
+                                Reg: ${hasReg ? 'ON' : 'OFF'}
+                            </button>
+                            <button type="button" onclick="toggleUserAgenda('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2 rounded-lg transition-colors border ${hasAge ? 'bg-emerald-100 text-emerald-600 border-emerald-200 dark:bg-emerald-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}" title="Alternar Módulo Agenda">
+                                Age: ${hasAge ? 'ON' : 'OFF'}
+                            </button>
+                            <button type="button" onclick="toggleUserSaldo('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2 rounded-lg transition-colors border ${hasSal ? 'bg-amber-100 text-amber-600 border-amber-200 dark:bg-amber-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}" title="Alternar Módulo Saldo">
+                                Sal: ${hasSal ? 'ON' : 'OFF'}
+                            </button>` : ''}
+                            ${u.id !== (window.currentAppUser ? window.currentAppUser.id : '') ? `
+                            <button type="button" onclick="deleteUser('${u.id}')" class="text-red-500 hover:scale-110 p-2 rounded transition-transform" title="Eliminar definitivamente">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </button>` : ``}
+                        </div>
                     </div>`;
                 list.insertAdjacentHTML('beforeend', html);
             });
         }
 
-        // --- SISTEMA CORE ---
+        // --- SISTEMA CORE FACTURACIÓN ---
 
-        function getSiguienteConsecutivo() {
+        window.getSiguienteConsecutivo = function() {
             if (window.db.facturas.length === 0) return "001";
             const nums = window.db.facturas.map(f => parseInt(f.num, 10)).filter(n => !isNaN(n));
             if (nums.length === 0) return "001";
@@ -1111,8 +1368,9 @@
             return (max + 1).toString().padStart(3, '0');
         }
 
-        window.guardarConfig = function(e) {
+        window.guardarConfig = async function(e) {
             e.preventDefault();
+            if(!auth.currentUser) return;
             const config = window.getUserConfig();
             
             config.empresa = document.getElementById('cfg-empresa').value;
@@ -1121,20 +1379,23 @@
             config.ciudad = document.getElementById('cfg-ciudad').value;
             config.telefono = document.getElementById('cfg-telefono').value;
             config.email = document.getElementById('cfg-email').value;
+            config.logo = currentLogoBase64;
             
-            window.saveUserConfig(config);
+            await window.saveUserConfig(config);
             
-            updateAppHeader();
-            showToast("Tus ajustes han sido guardados");
-            showSection('crear');
+            if(window.currentAppUser.role === 'admin') window.showSection('analisis');
+            else window.showSection('crear');
         };
 
-        window.generarPreview = function() {
+        window.generarPreview = async function() {
             const form = document.getElementById('invoiceForm');
             if (!form.checkValidity()) { form.reportValidity(); return; }
+            if(!auth.currentUser) return;
 
-            const abono = getRawValue(document.getElementById('monto').value);
-            const saldo = getRawValue(document.getElementById('saldoPendienteInput').value);
+            const hasSaldo = window.currentAppUser.canViewSaldo === true;
+            
+            const abono = window.getRawValue(document.getElementById('monto').value);
+            const saldo = hasSaldo ? window.getRawValue(document.getElementById('saldoPendienteInput').value) : 0;
             const total = abono + saldo;
             const selectedMethodName = document.getElementById('metodoPago').value;
 
@@ -1156,48 +1417,46 @@
                 vendedor: window.currentAppUser ? window.currentAppUser.nombre : 'Sistema'
             };
 
-            // Force save Cliente
-            window.db.clientes[String(docData.cc)] = { nombre: docData.cliente, correo: docData.correo, cc: docData.cc };
-            
-            const existingIdx = window.db.facturas.findIndex(f => f.num === docData.num);
-            if(existingIdx !== -1) window.db.facturas[existingIdx] = docData;
-            else window.db.facturas.unshift(docData);
-            
-            saveDB();
-            renderListas();
+            try {
+                await setDoc(getDocPath("clientes", String(docData.cc)), { nombre: docData.cliente, correo: docData.correo, cc: docData.cc });
+                await setDoc(getDocPath("facturas", docData.id), docData);
 
-            renderPDFContent(docData, 0, 0);
-            document.getElementById('form-container').classList.add('hidden');
-            document.getElementById('preview-container').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            showToast("Factura procesada");
+                window.renderPDFContent(docData, 0, 0);
+                document.getElementById('form-container').classList.add('hidden');
+                document.getElementById('preview-container').classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.showToast("Factura procesada en la nube");
+            } catch(e) { console.error(e); window.showToast("Error de conexión"); }
         };
 
         window.eliminarCliente = function(cc) {
-            showConfirm(`¿Deseas eliminar este cliente?`, () => {
-                delete window.db.clientes[String(cc)];
-                saveDB();
-                renderListas();
-                showToast("Cliente eliminado");
+            if(!auth.currentUser) return;
+            window.showConfirm(`¿Eliminar cliente?`, async () => {
+                try {
+                    await deleteDoc(getDocPath("clientes", String(cc)));
+                    window.closeConfirm();
+                    window.showToast("Eliminado");
+                } catch(e) { window.showToast("Error"); }
             });
         };
 
         window.eliminarDoc = function(id) {
+            if(!auth.currentUser) return;
             if(window.currentAppUser && window.currentAppUser.role !== 'admin') {
-                showToast("Solo administradores pueden eliminar facturas");
+                window.showToast("Solo administradores pueden eliminar");
                 return;
             }
-            showConfirm(`¿Eliminar factura del historial?`, () => {
-                window.db.facturas = window.db.facturas.filter(f => f.id !== id && f.num !== id);
-                saveDB();
-                renderListas();
-                showToast("Factura eliminada");
+            window.showConfirm(`¿Eliminar factura?`, async () => {
+                try {
+                    await deleteDoc(getDocPath("facturas", id));
+                    window.closeConfirm();
+                    window.showToast("Eliminada");
+                } catch(e) { window.showToast("Error"); }
             });
         };
 
         // UI & RENDER LOGIC
-        function renderListas() {
-            // Clientes
+        window.renderListas = function() {
             const tBody = document.getElementById('lista-clientes-tabla');
             tBody.innerHTML = '';
             const clientArr = Object.values(window.db.clientes);
@@ -1205,61 +1464,64 @@
 
             clientArr.sort((a,b) => a.nombre.localeCompare(b.nombre)).forEach(c => {
                 const tr = document.createElement('tr');
-                tr.className = "border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors";
+                tr.className = "border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors";
                 tr.innerHTML = `
-                    <td class="py-5 px-2" data-label="Nombre"><p class="text-slate-900 dark:text-white font-bold uppercase text-xs">${c.nombre}</p></td>
-                    <td class="py-5 px-2 text-xs text-slate-400 font-black tracking-widest" data-label="Documento">${c.cc}</td>
-                    <td class="py-5 px-2 text-center" data-label="Acciones">
-                        <div class="flex items-center justify-end sm:justify-center gap-2">
-                            <button class="btn-usar bg-slate-900 text-white dark:bg-blue-600 px-3 py-2 rounded-lg text-[9px] font-black uppercase tracking-tighter hover:bg-blue-600 transition-colors">USAR</button>
-                            <button class="btn-eliminar bg-red-50 dark:bg-red-900/20 text-red-500 p-2 rounded-lg hover:bg-red-500 hover:text-white transition-all text-xs" title="Eliminar">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    <td class="py-4 px-2" data-label="Nombre"><p class="text-sm font-bold text-slate-900 dark:text-white uppercase">${c.nombre}</p></td>
+                    <td class="py-4 px-2 text-xs text-slate-500 font-bold tracking-widest" data-label="Documento">${c.cc}</td>
+                    <td class="py-4 px-2 md:text-right" data-label="Acciones">
+                        <div class="flex items-center justify-end gap-2">
+                            ${window.currentAppUser.role !== 'admin' ? 
+                            `<button class="btn-usar bg-blue-600 text-white hover:scale-105 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-transform">Usar</button>` 
+                            : ''}
+                            <button class="btn-eliminar text-slate-400 hover:text-red-500 p-2 hover:scale-110 rounded transition-transform" title="Eliminar">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             </button>
                         </div>
                     </td>`;
-                tr.querySelector('.btn-usar').onclick = () => window.selectingCliente(String(c.cc));
+                if(tr.querySelector('.btn-usar')) tr.querySelector('.btn-usar').onclick = () => window.selectingCliente(String(c.cc));
                 tr.querySelector('.btn-eliminar').onclick = () => window.eliminarCliente(String(c.cc));
                 tBody.appendChild(tr);
             });
 
-            // Historial
             const hDiv = document.getElementById('lista-facturas');
-            hDiv.innerHTML = window.db.facturas.length === 0 ? `<div class="text-center py-20 opacity-20 font-black uppercase tracking-[0.5em] text-slate-500">Sin Facturas</div>` : '';
+            hDiv.innerHTML = window.db.facturas.length === 0 ? `<div class="text-center py-20 opacity-30 font-black text-2xl uppercase tracking-[0.3em] text-slate-500">Sin Registros</div>` : '';
             
-            // Ordenar de más reciente a más antiguo
             const sortedFacturas = [...window.db.facturas].sort((a, b) => new Date(b.fechaCreacion || b.fechaServicio) - new Date(a.fechaCreacion || a.fechaServicio));
 
             sortedFacturas.forEach((f, index) => {
-                const docIdentifier = f.id || f.num; // Support for older documents without id
+                const docIdentifier = f.id || f.num; 
                 const card = document.createElement('div');
-                card.className = "bg-white dark:bg-slate-800/50 p-5 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 group hover:border-blue-200 transition-all mb-4";
+                card.className = "bg-slate-50 dark:bg-slate-800/50 p-5 rounded-3xl border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:-translate-y-1 hover:shadow-lg transition-all";
                 card.innerHTML = `
                     <div class="flex items-center gap-4 w-full md:w-auto">
-                        <div class="bg-slate-900 text-white dark:bg-slate-700 w-10 h-10 md:w-12 md:h-12 rounded-2xl flex-none flex items-center justify-center font-black text-xs italic shadow-lg shadow-slate-900/20">
+                        <div class="bg-blue-600 text-white w-12 h-12 rounded-2xl shadow-xl shadow-blue-600/30 flex-none flex items-center justify-center font-[900] text-sm italic tracking-tighter">
                             ${f.num}
                         </div>
                         <div class="space-y-0.5 min-w-0">
-                            <p class="text-[9px] font-black text-blue-500 dark:text-blue-400 uppercase tracking-widest">${f.fechaServicio} • 👤 ${f.vendedor || 'Admin'}</p>
-                            <p class="font-black text-slate-900 dark:text-white text-base md:text-lg uppercase tracking-tight truncate">${f.cliente}</p>
-                            <p class="text-xs text-slate-400 font-medium truncate">${f.concepto}</p>
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                                ${f.fechaServicio} • 
+                                <svg class="w-3 h-3 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                ${f.vendedor || 'Admin'}
+                            </p>
+                            <p class="font-[900] text-slate-900 dark:text-white text-lg uppercase tracking-tight truncate">${f.cliente}</p>
+                            <p class="text-xs font-bold text-slate-500 truncate">${f.concepto}</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-slate-100 dark:border-slate-700 pt-3 md:pt-0 mt-2 md:mt-0">
+                    <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-slate-200 dark:border-slate-700 pt-4 md:pt-0">
                         <div class="text-right">
-                            <p class="text-lg md:text-xl font-[950] text-slate-900 dark:text-white tracking-tighter">${formatCOP(f.total)}</p>
-                            <p class="text-[9px] font-bold text-slate-400 uppercase">${f.metodo}</p>
+                            <p class="text-2xl font-[950] text-slate-900 dark:text-white tracking-tighter">${window.formatCOP(f.total)}</p>
+                            <p class="text-[10px] font-black text-slate-400 uppercase">${f.metodo}</p>
                         </div>
                         <div class="flex gap-2">
-                            <button class="btn-ver-pdf bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 p-3 rounded-xl hover:bg-blue-500 hover:text-white transition-all" title="Ver/Descargar">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0l-4-4m4 4V4"></path></svg>
+                            <button class="btn-ver-pdf bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 hover:scale-105 p-3 rounded-xl shadow-sm transition-transform" title="Descargar">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0l-4-4m4 4V4"></path></svg>
                             </button>
-                            <button class="btn-eliminar-doc bg-red-50 dark:bg-red-900/20 text-red-500 p-3 rounded-xl hover:bg-red-500 hover:text-white transition-all">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            <button class="btn-eliminar-doc text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-3 rounded-xl transition-colors" title="Eliminar">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             </button>
                         </div>
                     </div>`;
                 
-                // Need to find actual index in db.facturas for download due to sorting
                 const realIndex = window.db.facturas.findIndex(doc => doc.id === docIdentifier || doc.num === docIdentifier);
                 card.querySelector('.btn-ver-pdf').onclick = (e) => window.descargarFacturaItem(realIndex, e);
                 card.querySelector('.btn-eliminar-doc').onclick = () => window.eliminarDoc(docIdentifier);
@@ -1267,7 +1529,7 @@
             });
         }
 
-        function renderPDFContent(data, vIva, vRete) {
+        window.renderPDFContent = function(data, vIva, vRete) {
             const config = window.getUserConfig();
             
             document.getElementById('pdf-empresa').innerText = config.empresa || "EMPRESA";
@@ -1276,6 +1538,18 @@
             document.getElementById('pdf-ciudad').innerText = config.ciudad || "";
             document.getElementById('pdf-telefono').innerText = config.telefono || "";
             document.getElementById('pdf-email').innerText = config.email || "";
+
+            const logoEl = document.getElementById('pdf-logo');
+            const lineEl = document.getElementById('pdf-line-accent');
+            if (config.logo) {
+                logoEl.src = config.logo;
+                logoEl.classList.remove('hidden');
+                lineEl.classList.add('hidden');
+            } else {
+                logoEl.src = '';
+                logoEl.classList.add('hidden');
+                lineEl.classList.remove('hidden');
+            }
 
             const methodDetails = (config.paymentMethods || []).find(m => m.name === data.metodo) || (config.paymentMethods || [])[0] || {account: '', bank: ''};
             document.getElementById('pdf-pago-banco').innerText = data.metodo;
@@ -1294,25 +1568,39 @@
             document.getElementById('pdf-cliente-correo').innerText = data.correo;
             
             document.getElementById('pdf-concepto-text').innerText = data.concepto;
-            document.getElementById('calc-abono').innerText = formatCOP(data.montoBase);
-            document.getElementById('calc-iva').innerText = formatCOP(vIva);
+            
+            const hasSaldo = window.currentAppUser.canViewSaldo === true;
+            document.getElementById('pdf-abono-label').innerText = hasSaldo ? "Abono Realizado" : "Valor Servicio";
+            document.getElementById('calc-abono').innerText = window.formatCOP(data.montoBase);
+            document.getElementById('calc-iva').innerText = window.formatCOP(vIva);
             document.getElementById('row-iva').classList.toggle('hidden', !data.tieneIva);
             document.getElementById('row-rete').classList.toggle('hidden', !data.tieneRete);
-            document.getElementById('calc-rete').innerText = `+ ${formatCOP(vRete)}`;
+            document.getElementById('calc-rete').innerText = `+ ${window.formatCOP(vRete)}`;
             document.getElementById('row-arl').classList.add('hidden'); 
             
-            document.getElementById('row-saldo').classList.toggle('hidden', data.saldo <= 0);
-            document.getElementById('calc-saldo').innerText = `+ ${formatCOP(data.saldo)}`;
-            document.getElementById('calc-total').innerText = formatCOP(data.total);
+            document.getElementById('row-saldo').classList.toggle('hidden', !hasSaldo || data.saldo <= 0);
+            document.getElementById('calc-saldo').innerText = `+ ${window.formatCOP(data.saldo)}`;
+            document.getElementById('calc-total').innerText = window.formatCOP(data.total);
             document.getElementById('pdf-vendedor').innerText = data.vendedor || 'Sistema';
         }
 
-        // OTROS HELPERS GLOBALES EXPORTADOS 
+        // OTROS HELPERS GLOBALES 
         window.showSection = function(section) {
+            if (section === 'registros' && window.currentAppUser && window.currentAppUser.role === 'user' && !window.currentAppUser.canViewRegistros) {
+                window.showToast("Módulo Registros bloqueado. Adquiere el plan Premium.");
+                return;
+            }
+            if (section === 'calendario' && window.currentAppUser && window.currentAppUser.role === 'user' && !window.currentAppUser.canViewAgenda) {
+                window.showToast("Módulo Agenda bloqueado. Adquiere el plan Premium.");
+                return;
+            }
+
             document.querySelectorAll('.section-content').forEach(s => s.classList.add('hidden'));
             document.getElementById(`sec-${section}`).classList.remove('hidden');
-            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active', 'text-slate-900', 'text-white'));
-            document.getElementById(`nav-${section}`).classList.add('active');
+            
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            const activeNav = document.getElementById(`nav-${section}`);
+            if (activeNav) activeNav.classList.add('active');
             
             if(section === 'crear') {
                 window.cerrarPreview();
@@ -1320,14 +1608,21 @@
                 const exists = window.db.facturas.some(f => f.num === currentVal);
                 if (exists || currentVal === "") {
                     document.getElementById('invoiceForm').reset();
-                    document.getElementById('facturaNum').value = getSiguienteConsecutivo();
+                    document.getElementById('facturaNum').value = window.getSiguienteConsecutivo();
                 }
-                updatePaymentSelect(); 
+                window.updatePaymentSelect(); 
+                
+                // Limpiar inputs condicionales
+                if(window.currentAppUser && !window.currentAppUser.canViewSaldo) {
+                    if(document.getElementById('saldoPendienteInput')) document.getElementById('saldoPendienteInput').value = "0";
+                }
             }
-            if(section === 'historial' || section === 'registros') renderListas();
+            if(section === 'historial' || section === 'registros') window.renderListas();
             if(section === 'registros') window.switchTab('facturas');
-            if(section === 'ajustes') cargarAjustes();
-            if(section === 'calendario') renderCalendar(currentCalendarDate);
+            if(section === 'analisis') window.renderAnalisis();
+            if(section === 'usuarios') window.renderUsersList();
+            if(section === 'ajustes') window.cargarAjustes();
+            if(section === 'calendario') window.renderCalendar(currentCalendarDate);
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1336,7 +1631,7 @@
             const config = window.getUserConfig();
             const btn = document.querySelector('button[onclick="descargarHistorialPDF()"]');
             const originalText = btn.innerHTML;
-            btn.innerHTML = "<span>⏳</span> Generando...";
+            btn.innerHTML = `<svg class="animate-spin w-4 h-4 mr-2 inline-block" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Generando...`;
             btn.disabled = true;
 
             const tbody = document.getElementById('report-body');
@@ -1348,21 +1643,21 @@
             sortedFacturas.forEach(f => {
                 grandTotal += f.total;
                 tbody.innerHTML += `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50">
-                        <td class="py-2 pl-1 font-bold text-slate-900 break-words align-top">${f.fechaServicio}</td>
-                        <td class="py-2 font-bold text-slate-700 break-words align-top">${f.num}</td>
-                        <td class="py-2 text-slate-500 break-words text-[8px] align-top">${f.cc}</td>
-                        <td class="py-2 font-bold uppercase break-words align-top">${f.cliente}</td>
-                        <td class="py-2 text-slate-500 break-words text-[8px] align-top">${f.concepto}</td>
-                        <td class="py-2 text-slate-500 uppercase text-[8px] break-words align-top">${f.metodo}</td>
-                        <td class="py-2 font-bold text-blue-600 uppercase text-[8px] break-words align-top">${f.vendedor || 'N/A'}</td>
-                        <td class="py-2 text-right font-black text-slate-900 pr-1 break-words align-top">${formatCOP(f.total)}</td>
+                    <tr class="border-b border-slate-100">
+                        <td class="py-2 pl-1 text-slate-900 align-top">${f.fechaServicio}</td>
+                        <td class="py-2 text-slate-700 align-top">${f.num}</td>
+                        <td class="py-2 text-slate-500 text-[10px] align-top">${f.cc}</td>
+                        <td class="py-2 text-slate-900 align-top">${f.cliente}</td>
+                        <td class="py-2 text-slate-500 text-[10px] align-top">${f.concepto}</td>
+                        <td class="py-2 text-slate-500 text-[10px] align-top">${f.metodo}</td>
+                        <td class="py-2 text-slate-600 text-[10px] align-top">${f.vendedor || 'N/A'}</td>
+                        <td class="py-2 text-right font-medium text-slate-900 pr-1 align-top">${window.formatCOP(f.total)}</td>
                     </tr>`;
             });
             
             document.getElementById('hist-empresa').innerText = config.empresa || "Nombre Empresa";
             document.getElementById('report-date').innerText = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
-            document.getElementById('report-total').innerText = formatCOP(grandTotal);
+            document.getElementById('report-total').innerText = window.formatCOP(grandTotal);
 
             const container = document.getElementById('history-report-container');
             container.classList.remove('hidden');
@@ -1372,27 +1667,26 @@
             try {
                 await html2pdf().set({
                     margin: [0.3, 0.3, 0.3, 0.3], 
-                    filename: `Reporte_Contable_${new Date().toISOString().split('T')[0]}.pdf`,
+                    filename: `Reporte_${new Date().toISOString().split('T')[0]}.pdf`,
                     image: { type: 'jpeg', quality: 0.98 },
                     html2canvas: { scale: 2, useCORS: true, scrollY: 0, width: printWidth, windowWidth: printWidth },
-                    jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' },
-                    pagebreak: { mode: ['css', 'legacy'] } 
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
                 }).from(document.getElementById('history-report')).save();
-                showToast("Reporte descargado");
-            } catch (e) { showToast("Error al generar"); } 
+                window.showToast("Reporte descargado");
+            } catch (e) { window.showToast("Error al generar"); } 
             finally { container.classList.add('hidden'); container.style.width = ''; btn.innerHTML = originalText; btn.disabled = false; }
         };
 
         window.descargarFacturaItem = async function(index, event) {
             const btn = event.currentTarget; 
             const originalContent = btn.innerHTML;
-            btn.innerHTML = `<svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+            btn.innerHTML = `<svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
             btn.disabled = true;
 
             try {
                 const factura = window.db.facturas[index];
-                if(!factura) throw new Error("Factura no encontrada");
-                renderPDFContent(factura, 0, 0);
+                if(!factura) throw new Error("No encontrada");
+                window.renderPDFContent(factura, 0, 0);
 
                 const previewContainer = document.getElementById('preview-container');
                 const wasHidden = previewContainer.classList.contains('hidden');
@@ -1412,19 +1706,19 @@
 
                 const file = new File([pdfAsBlob], `Factura_${factura.num}.pdf`, { type: 'application/pdf' });
                 if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({ files: [file], title: 'Factura', text: 'Documento adjunto' });
+                    await navigator.share({ files: [file], title: 'Factura' });
                 } else {
                     const a = document.createElement('a'); a.href = URL.createObjectURL(pdfAsBlob); a.download = `Factura_${factura.num}.pdf`; a.click();
                 }
-                showToast("Factura descargada");
-            } catch(e) { showToast("Error al descargar"); } 
+                window.showToast("Factura descargada");
+            } catch(e) { window.showToast("Error al descargar"); } 
             finally { btn.innerHTML = originalContent; btn.disabled = false; }
         };
 
         window.compartirPDF = async function() {
             const btn = document.getElementById('btn-share');
             const originalText = btn.innerHTML;
-            btn.innerHTML = "<span>⏳</span> PROCESANDO...";
+            btn.innerHTML = `<svg class="animate-spin w-4 h-4 mr-2 inline-block" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> PROCESANDO...`;
             btn.disabled = true;
             
             const numFactura = document.getElementById('pdf-num-label').innerText.trim();
@@ -1440,14 +1734,12 @@
                     await navigator.share({ files: [file], title: 'Factura' });
                 } else {
                     const a = document.createElement('a'); a.href = URL.createObjectURL(pdfAsBlob); a.download = `Factura_${numFactura}.pdf`; a.click();
-                    showToast("PDF generado");
+                    window.showToast("PDF generado");
                 }
-            } catch (e) { showToast("Error al generar PDF"); } 
+            } catch (e) { window.showToast("Error"); } 
             finally { btn.innerHTML = originalText; btn.disabled = false; }
         };
 
-        // UI HELPERS MENORES
-        let deleteCallback = null;
         window.showConfirm = function(msg, callback) {
             document.getElementById('confirm-msg').innerText = msg;
             document.getElementById('confirm-modal').classList.remove('hidden');
@@ -1459,12 +1751,12 @@
         };
         document.getElementById('confirm-btn-yes').onclick = function() {
             if (deleteCallback) deleteCallback();
-            window.closeConfirm();
         };
 
-        function showToast(msg) {
+        window.showToast = function(msg) {
             const t = document.getElementById('toast');
-            t.innerText = msg; t.style.transform = "translateY(0)";
+            document.getElementById('toast-msg').innerText = msg; 
+            t.style.transform = "translateY(0)";
             setTimeout(() => t.style.transform = "translateY(-150%)", 3000);
         }
 
@@ -1473,8 +1765,8 @@
             if (value === "") { input.value = ""; return; }
             input.value = new Intl.NumberFormat('es-CO').format(value);
         };
-        function getRawValue(val) { return parseFloat(val.toString().replace(/\./g, "")) || 0; }
-        function formatCOP(num) { return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(num); }
+        window.getRawValue = function(val) { return parseFloat(val.toString().replace(/\./g, "")) || 0; }
+        window.formatCOP = function(num) { return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(num); }
 
         window.cerrarPreview = function() {
             document.getElementById('preview-container').classList.add('hidden');
@@ -1482,16 +1774,17 @@
         };
 
         window.switchTab = function(tab) {
-            const act = "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm";
-            const inact = "text-slate-500 dark:text-slate-400";
+            const act = "tab-btn active-tab rounded-xl";
+            const inact = "tab-btn rounded-xl";
+            
             if (tab === 'facturas') {
-                document.getElementById('tab-btn-facturas').className = `px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${act}`;
-                document.getElementById('tab-btn-clientes').className = `px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${inact}`;
+                document.getElementById('tab-btn-facturas').className = act;
+                document.getElementById('tab-btn-clientes').className = inact;
                 document.getElementById('tab-content-facturas').classList.remove('hidden');
                 document.getElementById('tab-content-clientes').classList.add('hidden');
             } else {
-                document.getElementById('tab-btn-clientes').className = `px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${act}`;
-                document.getElementById('tab-btn-facturas').className = `px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${inact}`;
+                document.getElementById('tab-btn-clientes').className = act;
+                document.getElementById('tab-btn-facturas').className = inact;
                 document.getElementById('tab-content-clientes').classList.remove('hidden');
                 document.getElementById('tab-content-facturas').classList.add('hidden');
             }
@@ -1515,17 +1808,17 @@
             document.getElementById('cc').value = c.cc;
             document.getElementById('correo').value = c.correo;
             window.showSection('crear');
-            showToast("Cliente cargado");
+            window.showToast("Cliente cargado");
         };
 
         window.toggleDarkMode = function() {
             const config = window.getUserConfig();
             config.darkMode = document.getElementById('toggle-darkmode').checked;
             window.saveUserConfig(config);
-            applyTheme();
+            window.applyTheme();
         };
 
-        function applyTheme() {
+        window.applyTheme = function() {
             const config = window.getUserConfig();
             const isDark = config.darkMode;
             const toggle = document.getElementById('toggle-darkmode');
@@ -1533,7 +1826,7 @@
             document.documentElement.classList.toggle('dark', isDark);
         }
 
-        function updateAppHeader() {
+        window.updateAppHeader = function() {
             const config = window.getUserConfig();
             const t1 = document.getElementById('app-header-title');
             if(t1) t1.innerText = config.empresa || "SISTEMA DE FACTURACIÓN"; 
@@ -1541,7 +1834,7 @@
             if(t2) t2.innerText = config.empresa || "Nombre Empresa";
         }
 
-        function cargarAjustes() {
+        window.cargarAjustes = function() {
             const config = window.getUserConfig();
             document.getElementById('cfg-empresa').value = config.empresa || "";
             document.getElementById('cfg-propietario').value = config.propietario || "";
@@ -1549,23 +1842,31 @@
             document.getElementById('cfg-ciudad').value = config.ciudad || "";
             document.getElementById('cfg-telefono').value = config.telefono || "";
             document.getElementById('cfg-email').value = config.email || "";
-            renderSettingsMethods();
+            
+            currentLogoBase64 = config.logo || null;
+            if (currentLogoBase64) {
+                document.getElementById('logo-preview').innerHTML = `<img src="${currentLogoBase64}" class="w-full h-full object-contain">`;
+            } else {
+                document.getElementById('logo-preview').innerHTML = `<span class="text-[9px] text-slate-400 font-bold uppercase">Sin logo</span>`;
+            }
+            
+            window.renderSettingsMethods();
         }
 
-        function renderSettingsMethods() {
+        window.renderSettingsMethods = function() {
             const config = window.getUserConfig();
             const list = document.getElementById('payment-methods-list');
             list.innerHTML = '';
             (config.paymentMethods || []).forEach((method, index) => {
                 const div = document.createElement('div');
-                div.className = 'bg-white dark:bg-slate-700 p-3 rounded-xl border border-slate-100 dark:border-slate-600 flex gap-2 items-start';
+                div.className = 'bg-slate-50 dark:bg-slate-800/50 p-3 rounded-md border border-slate-200 dark:border-slate-700 flex gap-2 items-start';
                 div.innerHTML = `
                     <div class="flex-grow grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        <input type="text" placeholder="Nombre" value="${method.name}" onchange="updateMethod(${index}, 'name', this.value)" class="px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded text-xs font-bold w-full">
-                        <input type="text" placeholder="Banco/Tipo" value="${method.bank}" onchange="updateMethod(${index}, 'bank', this.value)" class="px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded text-xs w-full">
-                        <input type="text" placeholder="No. Cuenta" value="${method.account}" onchange="updateMethod(${index}, 'account', this.value)" class="px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded text-xs w-full">
+                        <input type="text" placeholder="Nombre (ej: Nequi)" value="${method.name}" onchange="window.updateMethod(${index}, 'name', this.value)" class="px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:border-blue-500 w-full">
+                        <input type="text" placeholder="Banco/Tipo" value="${method.bank}" onchange="window.updateMethod(${index}, 'bank', this.value)" class="px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:border-blue-500 w-full">
+                        <input type="text" placeholder="No. Cuenta" value="${method.account}" onchange="window.updateMethod(${index}, 'account', this.value)" class="px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:border-blue-500 w-full">
                     </div>
-                    <button type="button" onclick="removeMethod(${index})" class="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                    <button type="button" onclick="window.removeMethod(${index})" class="text-slate-400 hover:text-red-500 p-1.5 rounded transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                 `;
                 list.appendChild(div);
             });
@@ -1575,7 +1876,7 @@
             if(!config.paymentMethods) config.paymentMethods = [];
             config.paymentMethods.push({ name: "", bank: "", account: "" });
             window.saveUserConfig(config);
-            renderSettingsMethods();
+            window.renderSettingsMethods();
         };
         window.updateMethod = function(index, field, value) {
             const config = window.getUserConfig();
@@ -1584,12 +1885,12 @@
         };
         window.removeMethod = function(index) {
             const config = window.getUserConfig();
-            if((config.paymentMethods || []).length <= 1) { showToast("Mínimo un método"); return; }
+            if((config.paymentMethods || []).length <= 1) { window.showToast("Mínimo un método"); return; }
             config.paymentMethods.splice(index, 1);
             window.saveUserConfig(config);
-            renderSettingsMethods();
+            window.renderSettingsMethods();
         };
-        function updatePaymentSelect() {
+        window.updatePaymentSelect = function() {
             const config = window.getUserConfig();
             const select = document.getElementById('metodoPago');
             if(!select) return;
@@ -1605,9 +1906,9 @@
         let currentCalendarDate = new Date();
         window.changeMonth = function(offset) {
             currentCalendarDate.setMonth(currentCalendarDate.getMonth() + offset);
-            renderCalendar(currentCalendarDate);
+            window.renderCalendar(currentCalendarDate);
         };
-        function renderCalendar(date) {
+        window.renderCalendar = function(date) {
             const grid = document.getElementById('calendar-grid');
             if(!grid) return;
             grid.innerHTML = '';
@@ -1632,40 +1933,53 @@
                 const isToday = isCurrentMonth && today.getDate() === d;
                 
                 const dayCell = document.createElement('div');
-                dayCell.className = `calendar-day bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 ${isToday ? 'today' : ''}`;
+                dayCell.className = `calendar-day bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 ${isToday ? 'today' : ''}`;
                 dayCell.innerHTML = `<span>${d}</span>${events.length > 0 ? '<div class="event-dot"></div>' : ''}`;
                 dayCell.onclick = () => {
                     document.querySelectorAll('.calendar-day').forEach(el => el.classList.remove('selected'));
                     dayCell.classList.add('selected');
-                    renderDayDetails(dayDateStr, events);
+                    window.renderDayDetails(dayDateStr, events);
                 };
                 grid.appendChild(dayCell);
             }
         }
-        function renderDayDetails(dateStr, events) {
+        window.renderDayDetails = function(dateStr, events) {
             const list = document.getElementById('day-events-list');
             const dateObj = new Date(dateStr + 'T00:00:00');
             document.getElementById('selected-date-title').innerText = `Eventos: ${dateObj.toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long' })}`;
             list.innerHTML = '';
-            if (events.length === 0) { list.innerHTML = `<p class="text-center text-xs text-slate-400 italic py-4">No hay eventos para este día.</p>`; return; }
+            if (events.length === 0) { list.innerHTML = `<p class="text-center text-xs font-bold text-slate-400 uppercase tracking-widest py-4">No hay eventos</p>`; return; }
 
             events.forEach(ev => {
                 list.innerHTML += `
-                    <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 flex justify-between items-center">
-                        <div><p class="font-bold text-slate-900 dark:text-white text-xs uppercase">${ev.concepto}</p><p class="text-[10px] text-slate-500 dark:text-slate-400">${ev.cliente}</p></div>
-                        <div class="text-right"><p class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Saldo</p><p class="text-xs font-black text-red-500 dark:text-red-400">${formatCOP(ev.saldo)}</p></div>
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 flex justify-between items-center shadow-sm">
+                        <div>
+                            <p class="font-[900] text-slate-900 dark:text-white uppercase tracking-tight">${ev.concepto}</p>
+                            <p class="text-xs font-bold text-slate-500 mt-1">${ev.cliente}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Saldo</p>
+                            <p class="text-lg font-black text-red-500">${window.formatCOP(ev.saldo)}</p>
+                        </div>
                     </div>`;
             });
         }
 
-        // INIT SCRIPT ON LOAD
-        window.onload = function() {
-            // Elimina la animación de conectando si existe en el HTML
+        window.onload = async function() {
             const loader = document.getElementById('loading-overlay');
             if(loader) loader.remove();
             
-            loadDB();
-            checkLoginState();
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                setupListeners();
+            } catch (e) {
+                console.error("Auth init error:", e);
+                window.showToast("Error de conexión al servidor");
+            }
         };
     </script>
 </body>
