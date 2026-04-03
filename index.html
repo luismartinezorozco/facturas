@@ -651,7 +651,7 @@
             <div class="glass-panel rounded-[2rem] shadow-xl p-6 md:p-8 border border-slate-200 dark:border-slate-800 max-w-2xl mx-auto">
                 <div class="mb-8 text-center">
                     <h2 class="text-2xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Configuración</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 font-bold mt-2 uppercase tracking-widest">Personaliza el sistema</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 font-bold mt-2 uppercase tracking-widest">Personaliza tus propios datos de factura</p>
                 </div>
                 
                 <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 mb-6">
@@ -713,7 +713,7 @@
                     <!-- GESTIÓN DE MÉTODOS DE PAGO -->
                     <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
                         <div class="flex justify-between items-center mb-4">
-                            <p class="text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">Gestión Métodos de Pago</p>
+                            <p class="text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">Tus Métodos de Pago</p>
                             <button type="button" onclick="addPaymentMethodUI()" class="text-[10px] bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-3 py-1.5 rounded-lg font-bold uppercase tracking-widest hover:opacity-80 transition-opacity">
                                 + Agregar
                             </button>
@@ -725,13 +725,13 @@
 
                     <div class="pt-6">
                         <button type="submit" class="w-full bg-slate-900 text-white dark:bg-blue-600 font-[900] py-4 rounded-xl shadow-xl uppercase tracking-[0.2em] text-xs hover:bg-blue-600 dark:hover:bg-blue-500 transition-all">
-                            Guardar Configuración General
+                            Guardar Mis Ajustes
                         </button>
                     </div>
                 </form>
 
-                <!-- GESTIÓN DE USUARIOS Y ROLES -->
-                <div id="admin-users-section" class="pt-8 mt-8 border-t-[4px] border-slate-900 dark:border-slate-700">
+                <!-- GESTIÓN DE USUARIOS Y ROLES (SOLO ADMIN) -->
+                <div id="admin-users-section" class="pt-8 mt-8 border-t-[4px] border-slate-900 dark:border-slate-700 hidden">
                     <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                         <div>
                             <h3 class="text-lg font-[950] text-slate-900 dark:text-white uppercase tracking-tighter flex items-center gap-2">
@@ -824,14 +824,12 @@
 
         // CARGAR BASE DE DATOS LOCAL
         function loadDB() {
-            // MIGRACIÓN AUTOMÁTICA DE VERSIONES ANTERIORES SI EXISTEN
             if (localStorage.getItem('eventosLalyDB_v3') && !localStorage.getItem('eventosLalyDB_v4')) {
                 try {
                     const oldData = JSON.parse(localStorage.getItem('eventosLalyDB_v3'));
                     db.facturas = oldData.facturas || [];
                     db.clientes = oldData.clientes || {};
                     db.config = { ...defaultConfig, ...(oldData.config || {}) };
-                    // Guardar como v4 para ya no volver a migrar
                     saveDB();
                 } catch(e) {}
             }
@@ -845,18 +843,39 @@
                     db.usuarios = parsed.usuarios || [];
                     db.config = { ...defaultConfig, ...(parsed.config || {}) };
                 }
-            } catch (e) {
-                console.error("Error cargando DB local", e);
-            }
+            } catch (e) { console.error("Error cargando DB local", e); }
         }
 
         function saveDB() {
-            try {
-                localStorage.setItem('eventosLalyDB_v4', JSON.stringify(db));
-            } catch(e) {
-                showToast("⚠️ Error: Espacio de almacenamiento lleno");
-            }
+            try { localStorage.setItem('eventosLalyDB_v4', JSON.stringify(db)); } 
+            catch(e) { showToast("⚠️ Error: Espacio de almacenamiento lleno"); }
         }
+
+        // --- SISTEMA DE CONFIGURACIÓN POR USUARIO ---
+        window.getUserConfig = function() {
+            if (window.currentAppUser) {
+                if (!window.currentAppUser.config) {
+                    // Si no tiene config propia, hereda la global del sistema
+                    window.currentAppUser.config = JSON.parse(JSON.stringify(window.db.config));
+                }
+                return window.currentAppUser.config;
+            }
+            return window.db.config;
+        };
+
+        window.saveUserConfig = function(config) {
+            if (window.currentAppUser) {
+                const uIndex = window.db.usuarios.findIndex(u => u.id === window.currentAppUser.id);
+                if (uIndex > -1) {
+                    window.db.usuarios[uIndex].config = config;
+                    window.currentAppUser.config = config;
+                }
+            } else {
+                window.db.config = config;
+            }
+            saveDB();
+        };
+
 
         // --- EXPORTAR E IMPORTAR DATOS ---
         function exportarDatos() {
@@ -896,7 +915,6 @@
                     saveDB();
                     showToast("Copia de seguridad restaurada con éxito");
                     setTimeout(() => location.reload(), 1000);
-                    
                 } catch (err) {
                     showToast("Error: El archivo no es válido o está dañado");
                 }
@@ -911,7 +929,6 @@
             const mainContent = document.getElementById('main-content');
             const btnLogout = document.getElementById('btn-logout');
 
-            // Revisar si ya hay una sesión activa en esta pestaña
             if(!window.currentAppUser) {
                 const sessionUser = sessionStorage.getItem('currentLocalUserId');
                 if(sessionUser) {
@@ -923,8 +940,6 @@
                 mainContent.classList.add('hidden');
                 btnLogout.classList.add('hidden');
                 loginScreen.classList.remove('hidden');
-                
-                // Animación de aparición
                 setTimeout(() => loginScreen.classList.remove('opacity-0'), 50);
 
                 if (window.db.usuarios.length === 0) {
@@ -940,7 +955,6 @@
                 mainContent.classList.remove('hidden');
                 btnLogout.classList.remove('hidden');
                 
-                // Renderizar y aplicar roles
                 applyRolePermissions();
                 renderListas();
                 updateAppHeader();
@@ -969,7 +983,9 @@
             if(!name || pin.length !== 4) { showToast("Completa tu nombre y un PIN de 4 dígitos"); return; }
             
             const userId = Date.now().toString();
-            const userObj = { id: userId, nombre: name, pin: pin, role: 'admin', fechaCreacion: new Date().toISOString() };
+            // Iniciar config de usuario clonada de la global
+            const userConfig = JSON.parse(JSON.stringify(window.db.config));
+            const userObj = { id: userId, nombre: name, pin: pin, role: 'admin', fechaCreacion: new Date().toISOString(), config: userConfig };
             
             window.db.usuarios.push(userObj);
             saveDB();
@@ -1015,15 +1031,14 @@
             
             display.innerText = `👤 ${window.currentAppUser.nombre}`;
 
+            // AHORA TODOS LOS USUARIOS TIENEN ACCESO A LA PESTAÑA AJUSTES
+            navAjustes.style.display = 'flex';
+
+            // PERO SOLO LOS ADMINS PUEDEN CREAR/BORRAR OTROS USUARIOS
             if (window.currentAppUser.role === 'admin') {
-                navAjustes.style.display = 'flex';
                 adminSection.classList.remove('hidden');
             } else {
-                navAjustes.style.display = 'none';
                 adminSection.classList.add('hidden');
-                if (!document.getElementById('sec-ajustes').classList.contains('hidden')) {
-                    showSection('crear');
-                }
             }
         }
 
@@ -1036,7 +1051,10 @@
             if(!name || pin.length !== 4) { showToast("Nombre y PIN de 4 dígitos obligatorios"); return; }
             
             const userId = Date.now().toString();
-            const userObj = { id: userId, nombre: name, pin: pin, role: role, fechaCreacion: new Date().toISOString() };
+            // Heredamos la configuración actual del Admin para que el vendedor no inicie en blanco
+            const userConfig = JSON.parse(JSON.stringify(window.getUserConfig()));
+            
+            const userObj = { id: userId, nombre: name, pin: pin, role: role, fechaCreacion: new Date().toISOString(), config: userConfig };
             
             window.db.usuarios.push(userObj);
             saveDB();
@@ -1095,16 +1113,19 @@
 
         window.guardarConfig = function(e) {
             e.preventDefault();
-            window.db.config.empresa = document.getElementById('cfg-empresa').value;
-            window.db.config.propietario = document.getElementById('cfg-propietario').value;
-            window.db.config.nit = document.getElementById('cfg-nit').value;
-            window.db.config.ciudad = document.getElementById('cfg-ciudad').value;
-            window.db.config.telefono = document.getElementById('cfg-telefono').value;
-            window.db.config.email = document.getElementById('cfg-email').value;
+            const config = window.getUserConfig();
             
-            saveDB();
+            config.empresa = document.getElementById('cfg-empresa').value;
+            config.propietario = document.getElementById('cfg-propietario').value;
+            config.nit = document.getElementById('cfg-nit').value;
+            config.ciudad = document.getElementById('cfg-ciudad').value;
+            config.telefono = document.getElementById('cfg-telefono').value;
+            config.email = document.getElementById('cfg-email').value;
+            
+            window.saveUserConfig(config);
+            
             updateAppHeader();
-            showToast("Ajustes guardados");
+            showToast("Tus ajustes han sido guardados");
             showSection('crear');
         };
 
@@ -1247,14 +1268,16 @@
         }
 
         function renderPDFContent(data, vIva, vRete) {
-            document.getElementById('pdf-empresa').innerText = window.db.config.empresa;
-            document.getElementById('pdf-propietario').innerText = window.db.config.propietario;
-            document.getElementById('pdf-nit').innerText = `NIT / C.C. ${window.db.config.nit}`;
-            document.getElementById('pdf-ciudad').innerText = window.db.config.ciudad;
-            document.getElementById('pdf-telefono').innerText = window.db.config.telefono;
-            document.getElementById('pdf-email').innerText = window.db.config.email;
+            const config = window.getUserConfig();
+            
+            document.getElementById('pdf-empresa').innerText = config.empresa || "EMPRESA";
+            document.getElementById('pdf-propietario').innerText = config.propietario || "PROPIETARIO";
+            document.getElementById('pdf-nit').innerText = `NIT / C.C. ${config.nit || ""}`;
+            document.getElementById('pdf-ciudad').innerText = config.ciudad || "";
+            document.getElementById('pdf-telefono').innerText = config.telefono || "";
+            document.getElementById('pdf-email').innerText = config.email || "";
 
-            const methodDetails = window.db.config.paymentMethods.find(m => m.name === data.metodo) || window.db.config.paymentMethods[0];
+            const methodDetails = (config.paymentMethods || []).find(m => m.name === data.metodo) || (config.paymentMethods || [])[0] || {account: '', bank: ''};
             document.getElementById('pdf-pago-banco').innerText = data.metodo;
             document.getElementById('pdf-cuenta').innerText = methodDetails ? methodDetails.account : '';
             document.getElementById('pdf-banco').innerText = methodDetails ? methodDetails.bank : '';
@@ -1310,6 +1333,7 @@
         }
 
         window.descargarHistorialPDF = async function() {
+            const config = window.getUserConfig();
             const btn = document.querySelector('button[onclick="descargarHistorialPDF()"]');
             const originalText = btn.innerHTML;
             btn.innerHTML = "<span>⏳</span> Generando...";
@@ -1336,6 +1360,7 @@
                     </tr>`;
             });
             
+            document.getElementById('hist-empresa').innerText = config.empresa || "Nombre Empresa";
             document.getElementById('report-date').innerText = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
             document.getElementById('report-total').innerText = formatCOP(grandTotal);
 
@@ -1494,39 +1519,44 @@
         };
 
         window.toggleDarkMode = function() {
-            window.db.config.darkMode = document.getElementById('toggle-darkmode').checked;
-            saveDB();
+            const config = window.getUserConfig();
+            config.darkMode = document.getElementById('toggle-darkmode').checked;
+            window.saveUserConfig(config);
             applyTheme();
         };
 
         function applyTheme() {
-            const isDark = window.db.config.darkMode;
+            const config = window.getUserConfig();
+            const isDark = config.darkMode;
             const toggle = document.getElementById('toggle-darkmode');
             if(toggle) toggle.checked = isDark;
             document.documentElement.classList.toggle('dark', isDark);
         }
 
         function updateAppHeader() {
+            const config = window.getUserConfig();
             const t1 = document.getElementById('app-header-title');
-            if(t1) t1.innerText = window.db.config.empresa || "SISTEMA DE FACTURACIÓN"; 
+            if(t1) t1.innerText = config.empresa || "SISTEMA DE FACTURACIÓN"; 
             const t2 = document.getElementById('hist-empresa');
-            if(t2) t2.innerText = window.db.config.empresa || "Nombre Empresa";
+            if(t2) t2.innerText = config.empresa || "Nombre Empresa";
         }
 
         function cargarAjustes() {
-            document.getElementById('cfg-empresa').value = window.db.config.empresa;
-            document.getElementById('cfg-propietario').value = window.db.config.propietario;
-            document.getElementById('cfg-nit').value = window.db.config.nit;
-            document.getElementById('cfg-ciudad').value = window.db.config.ciudad;
-            document.getElementById('cfg-telefono').value = window.db.config.telefono;
-            document.getElementById('cfg-email').value = window.db.config.email;
+            const config = window.getUserConfig();
+            document.getElementById('cfg-empresa').value = config.empresa || "";
+            document.getElementById('cfg-propietario').value = config.propietario || "";
+            document.getElementById('cfg-nit').value = config.nit || "";
+            document.getElementById('cfg-ciudad').value = config.ciudad || "";
+            document.getElementById('cfg-telefono').value = config.telefono || "";
+            document.getElementById('cfg-email').value = config.email || "";
             renderSettingsMethods();
         }
 
         function renderSettingsMethods() {
+            const config = window.getUserConfig();
             const list = document.getElementById('payment-methods-list');
             list.innerHTML = '';
-            window.db.config.paymentMethods.forEach((method, index) => {
+            (config.paymentMethods || []).forEach((method, index) => {
                 const div = document.createElement('div');
                 div.className = 'bg-white dark:bg-slate-700 p-3 rounded-xl border border-slate-100 dark:border-slate-600 flex gap-2 items-start';
                 div.innerHTML = `
@@ -1541,26 +1571,31 @@
             });
         }
         window.addPaymentMethodUI = function() {
-            window.db.config.paymentMethods.push({ name: "", bank: "", account: "" });
-            saveDB();
+            const config = window.getUserConfig();
+            if(!config.paymentMethods) config.paymentMethods = [];
+            config.paymentMethods.push({ name: "", bank: "", account: "" });
+            window.saveUserConfig(config);
             renderSettingsMethods();
         };
         window.updateMethod = function(index, field, value) {
-            window.db.config.paymentMethods[index][field] = value;
-            saveDB();
+            const config = window.getUserConfig();
+            config.paymentMethods[index][field] = value;
+            window.saveUserConfig(config);
         };
         window.removeMethod = function(index) {
-            if(window.db.config.paymentMethods.length <= 1) { showToast("Mínimo un método"); return; }
-            window.db.config.paymentMethods.splice(index, 1);
-            saveDB();
+            const config = window.getUserConfig();
+            if((config.paymentMethods || []).length <= 1) { showToast("Mínimo un método"); return; }
+            config.paymentMethods.splice(index, 1);
+            window.saveUserConfig(config);
             renderSettingsMethods();
         };
         function updatePaymentSelect() {
+            const config = window.getUserConfig();
             const select = document.getElementById('metodoPago');
             if(!select) return;
             const currentVal = select.value;
             select.innerHTML = '';
-            window.db.config.paymentMethods.forEach((method) => {
+            (config.paymentMethods || []).forEach((method) => {
                 select.innerHTML += `<option value="${method.name}">${method.name}</option>`;
             });
             if (currentVal && Array.from(select.options).some(o => o.value === currentVal)) select.value = currentVal;
