@@ -283,18 +283,9 @@
             color: #60a5fa;
             border-bottom-color: #60a5fa;
         }
-
-        /* --- ANIMACIONES DE ESTADO --- */
-        #loading-overlay { backdrop-filter: blur(8px); }
     </style>
 </head>
 <body class="pb-32 md:pb-10 bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-500 min-h-screen" id="main-body">
-
-    <!-- OVERLAY CARGA INICIAL -->
-    <div id="loading-overlay" class="fixed inset-0 z-overlay bg-slate-50/90 dark:bg-slate-950/90 flex flex-col items-center justify-center transition-opacity duration-500">
-        <svg class="animate-spin w-12 h-12 text-blue-600 mb-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-        <p class="text-sm font-black text-slate-500 uppercase tracking-widest animate-pulse">Conectando a la Nube...</p>
-    </div>
 
     <!-- PANTALLA DE ACCESO (LOGIN / REGISTRO) -->
     <div id="login-screen" class="fixed inset-0 z-[9995] bg-slate-900/95 flex items-center justify-center p-4 transition-all duration-500 hidden opacity-0">
@@ -305,7 +296,7 @@
                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"></path></svg>
                 </div>
                 <h2 class="text-2xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Control de Acceso</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mt-1">Sistema Colaborativo</p>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mt-1">Sistema de Facturación</p>
             </div>
 
             <!-- VISTA: CONFIGURAR ADMIN (Solo la primera vez) -->
@@ -413,7 +404,6 @@
                     </div>
                     <div class="space-y-1.5">
                         <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">NIT / Cédula</label>
-                        <!-- Updated to type="text" to allow dots formatting -->
                         <input type="text" id="cc" placeholder="Documento de identidad" inputmode="numeric" required oninput="formatCurrencyInput(this)" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
                     </div>
                     <div class="space-y-1.5">
@@ -675,6 +665,23 @@
                     </label>
                 </div>
 
+                <!-- COPIA DE SEGURIDAD LOCAL -->
+                <div class="mb-6 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <p class="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3">Copia de Seguridad</p>
+                    <div class="flex gap-3">
+                        <button type="button" onclick="exportarDatos()" class="flex-1 bg-green-600 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-green-500 transition-all flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0l-4-4m4 4V4"></path></svg>
+                            Exportar
+                        </button>
+                        <button type="button" onclick="document.getElementById('import-file').click()" class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-blue-500 transition-all flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0l-4-4m4-4v12"></path></svg>
+                            Importar
+                        </button>
+                        <input type="file" id="import-file" class="hidden" accept=".json" onchange="importarDatos(this)">
+                    </div>
+                    <p class="text-[9px] text-slate-400 mt-2 text-center">Descarga un archivo .json para guardar tus datos o sube uno para restaurarlos.</p>
+                </div>
+
                 <form id="configForm" onsubmit="guardarConfig(event)" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div class="space-y-1.5">
@@ -801,25 +808,8 @@
         </div>
     </main>
 
-    <!-- LOGICA FIREBASE Y APP (MODULAR) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, doc, setDoc, getDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // INIT FIREBASE
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { projectId: 'demo-local' };
-        let app, auth, dbFirestore;
-        try {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            dbFirestore = getFirestore(app);
-        } catch(e) {
-            console.error("Firebase init failed", e);
-        }
-
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'facturacion-app-v4';
-        
+    <!-- LOGICA LOCAL -->
+    <script>
         // ESTADO GLOBAL
         window.currentAppUser = null; // Usuario de la aplicación (Admin o Vendedor)
         const defaultConfig = {
@@ -832,89 +822,87 @@
         
         window.db = { facturas: [], clientes: {}, usuarios: [], config: { ...defaultConfig } };
 
-        // FIREBASE AUTH & SETUP
-        async function initAuth() {
+        // CARGAR BASE DE DATOS LOCAL
+        function loadDB() {
+            // MIGRACIÓN AUTOMÁTICA DE VERSIONES ANTERIORES SI EXISTEN
+            if (localStorage.getItem('eventosLalyDB_v3') && !localStorage.getItem('eventosLalyDB_v4')) {
+                try {
+                    const oldData = JSON.parse(localStorage.getItem('eventosLalyDB_v3'));
+                    db.facturas = oldData.facturas || [];
+                    db.clientes = oldData.clientes || {};
+                    db.config = { ...defaultConfig, ...(oldData.config || {}) };
+                    // Guardar como v4 para ya no volver a migrar
+                    saveDB();
+                } catch(e) {}
+            }
+
             try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
+                const loaded = localStorage.getItem('eventosLalyDB_v4');
+                if (loaded) {
+                    const parsed = JSON.parse(loaded);
+                    db.facturas = parsed.facturas || [];
+                    db.clientes = parsed.clientes || {};
+                    db.usuarios = parsed.usuarios || [];
+                    db.config = { ...defaultConfig, ...(parsed.config || {}) };
                 }
             } catch (e) {
-                console.error("Error autenticando", e);
+                console.error("Error cargando DB local", e);
             }
         }
 
-        // FIREBASE SYNC LISTENERS
-        function setupListeners() {
-            if(!auth.currentUser) return;
-
-            // MIGRAR DATOS ANTIGUOS LOCALES A LA NUBE SI EXISTEN
-            runMigration();
-
-            // Usuarios (App Level)
-            onSnapshot(collection(dbFirestore, 'artifacts', appId, 'public', 'data', 'usuarios'), (snap) => {
-                window.db.usuarios = snap.docs.map(d => d.data());
-                renderUsersList();
-                checkLoginState();
-                
-                // Hide loading overlay once users are fetched
-                document.getElementById('loading-overlay').classList.add('hidden');
-                document.getElementById('login-screen').classList.remove('hidden');
-                setTimeout(() => document.getElementById('login-screen').classList.remove('opacity-0'), 50);
-            }, console.error);
-
-            // Facturas
-            onSnapshot(collection(dbFirestore, 'artifacts', appId, 'public', 'data', 'invoices'), (snap) => {
-                window.db.facturas = snap.docs.map(d => d.data()).sort((a, b) => new Date(b.fechaCreacion) - new Date(a.fechaCreacion));
-                renderListas();
-                if(!document.getElementById('sec-calendario').classList.contains('hidden')){
-                    renderCalendar(currentCalendarDate);
-                }
-            }, console.error);
-
-            // Clientes
-            onSnapshot(collection(dbFirestore, 'artifacts', appId, 'public', 'data', 'clients'), (snap) => {
-                window.db.clientes = {};
-                snap.docs.forEach(d => window.db.clientes[d.id] = d.data());
-                renderListas();
-            }, console.error);
-
-            // Configuracion
-            onSnapshot(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'config', 'main'), (snap) => {
-                if(snap.exists()){
-                    window.db.config = { ...defaultConfig, ...snap.data() };
-                }
-                updateAppHeader();
-                updatePaymentSelect();
-                if(!document.getElementById('sec-ajustes').classList.contains('hidden')) cargarAjustes();
-                applyTheme();
-            }, console.error);
+        function saveDB() {
+            try {
+                localStorage.setItem('eventosLalyDB_v4', JSON.stringify(db));
+            } catch(e) {
+                showToast("⚠️ Error: Espacio de almacenamiento lleno");
+            }
         }
 
-        // MIGRATION SCRIPT (LocalStorage -> Firebase)
-        async function runMigration() {
-            if (localStorage.getItem('eventosLalyDB_v3') && !localStorage.getItem('migrated_to_firebase_v4_users')) {
+        // --- EXPORTAR E IMPORTAR DATOS ---
+        function exportarDatos() {
+            const dataStr = JSON.stringify(db, null, 2);
+            const blob = new Blob([dataStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `backup_facturacion_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showToast("Datos exportados correctamente");
+        }
+
+        function importarDatos(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
                 try {
-                    const parsed = JSON.parse(localStorage.getItem('eventosLalyDB_v3'));
-                    if(parsed.config) await setDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'config', 'main'), parsed.config);
-                    if(parsed.facturas) {
-                        for(const f of parsed.facturas) {
-                            if(!f.id) f.id = Date.now().toString() + Math.random().toString(36).substr(2, 5);
-                            await setDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'invoices', f.id), f);
-                        }
+                    const data = JSON.parse(e.target.result);
+                    if (!data || typeof data !== 'object') throw new Error("Formato incorrecto");
+
+                    db.facturas = Array.isArray(data.facturas) ? data.facturas : [];
+                    db.clientes = (data.clientes && typeof data.clientes === 'object') ? data.clientes : {};
+                    db.usuarios = Array.isArray(data.usuarios) ? data.usuarios : [];
+                    
+                    if (data.config) {
+                        db.config = { ...defaultConfig, ...data.config };
+                        if (!db.config.paymentMethods) db.config.paymentMethods = [...defaultConfig.paymentMethods];
+                    } else {
+                        db.config = { ...defaultConfig };
                     }
-                    if(parsed.clientes) {
-                        for(const key of Object.keys(parsed.clientes)) {
-                            await setDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'clients', key), parsed.clientes[key]);
-                        }
-                    }
-                    localStorage.setItem('migrated_to_firebase_v4_users', 'true');
-                    console.log("Migración local -> nube completada con éxito");
-                } catch(e) {
-                    console.error("Migration error", e);
+
+                    saveDB();
+                    showToast("Copia de seguridad restaurada con éxito");
+                    setTimeout(() => location.reload(), 1000);
+                    
+                } catch (err) {
+                    showToast("Error: El archivo no es válido o está dañado");
                 }
-            }
+            };
+            reader.readAsText(file);
+            input.value = ''; 
         }
 
         // --- AUTH & RBAC (Control de Acceso) ---
@@ -923,11 +911,22 @@
             const mainContent = document.getElementById('main-content');
             const btnLogout = document.getElementById('btn-logout');
 
+            // Revisar si ya hay una sesión activa en esta pestaña
+            if(!window.currentAppUser) {
+                const sessionUser = sessionStorage.getItem('currentLocalUserId');
+                if(sessionUser) {
+                    window.currentAppUser = window.db.usuarios.find(u => u.id === sessionUser);
+                }
+            }
+
             if (!window.currentAppUser) {
                 mainContent.classList.add('hidden');
                 btnLogout.classList.add('hidden');
                 loginScreen.classList.remove('hidden');
                 
+                // Animación de aparición
+                setTimeout(() => loginScreen.classList.remove('opacity-0'), 50);
+
                 if (window.db.usuarios.length === 0) {
                     document.getElementById('login-setup-view').classList.remove('hidden');
                     document.getElementById('login-auth-view').classList.add('hidden');
@@ -940,7 +939,17 @@
                 loginScreen.classList.add('hidden');
                 mainContent.classList.remove('hidden');
                 btnLogout.classList.remove('hidden');
+                
+                // Renderizar y aplicar roles
                 applyRolePermissions();
+                renderListas();
+                updateAppHeader();
+                updatePaymentSelect();
+                applyTheme();
+                renderUsersList();
+                if(!document.getElementById('sec-calendario').classList.contains('hidden')){
+                    renderCalendar(currentCalendarDate);
+                }
             }
         }
 
@@ -954,7 +963,7 @@
             if(currentVal) select.value = currentVal;
         }
 
-        window.setupAdmin = async function() {
+        window.setupAdmin = function() {
             const name = document.getElementById('setup-admin-name').value.trim();
             const pin = document.getElementById('setup-admin-pin').value;
             if(!name || pin.length !== 4) { showToast("Completa tu nombre y un PIN de 4 dígitos"); return; }
@@ -962,13 +971,15 @@
             const userId = Date.now().toString();
             const userObj = { id: userId, nombre: name, pin: pin, role: 'admin', fechaCreacion: new Date().toISOString() };
             
-            try {
-                await setDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'usuarios', userId), userObj);
-                window.currentAppUser = userObj;
-                document.getElementById('setup-admin-pin').value = '';
-                showToast("¡Super Administrador Creado!");
-                checkLoginState();
-            } catch(e) { showToast("Error al crear usuario"); }
+            window.db.usuarios.push(userObj);
+            saveDB();
+
+            window.currentAppUser = userObj;
+            sessionStorage.setItem('currentLocalUserId', userId);
+            
+            document.getElementById('setup-admin-pin').value = '';
+            showToast("¡Super Administrador Creado!");
+            checkLoginState();
         };
 
         window.loginUser = function() {
@@ -979,6 +990,7 @@
             const user = window.db.usuarios.find(u => u.id === userId);
             if(user && user.pin === pin) {
                 window.currentAppUser = user;
+                sessionStorage.setItem('currentLocalUserId', user.id);
                 document.getElementById('login-pin').value = '';
                 showToast(`Bienvenido(a) ${user.nombre}`);
                 checkLoginState();
@@ -990,6 +1002,7 @@
 
         window.logoutUser = function() {
             window.currentAppUser = null;
+            sessionStorage.removeItem('currentLocalUserId');
             showSection('crear');
             checkLoginState();
         };
@@ -1000,7 +1013,7 @@
             const adminSection = document.getElementById('admin-users-section');
             const display = document.getElementById('current-user-display');
             
-            display.innerText = `${window.currentAppUser.nombre}`;
+            display.innerText = `👤 ${window.currentAppUser.nombre}`;
 
             if (window.currentAppUser.role === 'admin') {
                 navAjustes.style.display = 'flex';
@@ -1014,7 +1027,7 @@
             }
         }
 
-        window.createUser = async function() {
+        window.createUser = function() {
             if(window.currentAppUser.role !== 'admin') return;
             const name = document.getElementById('new-user-name').value.trim();
             const pin = document.getElementById('new-user-pin').value;
@@ -1025,23 +1038,24 @@
             const userId = Date.now().toString();
             const userObj = { id: userId, nombre: name, pin: pin, role: role, fechaCreacion: new Date().toISOString() };
             
-            try {
-                await setDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'usuarios', userId), userObj);
-                document.getElementById('new-user-name').value = '';
-                document.getElementById('new-user-pin').value = '';
-                showToast("Usuario creado con éxito");
-            } catch(e) { showToast("Error"); }
+            window.db.usuarios.push(userObj);
+            saveDB();
+            
+            document.getElementById('new-user-name').value = '';
+            document.getElementById('new-user-pin').value = '';
+            showToast("Usuario creado con éxito");
+            renderUsersList();
         };
 
-        window.deleteUser = async function(userId) {
+        window.deleteUser = function(userId) {
             if(window.currentAppUser.role !== 'admin') return;
             if(userId === window.currentAppUser.id) { showToast("No puedes eliminar tu propia cuenta activa"); return; }
             
-            showConfirm("¿Eliminar acceso a este usuario?", async () => {
-                try {
-                    await deleteDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'usuarios', userId));
-                    showToast("Usuario eliminado");
-                } catch(e) { showToast("Error"); }
+            showConfirm("¿Eliminar acceso a este usuario?", () => {
+                window.db.usuarios = window.db.usuarios.filter(u => u.id !== userId);
+                saveDB();
+                showToast("Usuario eliminado");
+                renderUsersList();
             });
         };
 
@@ -1069,7 +1083,7 @@
             });
         }
 
-        // --- SISTEMA CORE MIGRADO A FIRESTORE ---
+        // --- SISTEMA CORE ---
 
         function getSiguienteConsecutivo() {
             if (window.db.facturas.length === 0) return "001";
@@ -1079,25 +1093,22 @@
             return (max + 1).toString().padStart(3, '0');
         }
 
-        window.guardarConfig = async function(e) {
+        window.guardarConfig = function(e) {
             e.preventDefault();
-            const newConfig = {
-                ...window.db.config,
-                empresa: document.getElementById('cfg-empresa').value,
-                propietario: document.getElementById('cfg-propietario').value,
-                nit: document.getElementById('cfg-nit').value,
-                ciudad: document.getElementById('cfg-ciudad').value,
-                telefono: document.getElementById('cfg-telefono').value,
-                email: document.getElementById('cfg-email').value,
-            };
-            try {
-                await setDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'config', 'main'), newConfig);
-                showToast("Ajustes guardados en la nube");
-                showSection('crear');
-            } catch(e) { showToast("Error al guardar"); }
+            window.db.config.empresa = document.getElementById('cfg-empresa').value;
+            window.db.config.propietario = document.getElementById('cfg-propietario').value;
+            window.db.config.nit = document.getElementById('cfg-nit').value;
+            window.db.config.ciudad = document.getElementById('cfg-ciudad').value;
+            window.db.config.telefono = document.getElementById('cfg-telefono').value;
+            window.db.config.email = document.getElementById('cfg-email').value;
+            
+            saveDB();
+            updateAppHeader();
+            showToast("Ajustes guardados");
+            showSection('crear');
         };
 
-        window.generarPreview = async function() {
+        window.generarPreview = function() {
             const form = document.getElementById('invoiceForm');
             if (!form.checkValidity()) { form.reportValidity(); return; }
 
@@ -1124,29 +1135,29 @@
                 vendedor: window.currentAppUser ? window.currentAppUser.nombre : 'Sistema'
             };
 
-            const clientData = { nombre: docData.cliente, correo: docData.correo, cc: docData.cc };
+            // Force save Cliente
+            window.db.clientes[String(docData.cc)] = { nombre: docData.cliente, correo: docData.correo, cc: docData.cc };
+            
+            const existingIdx = window.db.facturas.findIndex(f => f.num === docData.num);
+            if(existingIdx !== -1) window.db.facturas[existingIdx] = docData;
+            else window.db.facturas.unshift(docData);
+            
+            saveDB();
+            renderListas();
 
-            try {
-                await setDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'clients', String(docData.cc)), clientData);
-                await setDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'invoices', docData.id), docData);
-                
-                renderPDFContent(docData, 0, 0);
-                document.getElementById('form-container').classList.add('hidden');
-                document.getElementById('preview-container').classList.remove('hidden');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                showToast("Factura guardada en la nube");
-            } catch (e) {
-                console.error(e);
-                showToast("Error de conexión");
-            }
+            renderPDFContent(docData, 0, 0);
+            document.getElementById('form-container').classList.add('hidden');
+            document.getElementById('preview-container').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showToast("Factura procesada");
         };
 
         window.eliminarCliente = function(cc) {
-            showConfirm(`¿Deseas eliminar este cliente?`, async () => {
-                try {
-                    await deleteDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'clients', String(cc)));
-                    showToast("Cliente eliminado");
-                } catch(e) { showToast("Error"); }
+            showConfirm(`¿Deseas eliminar este cliente?`, () => {
+                delete window.db.clientes[String(cc)];
+                saveDB();
+                renderListas();
+                showToast("Cliente eliminado");
             });
         };
 
@@ -1155,11 +1166,11 @@
                 showToast("Solo administradores pueden eliminar facturas");
                 return;
             }
-            showConfirm(`¿Eliminar factura del historial?`, async () => {
-                try {
-                    await deleteDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'invoices', id));
-                    showToast("Factura eliminada");
-                } catch(e) { showToast("Error"); }
+            showConfirm(`¿Eliminar factura del historial?`, () => {
+                window.db.facturas = window.db.facturas.filter(f => f.id !== id && f.num !== id);
+                saveDB();
+                renderListas();
+                showToast("Factura eliminada");
             });
         };
 
@@ -1194,7 +1205,11 @@
             const hDiv = document.getElementById('lista-facturas');
             hDiv.innerHTML = window.db.facturas.length === 0 ? `<div class="text-center py-20 opacity-20 font-black uppercase tracking-[0.5em] text-slate-500">Sin Facturas</div>` : '';
             
-            window.db.facturas.forEach((f, index) => {
+            // Ordenar de más reciente a más antiguo
+            const sortedFacturas = [...window.db.facturas].sort((a, b) => new Date(b.fechaCreacion || b.fechaServicio) - new Date(a.fechaCreacion || a.fechaServicio));
+
+            sortedFacturas.forEach((f, index) => {
+                const docIdentifier = f.id || f.num; // Support for older documents without id
                 const card = document.createElement('div');
                 card.className = "bg-white dark:bg-slate-800/50 p-5 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 group hover:border-blue-200 transition-all mb-4";
                 card.innerHTML = `
@@ -1215,7 +1230,7 @@
                         </div>
                         <div class="flex gap-2">
                             <button class="btn-ver-pdf bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 p-3 rounded-xl hover:bg-blue-500 hover:text-white transition-all" title="Ver/Descargar">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0l-4-4m4 4V4"></path></svg>
                             </button>
                             <button class="btn-eliminar-doc bg-red-50 dark:bg-red-900/20 text-red-500 p-3 rounded-xl hover:bg-red-500 hover:text-white transition-all">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
@@ -1223,8 +1238,10 @@
                         </div>
                     </div>`;
                 
-                card.querySelector('.btn-ver-pdf').onclick = (e) => window.descargarFacturaItem(index, e);
-                card.querySelector('.btn-eliminar-doc').onclick = () => window.eliminarDoc(f.id);
+                // Need to find actual index in db.facturas for download due to sorting
+                const realIndex = window.db.facturas.findIndex(doc => doc.id === docIdentifier || doc.num === docIdentifier);
+                card.querySelector('.btn-ver-pdf').onclick = (e) => window.descargarFacturaItem(realIndex, e);
+                card.querySelector('.btn-eliminar-doc').onclick = () => window.eliminarDoc(docIdentifier);
                 hDiv.appendChild(card);
             });
         }
@@ -1349,6 +1366,7 @@
 
             try {
                 const factura = window.db.facturas[index];
+                if(!factura) throw new Error("Factura no encontrada");
                 renderPDFContent(factura, 0, 0);
 
                 const previewContainer = document.getElementById('preview-container');
@@ -1475,11 +1493,9 @@
             showToast("Cliente cargado");
         };
 
-        window.toggleDarkMode = async function() {
+        window.toggleDarkMode = function() {
             window.db.config.darkMode = document.getElementById('toggle-darkmode').checked;
-            try {
-                await setDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'config', 'main'), window.db.config);
-            } catch(e) {} // Opt UI update
+            saveDB();
             applyTheme();
         };
 
@@ -1524,18 +1540,20 @@
                 list.appendChild(div);
             });
         }
-        window.addPaymentMethodUI = async function() {
+        window.addPaymentMethodUI = function() {
             window.db.config.paymentMethods.push({ name: "", bank: "", account: "" });
-            await setDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'config', 'main'), window.db.config);
+            saveDB();
+            renderSettingsMethods();
         };
-        window.updateMethod = async function(index, field, value) {
+        window.updateMethod = function(index, field, value) {
             window.db.config.paymentMethods[index][field] = value;
-            await setDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'config', 'main'), window.db.config);
+            saveDB();
         };
-        window.removeMethod = async function(index) {
+        window.removeMethod = function(index) {
             if(window.db.config.paymentMethods.length <= 1) { showToast("Mínimo un método"); return; }
             window.db.config.paymentMethods.splice(index, 1);
-            await setDoc(doc(dbFirestore, 'artifacts', appId, 'public', 'data', 'config', 'main'), window.db.config);
+            saveDB();
+            renderSettingsMethods();
         };
         function updatePaymentSelect() {
             const select = document.getElementById('metodoPago');
@@ -1605,11 +1623,15 @@
             });
         }
 
-        // INIT
-        initAuth().then(() => {
-            setupListeners();
-        });
-
+        // INIT SCRIPT ON LOAD
+        window.onload = function() {
+            // Elimina la animación de conectando si existe en el HTML
+            const loader = document.getElementById('loading-overlay');
+            if(loader) loader.remove();
+            
+            loadDB();
+            checkLoginState();
+        };
     </script>
 </body>
 </html>
