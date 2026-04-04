@@ -355,7 +355,7 @@
             </svg> 
             Usuario
         </span>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
             <line x1="21" y1="12" x2="9" y2="12"></line>
@@ -491,9 +491,14 @@
                 
                 <div class="bg-blue-50 dark:bg-slate-800/80 p-6 md:p-8 rounded-[2rem] border border-blue-100 dark:border-slate-700 mb-8 shadow-inner">
                     <p class="text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] text-center mb-6">Vender Nueva Licencia</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                         <input type="text" id="new-user-name" placeholder="Nombre del cliente / negocio" class="px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-bold outline-none text-center sm:text-left focus:ring-4 focus:ring-blue-500/20">
                         <input type="password" id="new-user-pin" placeholder="PIN (4 dígitos)" maxlength="4" inputmode="numeric" class="px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-lg tracking-[0.5em] font-black outline-none text-center focus:ring-4 focus:ring-blue-500/20 placeholder:tracking-normal placeholder:font-medium placeholder:text-sm">
+                        <select id="new-user-plan" class="px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-bold outline-none text-center sm:text-left focus:ring-4 focus:ring-blue-500/20 cursor-pointer">
+                            <option value="1">Plan 1 Mes</option>
+                            <option value="6">Plan 6 Meses</option>
+                            <option value="12">Plan 12 Meses</option>
+                        </select>
                     </div>
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-6">
                         <div class="flex items-center gap-2">
@@ -1055,6 +1060,21 @@
 
         let initialLoadUsuarios = true;
 
+        // --- SISTEMA DE EXPIRACIÓN Y GRACIA ---
+        window.calculateDaysRemaining = function(dateStr) {
+            if(!dateStr) return { days: 9999, expired: false, inGrace: false, legacy: true };
+            const exp = new Date(dateStr);
+            const now = new Date();
+            const diffTime = exp.getTime() - now.getTime();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            // Periodo de gracia: 24 horas (86400000 ms) después de la hora exacta de expiración
+            const inGrace = diffTime < 0 && diffTime >= -86400000;
+            const expired = diffTime < -86400000;
+
+            return { days: diffDays > 0 ? diffDays : 0, expired, inGrace, legacy: false };
+        };
+
         function setupListeners() {
             if(!auth.currentUser) return;
 
@@ -1069,7 +1089,11 @@
                         const updatedMe = window.db.usuarios.find(u => u.id === window.currentAppUser.id);
                         if(updatedMe) {
                             window.currentAppUser = updatedMe;
-                            if(updatedMe.status === 'suspended') window.logoutUser();
+                            const rem = window.calculateDaysRemaining(updatedMe.fechaVencimiento);
+                            if(updatedMe.status === 'suspended' || (rem.expired && updatedMe.role !== 'admin')) {
+                                window.logoutUser();
+                                window.showToast("Tu sesión fue cerrada (Licencia vencida o suspendida).");
+                            }
                         }
                         window.renderUsersList();
                         window.applyRolePermissions();
@@ -1174,6 +1198,15 @@
                     document.getElementById('login-auth-view').classList.remove('hidden');
                 }
             } else {
+                // Chequeo de expiración al entrar si no es admin
+                const rem = window.calculateDaysRemaining(window.currentAppUser.fechaVencimiento);
+                if (rem.expired && window.currentAppUser.role !== 'admin') {
+                    window.currentAppUser = null;
+                    sessionStorage.removeItem('currentLocalUserId');
+                    window.showToast("Tu licencia ha vencido. Contacta al administrador.");
+                    return;
+                }
+
                 loginScreen.classList.add('hidden');
                 mainContent.classList.remove('hidden');
                 btnLogout.classList.remove('hidden');
@@ -1225,6 +1258,13 @@
                     document.getElementById('login-pin').value = '';
                     return;
                 }
+
+                const rem = window.calculateDaysRemaining(user.fechaVencimiento);
+                if (rem.expired && user.role !== 'admin') {
+                    window.showToast("Tu licencia ha vencido. Contacta al administrador.");
+                    document.getElementById('login-pin').value = '';
+                    return;
+                }
                 
                 window.currentAppUser = user;
                 sessionStorage.setItem('currentLocalUserId', user.id);
@@ -1252,12 +1292,26 @@
             const hasAgenda = window.currentAppUser.canViewAgenda === true;
             const hasSaldo = window.currentAppUser.canViewSaldo === true;
 
+            let daysBadgeHtml = '';
+            if (role !== 'admin') {
+                const rem = window.calculateDaysRemaining(window.currentAppUser.fechaVencimiento);
+                if (!rem.legacy && !rem.expired) {
+                    if (rem.inGrace) {
+                        daysBadgeHtml = `<span class="ml-2 bg-red-100 text-red-600 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest animate-pulse border border-red-200">¡Último día!</span>`;
+                    } else if (rem.days <= 5) {
+                        daysBadgeHtml = `<span class="ml-2 bg-amber-100 text-amber-600 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-amber-200">${rem.days} días</span>`;
+                    } else {
+                        daysBadgeHtml = `<span class="ml-2 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-slate-200 dark:border-slate-600">${rem.days} días</span>`;
+                    }
+                }
+            }
+
             document.getElementById('current-user-display').innerHTML = `
                 <svg class="w-3.5 h-3.5 text-slate-500 mr-1.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                 </svg>
-                ${window.currentAppUser.nombre}
+                ${window.currentAppUser.nombre} ${daysBadgeHtml}
             `;
 
             if (role === 'admin') {
@@ -1352,6 +1406,7 @@
             if(!auth.currentUser) return;
             const name = document.getElementById('new-user-name').value.trim();
             const pin = document.getElementById('new-user-pin').value;
+            const planMeses = document.getElementById('new-user-plan').value;
             const role = 'user'; 
             const canViewReg = document.getElementById('new-user-registros').checked;
             const canViewAge = document.getElementById('new-user-agenda').checked;
@@ -1360,8 +1415,25 @@
             if(!name || pin.length !== 4) { window.showToast("Datos incompletos"); return; }
             
             const userId = Date.now().toString();
+            const fechaCreacion = new Date();
+            const fechaVencimiento = new Date(fechaCreacion);
+            fechaVencimiento.setMonth(fechaVencimiento.getMonth() + parseInt(planMeses));
+
             const userConfig = JSON.parse(JSON.stringify(window.getUserConfig()));
-            const userObj = { id: userId, nombre: name, pin: pin, role: role, status: 'active', canViewRegistros: canViewReg, canViewAgenda: canViewAge, canViewSaldo: canViewSal, fechaCreacion: new Date().toISOString(), config: userConfig };
+            const userObj = { 
+                id: userId, 
+                nombre: name, 
+                pin: pin, 
+                role: role, 
+                status: 'active', 
+                canViewRegistros: canViewReg, 
+                canViewAgenda: canViewAge, 
+                canViewSaldo: canViewSal, 
+                fechaCreacion: fechaCreacion.toISOString(), 
+                fechaVencimiento: fechaVencimiento.toISOString(),
+                planMeses: parseInt(planMeses),
+                config: userConfig 
+            };
             
             try {
                 await setDoc(getDocPath("usuarios", userId), userObj);
@@ -1372,6 +1444,29 @@
                 document.getElementById('new-user-saldo').checked = false;
                 window.showToast("Licencia activada");
             } catch(e) { console.error(e); window.showToast("Error al guardar"); }
+        };
+
+        window.renovarLicencia = async function(userId, mesesAdd) {
+            if(window.currentAppUser.role !== 'admin') return;
+            if(!auth.currentUser) return;
+            
+            const user = window.db.usuarios.find(u => u.id === userId);
+            if(user) {
+                let baseDate = new Date();
+                if (user.fechaVencimiento) {
+                    const currentExp = new Date(user.fechaVencimiento);
+                    if (currentExp > baseDate) baseDate = currentExp; // Se añade a partir de lo que ya le queda
+                }
+                baseDate.setMonth(baseDate.getMonth() + parseInt(mesesAdd));
+                
+                await setDoc(getDocPath("usuarios", userId), { 
+                    ...user, 
+                    fechaVencimiento: baseDate.toISOString(), 
+                    status: 'active', // Reactivar si estaba suspendido
+                    planMeses: parseInt(mesesAdd)
+                });
+                window.showToast(`Licencia extendida por ${mesesAdd} meses`);
+            }
         };
 
         window.toggleUserStatus = async function(userId) {
@@ -1451,10 +1546,31 @@
                 const hasSal = u.canViewSaldo === true;
                 const isSuspended = u.status === 'suspended';
                 
+                const rem = window.calculateDaysRemaining(u.fechaVencimiento);
+                let daysBadge = '';
+                
+                if (isAdmin) {
+                    daysBadge = `<span class="bg-blue-100 text-blue-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">ADMINISTRADOR</span>`;
+                } else if (rem.legacy) {
+                    daysBadge = `<span class="bg-slate-100 text-slate-500 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">ILIMITADO</span>`;
+                } else if (rem.expired) {
+                    daysBadge = `<span class="bg-red-100 text-red-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black border border-red-200 shadow-sm">VENCIDO</span>`;
+                } else if (rem.inGrace) {
+                    daysBadge = `<span class="bg-amber-100 text-amber-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black border border-amber-200 shadow-sm">GRACIA (24H)</span>`;
+                } else if (rem.days <= 5) {
+                    daysBadge = `<span class="bg-amber-100 text-amber-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black border border-amber-200">Quedan ${rem.days} días</span>`;
+                } else {
+                    daysBadge = `<span class="bg-slate-100 text-slate-500 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">${rem.days} días</span>`;
+                }
+
+                if (isSuspended && !isAdmin) {
+                    daysBadge = `<span class="bg-red-100 text-red-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black border border-red-200">SUSPENDIDO</span>`;
+                }
+                
                 const html = `
                     <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 transition-all">
-                        <div>
-                            <div class="flex items-center gap-2">
+                        <div class="w-full xl:w-auto">
+                            <div class="flex items-center gap-2 mb-1 flex-wrap">
                                 <p class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                                     <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -1462,26 +1578,31 @@
                                     </svg>
                                     ${u.nombre}
                                 </p>
-                                ${isAdmin ? `<span class="bg-blue-100 text-blue-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">ADMIN</span>` : 
-                                 (isSuspended ? `<span class="bg-red-100 text-red-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">SUSPENDIDO</span>` : `<span class="bg-emerald-100 text-emerald-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">ACTIVO</span>`)}
+                                ${daysBadge}
                             </div>
                             
-                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mt-1.5 pl-6 flex items-center gap-1">
+                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mt-1 pl-6 flex items-center gap-1">
                                 PIN: <span id="pin-display-${u.id}" class="cursor-pointer text-blue-500 hover:text-blue-600 transition-colors inline-flex items-center" onclick="togglePinDisplay('pin-display-${u.id}', '${u.pin}')">**** <svg class="w-4 h-4 inline-block ml-1 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></span>
                             </p>
                         </div>
-                        <div class="flex items-center gap-2 flex-wrap">
+                        <div class="flex items-center gap-2 flex-wrap w-full xl:w-auto justify-end">
                             ${!isAdmin && u.id !== (window.currentAppUser ? window.currentAppUser.id : '') ? `
-                            <button type="button" onclick="toggleUserStatus('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2 rounded-lg transition-colors border ${isSuspended ? 'bg-red-50 text-red-600 border-red-200 dark:bg-red-900/30' : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800'}" title="Activar/Suspender Licencia">
+                            <select onchange="if(this.value) { window.renovarLicencia('${u.id}', this.value); this.value=''; }" class="text-[9px] font-black uppercase tracking-widest px-2 py-2 rounded-lg bg-indigo-50 text-indigo-600 border border-indigo-200 outline-none cursor-pointer dark:bg-indigo-900/30 dark:border-indigo-800 dark:text-indigo-400">
+                                <option value="">Renovar...</option>
+                                <option value="1">+ 1 Mes</option>
+                                <option value="6">+ 6 Meses</option>
+                                <option value="12">+ 12 Meses</option>
+                            </select>
+                            <button type="button" onclick="toggleUserStatus('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2.5 rounded-lg transition-colors border ${isSuspended ? 'bg-red-50 text-red-600 border-red-200 dark:bg-red-900/30' : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800'}" title="Activar/Suspender Licencia">
                                 ${isSuspended ? 'Reactivar' : 'Suspender'}
                             </button>
-                            <button type="button" onclick="toggleUserRegistros('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2 rounded-lg transition-colors border ${hasReg ? 'bg-blue-100 text-blue-600 border-blue-200 dark:bg-blue-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}" title="Alternar Módulo Registros">
+                            <button type="button" onclick="toggleUserRegistros('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2.5 rounded-lg transition-colors border ${hasReg ? 'bg-blue-100 text-blue-600 border-blue-200 dark:bg-blue-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}" title="Alternar Módulo Registros">
                                 Reg: ${hasReg ? 'ON' : 'OFF'}
                             </button>
-                            <button type="button" onclick="toggleUserAgenda('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2 rounded-lg transition-colors border ${hasAge ? 'bg-emerald-100 text-emerald-600 border-emerald-200 dark:bg-emerald-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}" title="Alternar Módulo Agenda">
+                            <button type="button" onclick="toggleUserAgenda('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2.5 rounded-lg transition-colors border ${hasAge ? 'bg-emerald-100 text-emerald-600 border-emerald-200 dark:bg-emerald-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}" title="Alternar Módulo Agenda">
                                 Age: ${hasAge ? 'ON' : 'OFF'}
                             </button>
-                            <button type="button" onclick="toggleUserSaldo('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2 rounded-lg transition-colors border ${hasSal ? 'bg-amber-100 text-amber-600 border-amber-200 dark:bg-amber-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}" title="Alternar Módulo Saldo">
+                            <button type="button" onclick="toggleUserSaldo('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2.5 rounded-lg transition-colors border ${hasSal ? 'bg-amber-100 text-amber-600 border-amber-200 dark:bg-amber-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}" title="Alternar Módulo Saldo">
                                 Sal: ${hasSal ? 'ON' : 'OFF'}
                             </button>` : ''}
                             ${u.id !== (window.currentAppUser ? window.currentAppUser.id : '') ? `
