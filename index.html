@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sistema de Facturación</title>
     
-    <!-- FAVICON -->
+    <!-- FAVICON (LOGO OFICIAL) -->
     <link rel="icon" type="image/png" href="https://image2url.com/r2/default/images/1775319623857-fc72765c-39da-46ff-b7ab-9fe4ab5bc5fd.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -359,7 +359,7 @@
                 </div>
                 
                 <div class="mobile-viewport-wrapper">
-                    <div id="invoice-render" class="w-full max-w-2xl md:max-w-none md:w-[800px] bg-white p-8 md:p-12 flex flex-col relative mx-auto transition-all">
+                    <div id="invoice-render" class="w-full max-w-2xl md:max-w-none md:w-[800px] bg-white p-8 md:p-12 flex flex-col relative mx-auto transition-all text-slate-900">
                         <div class="flex flex-col md:flex-row justify-between items-center md:items-start mb-6 md:mb-8 gap-6 md:gap-0">
                             <div class="space-y-3 text-center md:text-left w-full md:w-auto">
                                 <div>
@@ -391,7 +391,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="bg-slate-900 text-white rounded-2xl p-5 md:p-6 flex flex-col md:flex-row justify-between items-center mb-6 md:mb-8 gap-4 md:gap-0 text-center md:text-left">
+                        <div class="bg-slate-900 text-white rounded-2xl p-5 md:p-6 flex flex-col md:flex-row justify-between items-center mb-6 md:mb-8 gap-4 md:gap-0 text-center md:text-left shadow-md">
                             <div class="w-full md:w-auto">
                                 <p class="text-[9px] font-black text-blue-400 uppercase tracking-widest mb-1">Facturado a:</p>
                                 <h3 class="text-xl md:text-2xl font-[950] tracking-tight uppercase break-words" id="pdf-cliente-nombre"></h3>
@@ -437,7 +437,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-auto pt-8 text-center space-y-3">
+                        <div class="mt-8 pt-6 text-center space-y-3">
                             <div class="flex justify-center items-center gap-4 text-slate-300">
                                 <div class="h-[1px] w-12 bg-slate-200"></div>
                                 <p class="text-[9px] font-black text-slate-900 uppercase tracking-[0.3em]">DOCUMENTO EQUIVALENTE</p>
@@ -1427,6 +1427,99 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        /* ----- NUEVO MOTOR UNIFICADO PARA GENERAR PDF DE FACTURA ----- */
+        window.generarBlobFactura = async function(numFactura, renderEl) {
+            // Congelar estilos para modo impresión exacta a 1 página
+            const oldStyle = renderEl.style.cssText;
+            
+            // Forzamos 800px y eliminamos sombras, bordes curvos o márgenes externos que causen saltos de página
+            renderEl.style.cssText = 'width: 800px !important; max-width: 800px !important; min-width: 800px !important; padding: 48px !important; background: white !important; box-shadow: none !important; border-radius: 0 !important; margin: 0 !important; height: max-content !important; transform: none !important;';
+
+            // Configuramos html2pdf con 'avoid-all' para cortar de tajo el problema de la hoja extra
+            const pdfBlob = await html2pdf().set({
+                margin: [10, 10, 10, 10], // top, right, bottom, left en mm
+                filename: `Factura_${numFactura}.pdf`, 
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { scale: 2, useCORS: true, windowWidth: 800, scrollY: 0 },
+                jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' },
+                pagebreak: { mode: ['avoid-all'] } // CLAVE: Previene página en blanco
+            }).from(renderEl).output('blob');
+
+            // Restaurar diseño original
+            renderEl.style.cssText = oldStyle;
+            return pdfBlob;
+        };
+
+        window.descargarFacturaItem = async function(index, event) {
+            const btn = event.currentTarget; 
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="animate-spin w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+            btn.disabled = true;
+
+            try {
+                const factura = window.db.facturas[index];
+                if(!factura) throw new Error("No encontrada");
+                window.renderPDFContent(factura, 0, 0);
+
+                const previewContainer = document.getElementById('preview-container');
+                const renderEl = document.getElementById('invoice-render');
+                const wasHidden = previewContainer.classList.contains('hidden');
+                
+                if(wasHidden) {
+                    previewContainer.classList.remove('hidden');
+                    // Ocultarlo fuera de la pantalla para evitar "flasheos" en la UI
+                    previewContainer.style.position = 'absolute'; previewContainer.style.left = '-9999px'; previewContainer.style.top = '0';
+                }
+
+                const pdfAsBlob = await window.generarBlobFactura(factura.num, renderEl);
+
+                if(wasHidden) { 
+                    previewContainer.classList.add('hidden'); 
+                    previewContainer.style.cssText = ''; 
+                }
+
+                const file = new File([pdfAsBlob], `Factura_${factura.num}.pdf`, { type: 'application/pdf' });
+                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({ files: [file], title: 'Factura' });
+                } else {
+                    const a = document.createElement('a'); a.href = URL.createObjectURL(pdfAsBlob); a.download = `Factura_${factura.num}.pdf`; a.click();
+                }
+                window.showToast("Factura descargada con éxito");
+            } catch(e) { 
+                console.error(e);
+                window.showToast("Error al descargar"); 
+            } finally { 
+                btn.innerHTML = originalContent; btn.disabled = false; 
+            }
+        };
+
+        window.compartirPDF = async function() {
+            const btn = document.getElementById('btn-share');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="animate-spin w-4 h-4 mr-2 inline-block flex-shrink-0" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> PROCESANDO...`;
+            btn.disabled = true;
+            
+            const numFactura = document.getElementById('pdf-num-label').innerText.trim();
+            const renderEl = document.getElementById('invoice-render');
+
+            try {
+                const pdfAsBlob = await window.generarBlobFactura(numFactura, renderEl);
+                
+                const file = new File([pdfAsBlob], `Factura_${numFactura}.pdf`, { type: 'application/pdf' });
+                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({ files: [file], title: 'Factura' });
+                } else {
+                    const a = document.createElement('a'); a.href = URL.createObjectURL(pdfAsBlob); a.download = `Factura_${numFactura}.pdf`; a.click();
+                    window.showToast("PDF generado correctamente");
+                }
+            } catch (e) {
+                console.error(e);
+                window.showToast("Error al generar PDF");
+            } finally { 
+                btn.innerHTML = originalText; btn.disabled = false; 
+            }
+        };
+
         window.descargarHistorialPDF = async function() {
             const config = window.getUserConfig();
             const btn = document.querySelector('button[onclick="descargarHistorialPDF()"]');
@@ -1461,92 +1554,26 @@
             document.getElementById('report-total').innerText = window.formatCOP(grandTotal);
 
             const container = document.getElementById('history-report-container');
+            const reportEl = document.getElementById('history-report');
             container.classList.remove('hidden');
-            const printWidth = 1080; container.style.width = `${printWidth}px`; 
+            
+            // Forzar formato estricto de escritorio para impresión sin salto fantasma
+            reportEl.style.cssText = 'width: 1080px !important; max-width: 1080px !important; min-width: 1080px !important; padding: 40px !important; background: white !important; margin: 0 !important;';
             
             try {
                 await html2pdf().set({
-                    margin: [0.3, 0.3, 0.3, 0.3], filename: `Reporte_${new Date().toISOString().split('T')[0]}.pdf`,
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2, useCORS: true, scrollY: 0, width: printWidth, windowWidth: printWidth },
-                    jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
-                }).from(document.getElementById('history-report')).save();
+                    margin: [15, 10, 15, 10], 
+                    filename: `Reporte_${new Date().toISOString().split('T')[0]}.pdf`,
+                    image: { type: 'jpeg', quality: 1 },
+                    html2canvas: { scale: 2, useCORS: true, windowWidth: 1080 },
+                    jsPDF: { unit: 'mm', format: 'letter', orientation: 'landscape' },
+                    pagebreak: { mode: 'css' } // Para el reporte sí permitimos salto si hay muchas filas
+                }).from(reportEl).save();
                 window.showToast("Reporte descargado");
             } catch (e) {
                 console.error(e);
             } finally { 
-                container.classList.add('hidden'); container.style.width = ''; btn.innerHTML = originalText; btn.disabled = false; 
-            }
-        };
-
-        window.descargarFacturaItem = async function(index, event) {
-            const btn = event.currentTarget; 
-            const originalContent = btn.innerHTML;
-            btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="animate-spin w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
-            btn.disabled = true;
-
-            try {
-                const factura = window.db.facturas[index];
-                if(!factura) throw new Error("No encontrada");
-                window.renderPDFContent(factura, 0, 0);
-
-                const previewContainer = document.getElementById('preview-container');
-                const wasHidden = previewContainer.classList.contains('hidden');
-                
-                if(wasHidden) {
-                    previewContainer.classList.remove('hidden');
-                    previewContainer.style.position = 'absolute'; previewContainer.style.left = '-9999px'; previewContainer.style.top = '0'; previewContainer.style.width = '800px'; 
-                }
-
-                const pdfAsBlob = await html2pdf().set({
-                    margin: 0.4, filename: `Factura_${factura.num}.pdf`, image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2.0, useCORS: true, width: 800, windowWidth: 800, scrollY: 0 },
-                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                }).from(document.getElementById('invoice-render')).output('blob');
-
-                if(wasHidden) { previewContainer.classList.add('hidden'); previewContainer.style.cssText = ''; }
-
-                const file = new File([pdfAsBlob], `Factura_${factura.num}.pdf`, { type: 'application/pdf' });
-                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({ files: [file], title: 'Factura' });
-                } else {
-                    const a = document.createElement('a'); a.href = URL.createObjectURL(pdfAsBlob); a.download = `Factura_${factura.num}.pdf`; a.click();
-                }
-                window.showToast("Factura descargada");
-            } catch(e) { 
-                console.error(e);
-                window.showToast("Error al descargar"); 
-            } finally { 
-                btn.innerHTML = originalContent; btn.disabled = false; 
-            }
-        };
-
-        window.compartirPDF = async function() {
-            const btn = document.getElementById('btn-share');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="animate-spin w-4 h-4 mr-2 inline-block flex-shrink-0" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> PROCESANDO...`;
-            btn.disabled = true;
-            
-            const numFactura = document.getElementById('pdf-num-label').innerText.trim();
-            try {
-                const pdfAsBlob = await html2pdf().set({
-                    margin: 0.4, filename: `Factura_${numFactura}.pdf`, image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2.0, useCORS: true, width: 800, windowWidth: 800, scrollY: 0 },
-                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                }).from(document.getElementById('invoice-render')).output('blob');
-                
-                const file = new File([pdfAsBlob], `Factura_${numFactura}.pdf`, { type: 'application/pdf' });
-                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({ files: [file], title: 'Factura' });
-                } else {
-                    const a = document.createElement('a'); a.href = URL.createObjectURL(pdfAsBlob); a.download = `Factura_${numFactura}.pdf`; a.click();
-                    window.showToast("PDF generado");
-                }
-            } catch (e) {
-                console.error(e);
-                window.showToast("Error al generar PDF");
-            } finally { 
-                btn.innerHTML = originalText; btn.disabled = false; 
+                container.classList.add('hidden'); reportEl.style.cssText = ''; btn.innerHTML = originalText; btn.disabled = false; 
             }
         };
 
