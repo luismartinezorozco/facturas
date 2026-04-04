@@ -2281,7 +2281,9 @@
                     const data = JSON.parse(e.target.result);
                     window.showToast("Restaurando datos, por favor espera...");
                     
-                    if (window.currentAppUser.role === 'admin' && data.type === 'admin_full') {
+                    const isLegacy = !data.type;
+                    
+                    if (window.currentAppUser.role === 'admin' && (data.type === 'admin_full' || isLegacy)) {
                         // RESTAURACIÓN GLOBAL (ADMIN)
                         if(data.usuarios) {
                             for (let u of data.usuarios) await setDoc(getDocPath("usuarios", u.id), u);
@@ -2290,23 +2292,38 @@
                             for (let f of data.facturas) await setDoc(getDocPath("facturas", f.id), f);
                         }
                         if(data.clientes) {
-                            for (let [cc, c] of Object.entries(data.clientes)) await setDoc(getDocPath("clientes", cc), c);
+                            const clientsList = Array.isArray(data.clientes) ? data.clientes : Object.values(data.clientes);
+                            for (let c of clientsList) {
+                                if(!c.cc) continue;
+                                const docId = c.userId ? `${c.userId}_${c.cc}` : String(c.cc);
+                                await setDoc(getDocPath("clientes", docId), c);
+                            }
                         }
                         if(data.config) {
                             await setDoc(getDocPath("config", "main"), data.config);
                         }
                         window.showToast("Restauración Global Completada");
                         
-                    } else if (window.currentAppUser.role === 'user' && (data.type === 'user_partial' || data.type === undefined)) {
+                    } else if (window.currentAppUser.role === 'user' && (data.type === 'user_partial' || isLegacy)) {
                         // RESTAURACIÓN PARCIAL (VENDEDOR)
                         if (data.config) {
                             await window.saveUserConfig(data.config);
                         }
                         if (data.facturas) {
                             for (let f of data.facturas) {
-                                // Forzar que la factura quede atada a este usuario por seguridad
+                                // Forzar que la factura quede atada a este usuario para que sea visible
                                 f.vendedor = window.currentAppUser.nombre; 
+                                f.userId = window.currentAppUser.id;
                                 await setDoc(getDocPath("facturas", f.id), f);
+                            }
+                        }
+                        if (data.clientes) {
+                            const clientsList = Array.isArray(data.clientes) ? data.clientes : Object.values(data.clientes);
+                            for (let c of clientsList) {
+                                if(!c.cc) continue;
+                                c.userId = window.currentAppUser.id;
+                                const docId = `${window.currentAppUser.id}_${c.cc}`;
+                                await setDoc(getDocPath("clientes", docId), c);
                             }
                         }
                         window.showToast("Tus datos fueron restaurados");
