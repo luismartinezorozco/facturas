@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sistema de Facturación</title>
     
-    <!-- FAVICON -->
     <link rel="icon" type="image/png" href="https://image2url.com/r2/default/images/1775313561290-cda3b8ea-6f74-40a0-a278-a68e2e018713.png">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -15,16 +13,13 @@
             theme: {
                 extend: {
                     screens: { 'xs': '375px' },
-                    colors: {
-                        dark: { bg: '#0f172a', surface: '#1e293b', border: '#334155' }
-                    },
+                    colors: { dark: { bg: '#0f172a', surface: '#1e293b', border: '#334155' } },
                     zIndex: { overlay: '9998', modal: '9999', toast: '10000' }
                 }
             }
         }
     </script>
     
-    <!-- Librería PDF (Estable) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
@@ -533,87 +528,15 @@
             </div>
         </section>
 
-        <!-- SECCIÓN: AJUSTES GLOBALES -->
+        <!-- SECCIÓN: AJUSTES GLOBALES (Recortada) -->
         <section id="sec-ajustes" class="section-content hidden">
             <div class="glass-panel rounded-[2.5rem] shadow-xl p-8 md:p-12 max-w-3xl mx-auto border-t-4 border-blue-500">
                 <div class="mb-10 text-center">
                     <h2 class="text-3xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Ajustes</h2>
-                    <p class="text-[10px] text-slate-500 font-bold mt-2 uppercase tracking-[0.3em]">Configuración del Sistema</p>
-                </div>
-                
-                <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 mb-8">
-                    <div>
-                        <p class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">Modo Oscuro</p>
-                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 font-bold">Cambiar la apariencia visual</p>
-                    </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="toggle-darkmode" class="sr-only peer" onchange="toggleDarkMode()">
-                        <div class="w-12 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                    </label>
+                    <p class="text-[10px] text-slate-500 font-bold mt-2 uppercase tracking-[0.3em]">Seguridad y Respaldo</p>
                 </div>
 
-                <form id="configForm" onsubmit="guardarConfig(event)" class="space-y-6">
-                    <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest border-b-2 border-slate-100 dark:border-slate-800 pb-3">Tus Datos de Facturación</h3>
-                    
-                    <div class="md:col-span-2 space-y-1.5 mb-6">
-                        <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Logo de tu Empresa (Opcional)</label>
-                        <div class="flex items-center gap-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-4 rounded-xl">
-                            <div id="logo-preview" class="w-20 h-20 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 flex items-center justify-center overflow-hidden flex-shrink-0">
-                                <span class="text-[9px] text-slate-400 font-bold uppercase">Sin logo</span>
-                            </div>
-                            <div class="flex-grow">
-                                <input type="file" id="cfg-logo" accept="image/*" class="w-full text-xs font-bold text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-black file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100 cursor-pointer" onchange="previewLogo(this)">
-                                <button type="button" onclick="removeLogo()" class="text-[9px] text-red-500 hover:text-red-600 font-black uppercase tracking-widest mt-2 block">Borrar Logo</button>
-                                <p class="text-[8px] text-slate-400 font-bold mt-1 uppercase tracking-widest">* La imagen se optimizará automáticamente</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div class="space-y-1.5">
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Nombre Empresa</label>
-                            <input type="text" id="cfg-empresa" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Propietario / Agente</label>
-                            <input type="text" id="cfg-propietario" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">NIT / Documento</label>
-                            <input type="text" id="cfg-nit" required oninput="formatCurrencyInput(this)" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Ciudad</label>
-                            <input type="text" id="cfg-ciudad" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Teléfono</label>
-                            <input type="text" id="cfg-telefono" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Correo Electrónico</label>
-                            <input type="email" id="cfg-email" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
-                        </div>
-                    </div>
-                    
-                    <div class="pt-8">
-                        <div class="flex justify-between items-center mb-4 border-b-2 border-slate-100 dark:border-slate-800 pb-3">
-                            <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest">Métodos de Pago</h3>
-                            <button type="button" onclick="addPaymentMethodUI()" class="text-[10px] font-black text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:scale-105 transition-transform uppercase tracking-wider">
-                                + Añadir
-                            </button>
-                        </div>
-                        <div id="payment-methods-list" class="space-y-3"></div>
-                    </div>
-
-                    <div class="pt-8">
-                        <button type="submit" class="w-full bg-blue-600 text-white font-[900] py-4 rounded-xl shadow-xl uppercase tracking-[0.2em] text-xs hover:-translate-y-1 transition-all">
-                            Guardar Preferencias
-                        </button>
-                    </div>
-                </form>
-
-                <form id="securityForm" onsubmit="changeUserPin(event)" class="mt-8 pt-8 border-t-[3px] border-slate-100 dark:border-slate-800 space-y-6">
+                <form id="securityForm" onsubmit="changeUserPin(event)" class="space-y-6">
                     <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest border-b-2 border-slate-100 dark:border-slate-800 pb-3">Seguridad y Acceso</h3>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -797,7 +720,7 @@
 
             onSnapshot(getDocPath("config", "main"), (snap) => {
                 if(snap.exists()) { window.db.config = { ...defaultConfig, ...snap.data() }; }
-                if(window.currentAppUser) { window.updateAppHeader(); window.applyTheme(); }
+                if(window.currentAppUser) { window.updateAppHeader(); }
             }, (err) => console.error("Snapshot Error (Config):", err));
         }
 
@@ -819,43 +742,8 @@
                 } else {
                     await setDoc(getDocPath("config", "main"), config);
                 }
-                window.showToast("Ajustes guardados en la nube");
+                window.showToast("Ajustes guardados");
             } catch(e) { console.error(e); window.showToast("Error al sincronizar"); }
-        };
-
-        let currentLogoBase64 = null;
-        window.previewLogo = function(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 400;
-                        const MAX_HEIGHT = 400;
-                        let width = img.width;
-                        let height = img.height;
-
-                        if (width > height && width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; } 
-                        else if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
-                        
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        
-                        currentLogoBase64 = canvas.toDataURL('image/png', 0.9);
-                        document.getElementById('logo-preview').innerHTML = `<img src="${currentLogoBase64}" class="w-full h-full object-contain">`;
-                    };
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        };
-        window.removeLogo = function() {
-            currentLogoBase64 = null;
-            document.getElementById('cfg-logo').value = '';
-            document.getElementById('logo-preview').innerHTML = `<span class="text-[9px] text-slate-400 font-bold uppercase">Sin logo</span>`;
         };
 
         window.checkLoginState = function() {
@@ -899,7 +787,6 @@
                 
                 window.applyRolePermissions();
                 window.updateAppHeader();
-                window.applyTheme();
                 
                 if (window.currentAppUser.role === 'admin') window.showSection('analisis');
                 else window.showSection('crear');
@@ -985,7 +872,6 @@
                 document.getElementById('nav-registros').style.display = 'none';
                 document.getElementById('nav-analisis').style.display = 'flex';
                 document.getElementById('nav-usuarios').style.display = 'flex';
-                document.getElementById('configForm').style.display = 'none'; 
                 document.getElementById('backup-desc').innerText = "Descarga o restaura TODA la base de datos.";
             } else {
                 document.getElementById('nav-crear').style.display = 'flex';
@@ -993,7 +879,6 @@
                 document.getElementById('nav-registros').style.display = hasRegistros ? 'flex' : 'none';
                 document.getElementById('nav-analisis').style.display = 'none';
                 document.getElementById('nav-usuarios').style.display = 'none';
-                document.getElementById('configForm').style.display = 'block'; 
                 document.getElementById('backup-desc').innerText = "Descarga o restaura tu información personal.";
             }
 
@@ -1210,22 +1095,12 @@
             return (Math.max(...nums) + 1).toString().padStart(3, '0');
         }
 
-        window.guardarConfig = async function(e) {
-            e.preventDefault();
-            if(!auth.currentUser) return;
-            const config = window.getUserConfig();
-            config.empresa = document.getElementById('cfg-empresa').value;
-            config.propietario = document.getElementById('cfg-propietario').value;
-            config.nit = document.getElementById('cfg-nit').value;
-            config.ciudad = document.getElementById('cfg-ciudad').value;
-            config.telefono = document.getElementById('cfg-telefono').value;
-            config.email = document.getElementById('cfg-email').value;
-            config.logo = currentLogoBase64;
-            
-            await window.saveUserConfig(config);
-            if(window.currentAppUser.role === 'admin') window.showSection('analisis');
-            else window.showSection('crear');
-        };
+        window.updatePaymentSelect = function() {
+            const config = window.getUserConfig(); const select = document.getElementById('metodoPago'); if(!select) return;
+            const currentVal = select.value; select.innerHTML = '';
+            (config.paymentMethods || []).forEach((method) => { select.innerHTML += `<option value="${method.name}">${method.name}</option>`; });
+            if (currentVal && Array.from(select.options).some(o => o.value === currentVal)) select.value = currentVal;
+        }
 
         window.generarPreview = async function() {
             const form = document.getElementById('invoiceForm');
@@ -1422,18 +1297,15 @@
             if(section === 'registros') window.switchTab('facturas');
             if(section === 'analisis') window.renderAnalisis();
             if(section === 'usuarios') window.renderUsersList();
-            if(section === 'ajustes') window.cargarAjustes();
             if(section === 'calendario') window.renderCalendar(currentCalendarDate);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         /* --- MOTOR PDF DEFINITIVO (OFF-SCREEN RENDERING) --- */
         window.generarBlobFactura = async function(numFactura, originalEl) {
-            // 1. Guardar estado original
             const originalCssText = originalEl.style.cssText;
             const originalParent = originalEl.parentNode;
             
-            // 2. Crear un contenedor "fantasma" que el móvil no pueda deformar
             const tempContainer = document.createElement('div');
             tempContainer.style.position = 'absolute';
             tempContainer.style.left = '-9999px';
@@ -1442,33 +1314,19 @@
             tempContainer.style.background = 'white';
             document.body.appendChild(tempContainer);
             
-            // 3. Mover la factura al contenedor fantasma
             tempContainer.appendChild(originalEl);
-            
-            // 4. Aplicar estilos limpios estrictos para la captura
             originalEl.style.cssText = 'width: 800px !important; padding: 40px !important; margin: 0 !important; border: none !important; box-shadow: none !important; border-radius: 0 !important; background: white !important;';
 
-            // 5. Configurar html2pdf
             const pdfOptions = {
-                margin:       0, // Margen 0 (usamos el padding)
+                margin:       0,
                 filename:     `Factura_${numFactura}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { 
-                    scale: 2, 
-                    useCORS: true, 
-                    windowWidth: 800, // Fijar resolución al canvas
-                    x: 0,
-                    y: 0,
-                    scrollX: 0, 
-                    scrollY: 0 
-                },
+                html2canvas:  { scale: 2, useCORS: true, windowWidth: 800, x: 0, y: 0, scrollX: 0, scrollY: 0 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // 6. Generar el PDF Blob
             const pdfBlob = await html2pdf().set(pdfOptions).from(originalEl).output('blob');
 
-            // 7. Devolver todo a la normalidad instantáneamente
             originalParent.appendChild(originalEl);
             originalEl.style.cssText = originalCssText;
             document.body.removeChild(tempContainer);
@@ -1570,7 +1428,6 @@
             const reportEl = document.getElementById('history-report');
             container.classList.remove('hidden');
             
-            // Misma técnica Off-Screen para el reporte
             const tempContainer = document.createElement('div');
             tempContainer.style.position = 'absolute';
             tempContainer.style.left = '-9999px';
@@ -1635,60 +1492,10 @@
             document.getElementById('clienteNombre').value = c.nombre; document.getElementById('cc').value = c.cc; document.getElementById('correo').value = c.correo;
             window.showSection('crear'); window.showToast("Cliente cargado");
         };
-        window.toggleDarkMode = function() {
-            const config = window.getUserConfig(); config.darkMode = document.getElementById('toggle-darkmode').checked;
-            window.saveUserConfig(config); window.applyTheme();
-        };
-        window.applyTheme = function() {
-            const config = window.getUserConfig();
-            if(document.getElementById('toggle-darkmode')) document.getElementById('toggle-darkmode').checked = config.darkMode;
-            document.documentElement.classList.toggle('dark', config.darkMode);
-        }
         window.updateAppHeader = function() {
             const config = window.getUserConfig();
             if(document.getElementById('app-header-title')) document.getElementById('app-header-title').innerText = config.empresa || "Sistema de Facturación"; 
             if(document.getElementById('hist-empresa')) document.getElementById('hist-empresa').innerText = config.empresa || "Workspace";
-        }
-        window.cargarAjustes = function() {
-            const config = window.getUserConfig();
-            document.getElementById('cfg-empresa').value = config.empresa || ""; document.getElementById('cfg-propietario').value = config.propietario || "";
-            document.getElementById('cfg-nit').value = config.nit || ""; document.getElementById('cfg-ciudad').value = config.ciudad || "";
-            document.getElementById('cfg-telefono').value = config.telefono || ""; document.getElementById('cfg-email').value = config.email || "";
-            
-            currentLogoBase64 = config.logo || null;
-            if (currentLogoBase64) document.getElementById('logo-preview').innerHTML = `<img src="${currentLogoBase64}" class="w-full h-full object-contain">`;
-            else document.getElementById('logo-preview').innerHTML = `<span class="text-[9px] text-slate-400 font-bold uppercase">Sin logo</span>`;
-            window.renderSettingsMethods();
-        }
-        window.renderSettingsMethods = function() {
-            const config = window.getUserConfig(); const list = document.getElementById('payment-methods-list'); list.innerHTML = '';
-            (config.paymentMethods || []).forEach((method, index) => {
-                const div = document.createElement('div'); div.className = 'bg-slate-50 dark:bg-slate-800/50 p-3 rounded-md border border-slate-200 dark:border-slate-700 flex gap-2 items-start';
-                div.innerHTML = `
-                    <div class="flex-grow grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        <input type="text" placeholder="Nombre" value="${method.name}" onchange="window.updateMethod(${index}, 'name', this.value)" class="px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:border-blue-500 w-full">
-                        <input type="text" placeholder="Banco/Tipo" value="${method.bank}" onchange="window.updateMethod(${index}, 'bank', this.value)" class="px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:border-blue-500 w-full">
-                        <input type="text" placeholder="No. Cuenta" value="${method.account}" onchange="window.updateMethod(${index}, 'account', this.value)" class="px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:border-blue-500 w-full">
-                    </div>
-                    <button type="button" onclick="window.removeMethod(${index})" class="text-slate-400 hover:text-red-500 p-1.5 rounded transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-                `;
-                list.appendChild(div);
-            });
-        }
-        window.addPaymentMethodUI = function() {
-            const config = window.getUserConfig(); if(!config.paymentMethods) config.paymentMethods = [];
-            config.paymentMethods.push({ name: "", bank: "", account: "" }); window.saveUserConfig(config); window.renderSettingsMethods();
-        };
-        window.updateMethod = function(index, field, value) { const config = window.getUserConfig(); config.paymentMethods[index][field] = value; window.saveUserConfig(config); };
-        window.removeMethod = function(index) {
-            const config = window.getUserConfig(); if((config.paymentMethods || []).length <= 1) { window.showToast("Mínimo un método"); return; }
-            config.paymentMethods.splice(index, 1); window.saveUserConfig(config); window.renderSettingsMethods();
-        };
-        window.updatePaymentSelect = function() {
-            const config = window.getUserConfig(); const select = document.getElementById('metodoPago'); if(!select) return;
-            const currentVal = select.value; select.innerHTML = '';
-            (config.paymentMethods || []).forEach((method) => { select.innerHTML += `<option value="${method.name}">${method.name}</option>`; });
-            if (currentVal && Array.from(select.options).some(o => o.value === currentVal)) select.value = currentVal;
         }
 
         window.changeUserPin = async function(e) {
