@@ -108,7 +108,6 @@
     <div id="login-screen" class="fixed inset-0 z-[9995] bg-slate-900/95 flex items-center justify-center p-4 transition-all duration-500 hidden opacity-0">
         <div class="bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-2xl max-w-sm w-full p-8 md:p-10 relative overflow-hidden transform transition-all">
             <div class="text-center mb-8">
-                <!-- LOGO NODIAN -->
                 <div class="w-32 h-32 mx-auto mb-4 flex items-center justify-center relative overflow-visible">
                     <img src="https://image2url.com/r2/default/images/1775313561290-cda3b8ea-6f74-40a0-a278-a68e2e018713.png" alt="Logo Nodian" class="w-full h-full object-contain drop-shadow-2xl relative z-10 transition-transform duration-500 hover:scale-105">
                 </div>
@@ -159,7 +158,7 @@
         </div>
     </div>
 
-    <!-- BOTÓN DE SESIÓN (SOLO ICONO) -->
+    <!-- BOTÓN DE SESIÓN -->
     <button onclick="logoutUser()" id="btn-logout" class="fixed top-4 right-4 z-[90] bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-3.5 rounded-[1.1rem] shadow-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-all hidden" title="Cerrar sesión">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
     </button>
@@ -194,6 +193,7 @@
 
     <main class="max-w-5xl mx-auto pt-6 px-4 md:pt-32 hidden" id="main-content">
         
+        <!-- (Otras secciones permanecen intactas) -->
         <!-- SECCIÓN: ANÁLISIS DEL ADMINISTRADOR -->
         <section id="sec-analisis" class="section-content hidden">
             <div class="glass-panel rounded-[2.5rem] shadow-xl p-8 md:p-12 mb-8 relative overflow-hidden">
@@ -343,6 +343,7 @@
                 
                 <div class="mobile-viewport-wrapper relative">
                     <div id="invoice-render" class="w-full max-w-2xl md:max-w-none md:w-[800px] bg-white p-8 md:p-12 flex flex-col relative mx-auto transition-all text-slate-900">
+                        <!-- Estructura del PDF -->
                         <div class="flex flex-col md:flex-row justify-between items-center md:items-start mb-6 md:mb-8 gap-6 md:gap-0">
                             <div class="space-y-3 text-center md:text-left w-full md:w-auto">
                                 <div>
@@ -516,7 +517,7 @@
             </div>
         </section>
 
-        <!-- SECCIÓN: AJUSTES GLOBALES -->
+        <!-- SECCIÓN: AJUSTES GLOBALES MEJORADA -->
         <section id="sec-ajustes" class="section-content hidden">
             <div class="glass-panel rounded-[2.5rem] shadow-xl p-8 md:p-12 max-w-3xl mx-auto border-t-4 border-blue-500">
                 <div class="mb-10 text-center">
@@ -541,78 +542,112 @@
                     </div>
                 </div>
 
-                <!-- DATOS DEL NEGOCIO (RESTAURADOS) -->
-                <form id="configForm" onsubmit="saveConfig(event)" class="space-y-6 mb-10">
-                    <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest border-b-2 border-slate-100 dark:border-slate-800 pb-3">Datos del Negocio (Aparecerán en el PDF)</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Nombre de Empresa</label>
-                            <input type="text" id="conf-empresa" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
+                <!-- FORMULARIO DE NEGOCIO Y PAGOS -->
+                <form id="configForm" onsubmit="saveConfig(event)" class="space-y-8 mb-10">
+                    
+                    <!-- BLOQUE: DATOS DEL NEGOCIO -->
+                    <div>
+                        <div class="border-b-2 border-slate-100 dark:border-slate-800 pb-3 mb-6 flex items-baseline gap-2">
+                            <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest">Datos del Negocio</h3>
+                            <span class="text-[9px] font-bold text-slate-400 uppercase">(Aparecerán en el PDF)</span>
                         </div>
-                        <div>
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Propietario / Representante</label>
-                            <input type="text" id="conf-propietario" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">NIT / RUT / C.C.</label>
-                            <input type="text" id="conf-nit" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Ciudad / Dirección</label>
-                            <input type="text" id="conf-ciudad" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Teléfono</label>
-                            <input type="text" id="conf-telefono" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Correo Electrónico</label>
-                            <input type="email" id="conf-email" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">URL del Logo (Opcional)</label>
-                            <input type="text" id="conf-logo" placeholder="Ej: https://midominio.com/logo.png" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
-                        </div>
-                    </div>
-
-                    <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest border-b-2 border-slate-100 dark:border-slate-800 pb-3 mt-8">Métodos de Pago</h3>
-                    <div class="space-y-4">
-                        <div class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div>
-                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Método 1: Banco / Plataforma</label>
-                                <input type="text" id="conf-pay1-name" placeholder="Ej: Bancolombia" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
+                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Nombre de Empresa</label>
+                                <input type="text" id="conf-empresa" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
                             </div>
                             <div>
-                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Tipo</label>
-                                <input type="text" id="conf-pay1-bank" placeholder="Ej: Ahorros" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
+                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Propietario / Representante</label>
+                                <input type="text" id="conf-propietario" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
                             </div>
                             <div>
-                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">No. de Cuenta</label>
-                                <input type="text" id="conf-pay1-acc" placeholder="000-000000-00" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
-                            </div>
-                        </div>
-                        <div class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700 grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Método 2: Banco / Plataforma</label>
-                                <input type="text" id="conf-pay2-name" placeholder="Ej: Nequi / Daviplata" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
+                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">NIT / RUT / C.C.</label>
+                                <input type="text" id="conf-nit" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
                             </div>
                             <div>
-                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Tipo</label>
-                                <input type="text" id="conf-pay2-bank" placeholder="Ej: Billetera" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
+                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Ciudad / Dirección</label>
+                                <input type="text" id="conf-ciudad" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
                             </div>
                             <div>
-                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">No. de Cuenta</label>
-                                <input type="text" id="conf-pay2-acc" placeholder="Número de celular" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
+                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Teléfono</label>
+                                <input type="text" id="conf-telefono" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Correo Electrónico</label>
+                                <input type="email" id="conf-email" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
+                            </div>
+                            
+                            <!-- UPLOAD DE LOGO -->
+                            <div class="md:col-span-2 mt-2">
+                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Logo de la Empresa (Opcional)</label>
+                                <div class="relative w-full border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-2xl p-6 flex flex-col items-center justify-center text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer" onclick="document.getElementById('conf-logo-file').click()">
+                                    <input type="file" id="conf-logo-file" class="hidden" accept="image/png, image/jpeg" onchange="window.handleLogoUpload(event)">
+                                    
+                                    <div id="logo-preview-container" class="hidden mb-3">
+                                        <img id="logo-preview" src="" class="h-16 object-contain shadow-sm rounded">
+                                        <p class="text-[9px] font-black text-blue-500 mt-2 uppercase">Cambiar Logo</p>
+                                    </div>
+                                    
+                                    <div id="logo-upload-placeholder">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-2 text-slate-400"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                                        <p class="text-sm font-bold text-slate-600 dark:text-slate-300">Haz clic para subir un logo</p>
+                                        <p class="text-[10px] font-bold text-slate-400 mt-1">PNG o JPG. Máx 2MB.</p>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="conf-logo-data">
                             </div>
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-blue-600 text-white font-[900] py-4 rounded-xl shadow-xl shadow-blue-600/30 uppercase tracking-[0.2em] text-xs hover:bg-blue-500 hover:-translate-y-1 active:scale-[0.98] transition-all mt-6">
-                        Guardar Configuración
-                    </button>
+                    <!-- BLOQUE: MÉTODOS DE PAGO -->
+                    <div>
+                        <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest border-b-2 border-slate-100 dark:border-slate-800 pb-3 mb-6">Métodos de Pago</h3>
+                        
+                        <div class="space-y-4">
+                            <!-- METODO 1 -->
+                            <div class="p-5 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700 grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Método 1: Banco / Plataforma</label>
+                                    <input type="text" id="conf-pay1-name" placeholder="Ej: Bancolombia" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Tipo</label>
+                                    <input type="text" id="conf-pay1-bank" placeholder="Ej: Ahorros" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">No. de Cuenta</label>
+                                    <input type="text" id="conf-pay1-acc" placeholder="000-000000-00" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none shadow-sm">
+                                </div>
+                            </div>
+                            
+                            <!-- METODO 2 -->
+                            <div class="p-5 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700 grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Método 2: Banco / Plataforma</label>
+                                    <input type="text" id="conf-pay2-name" placeholder="Ej: Nequi / Daviplata" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Tipo</label>
+                                    <input type="text" id="conf-pay2-bank" placeholder="Ej: Billetera" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">No. de Cuenta</label>
+                                    <input type="text" id="conf-pay2-acc" placeholder="Número de celular" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none shadow-sm">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full bg-blue-600 text-white font-[900] py-4 rounded-xl shadow-xl shadow-blue-600/30 uppercase tracking-[0.2em] text-xs hover:bg-blue-500 hover:-translate-y-1 active:scale-[0.98] transition-all">
+                            Guardar Configuración
+                        </button>
+                    </div>
                 </form>
 
-                <form id="securityForm" onsubmit="changeUserPin(event)" class="space-y-6">
+                <!-- SEGURIDAD Y ACCESO -->
+                <form id="securityForm" onsubmit="changeUserPin(event)" class="space-y-6 pt-6 border-t-[3px] border-slate-100 dark:border-slate-800">
                     <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest border-b-2 border-slate-100 dark:border-slate-800 pb-3">Seguridad y Acceso</h3>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -643,6 +678,7 @@
         <!-- PLANTILLA REPORTE HISTÓRICO (PDF) -->
         <div id="history-report-container" class="hidden" style="position:absolute; top:0; left:0; z-index:-100; opacity: 0; pointer-events: none; width:100%; max-width: 1080px;">
             <div id="history-report" class="p-8 bg-white w-full h-auto min-h-screen text-slate-900">
+                <!-- ... contenido del reporte histórico ... -->
                 <div class="flex justify-between items-start mb-6 border-b-4 border-slate-900 pb-4">
                     <div>
                         <h1 class="text-2xl font-[950] uppercase tracking-tighter">Reporte Contable</h1>
@@ -710,7 +746,7 @@
 
         window.currentAppUser = null; 
         const defaultConfig = {
-            empresa: "", propietario: "", nit: "", ciudad: "", telefono: "", email: "", darkMode: false, logo: null,
+            empresa: "", propietario: "", nit: "", ciudad: "", telefono: "", email: "", darkMode: false, logo: "",
             paymentMethods: [
                 { name: "Bancolombia", bank: "Ahorros", account: "000-000-000-00" },
                 { name: "Efectivo", bank: "Caja", account: "N/A" }
@@ -720,6 +756,28 @@
         window.db = { facturas: [], clientes: {}, usuarios: [], config: { ...defaultConfig } };
 
         let initialLoadUsuarios = true;
+
+        // --- MANEJO DE UPLOAD DE LOGO (BASE64) ---
+        window.handleLogoUpload = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validar tamaño (Max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                window.showToast("El archivo es demasiado grande (Máx 2MB)");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result;
+                document.getElementById('conf-logo-data').value = base64Data;
+                document.getElementById('logo-preview').src = base64Data;
+                document.getElementById('logo-preview-container').classList.remove('hidden');
+                document.getElementById('logo-upload-placeholder').classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        };
 
         window.calculateDaysRemaining = function(dateStr) {
             if(!dateStr) return { days: 9999, expired: false, inGrace: false, legacy: true };
@@ -774,8 +832,21 @@
                 document.getElementById('conf-ciudad').value = currentConfig.ciudad || '';
                 document.getElementById('conf-telefono').value = currentConfig.telefono || '';
                 document.getElementById('conf-email').value = currentConfig.email || '';
-                document.getElementById('conf-logo').value = currentConfig.logo || '';
                 
+                // Mostrar Logo si existe
+                if(currentConfig.logo && currentConfig.logo !== '') {
+                    document.getElementById('conf-logo-data').value = currentConfig.logo;
+                    document.getElementById('logo-preview').src = currentConfig.logo;
+                    document.getElementById('logo-preview-container').classList.remove('hidden');
+                    document.getElementById('logo-upload-placeholder').classList.add('hidden');
+                } else {
+                    document.getElementById('conf-logo-data').value = '';
+                    document.getElementById('logo-preview').src = '';
+                    document.getElementById('logo-preview-container').classList.add('hidden');
+                    document.getElementById('logo-upload-placeholder').classList.remove('hidden');
+                }
+                
+                // Métodos de Pago
                 if(currentConfig.paymentMethods && currentConfig.paymentMethods.length > 0) {
                     document.getElementById('conf-pay1-name').value = currentConfig.paymentMethods[0]?.name || '';
                     document.getElementById('conf-pay1-bank').value = currentConfig.paymentMethods[0]?.bank || '';
@@ -823,7 +894,7 @@
                 ciudad: document.getElementById('conf-ciudad').value.trim(),
                 telefono: document.getElementById('conf-telefono').value.trim(),
                 email: document.getElementById('conf-email').value.trim(),
-                logo: document.getElementById('conf-logo').value.trim(),
+                logo: document.getElementById('conf-logo-data').value, // Tomamos el Base64 o URL
                 paymentMethods: paymentMethods.length > 0 ? paymentMethods : defaultConfig.paymentMethods
             };
             
@@ -1370,7 +1441,7 @@
 
             const logoEl = document.getElementById('pdf-logo');
             const lineEl = document.getElementById('pdf-line-accent');
-            if (config.logo) {
+            if (config.logo && config.logo !== '') {
                 logoEl.src = config.logo; logoEl.classList.remove('hidden'); lineEl.classList.add('hidden');
             } else {
                 logoEl.src = ''; logoEl.classList.add('hidden'); lineEl.classList.remove('hidden');
