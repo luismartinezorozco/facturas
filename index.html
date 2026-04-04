@@ -279,8 +279,6 @@
         <!-- SECCIÓN: CREAR DOCUMENTO -->
         <section id="sec-crear" class="section-content">
             <div id="form-container" class="glass-panel rounded-[2rem] md:rounded-[2.5rem] shadow-xl overflow-hidden transition-all duration-300">
-                <!-- NOTA: Se ha removido completamente el div id="form-header" según tu solicitud -->
-                
                 <form id="invoiceForm" class="p-6 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                     <div class="space-y-1.5">
                         <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Nº de Factura</label>
@@ -576,8 +574,41 @@
                             <input type="text" id="conf-logo" placeholder="Ej: https://midominio.com/logo.png" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-blue-600 text-white font-[900] py-4 rounded-xl shadow-xl shadow-blue-600/30 uppercase tracking-[0.2em] text-xs hover:bg-blue-500 hover:-translate-y-1 active:scale-[0.98] transition-all">
-                        Guardar Datos del Negocio
+
+                    <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest border-b-2 border-slate-100 dark:border-slate-800 pb-3 mt-8">Métodos de Pago</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700 grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Método 1: Banco / Plataforma</label>
+                                <input type="text" id="conf-pay1-name" placeholder="Ej: Bancolombia" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Tipo</label>
+                                <input type="text" id="conf-pay1-bank" placeholder="Ej: Ahorros" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">No. de Cuenta</label>
+                                <input type="text" id="conf-pay1-acc" placeholder="000-000000-00" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
+                            </div>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700 grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Método 2: Banco / Plataforma</label>
+                                <input type="text" id="conf-pay2-name" placeholder="Ej: Nequi / Daviplata" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Tipo</label>
+                                <input type="text" id="conf-pay2-bank" placeholder="Ej: Billetera" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">No. de Cuenta</label>
+                                <input type="text" id="conf-pay2-acc" placeholder="Número de celular" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold focus:ring-2 focus:ring-blue-500/50 outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-blue-600 text-white font-[900] py-4 rounded-xl shadow-xl shadow-blue-600/30 uppercase tracking-[0.2em] text-xs hover:bg-blue-500 hover:-translate-y-1 active:scale-[0.98] transition-all mt-6">
+                        Guardar Configuración
                     </button>
                 </form>
 
@@ -744,6 +775,16 @@
                 document.getElementById('conf-telefono').value = currentConfig.telefono || '';
                 document.getElementById('conf-email').value = currentConfig.email || '';
                 document.getElementById('conf-logo').value = currentConfig.logo || '';
+                
+                if(currentConfig.paymentMethods && currentConfig.paymentMethods.length > 0) {
+                    document.getElementById('conf-pay1-name').value = currentConfig.paymentMethods[0]?.name || '';
+                    document.getElementById('conf-pay1-bank').value = currentConfig.paymentMethods[0]?.bank || '';
+                    document.getElementById('conf-pay1-acc').value = currentConfig.paymentMethods[0]?.account || '';
+                    
+                    document.getElementById('conf-pay2-name').value = currentConfig.paymentMethods[1]?.name || '';
+                    document.getElementById('conf-pay2-bank').value = currentConfig.paymentMethods[1]?.bank || '';
+                    document.getElementById('conf-pay2-acc').value = currentConfig.paymentMethods[1]?.account || '';
+                }
             }
         };
 
@@ -755,6 +796,25 @@
             submitBtn.innerText = "GUARDANDO...";
             submitBtn.disabled = true;
 
+            const pay1Name = document.getElementById('conf-pay1-name').value.trim();
+            const pay2Name = document.getElementById('conf-pay2-name').value.trim();
+            const paymentMethods = [];
+            
+            if (pay1Name) {
+                paymentMethods.push({
+                    name: pay1Name,
+                    bank: document.getElementById('conf-pay1-bank').value.trim(),
+                    account: document.getElementById('conf-pay1-acc').value.trim()
+                });
+            }
+            if (pay2Name) {
+                paymentMethods.push({
+                    name: pay2Name,
+                    bank: document.getElementById('conf-pay2-bank').value.trim(),
+                    account: document.getElementById('conf-pay2-acc').value.trim()
+                });
+            }
+
             const config = {
                 ...window.getUserConfig(),
                 empresa: document.getElementById('conf-empresa').value.trim(),
@@ -764,6 +824,7 @@
                 telefono: document.getElementById('conf-telefono').value.trim(),
                 email: document.getElementById('conf-email').value.trim(),
                 logo: document.getElementById('conf-logo').value.trim(),
+                paymentMethods: paymentMethods.length > 0 ? paymentMethods : defaultConfig.paymentMethods
             };
             
             try {
