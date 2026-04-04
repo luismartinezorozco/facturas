@@ -14,21 +14,11 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    screens: {
-                        'xs': '375px',
-                    },
+                    screens: { 'xs': '375px' },
                     colors: {
-                        dark: {
-                            bg: '#0f172a',
-                            surface: '#1e293b',
-                            border: '#334155'
-                        }
+                        dark: { bg: '#0f172a', surface: '#1e293b', border: '#334155' }
                     },
-                    zIndex: {
-                        'overlay': '9998',
-                        'modal': '9999',
-                        'toast': '10000'
-                    }
+                    zIndex: { overlay: '9998', modal: '9999', toast: '10000' }
                 }
             }
         }
@@ -38,261 +28,100 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden;
-        }
-
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
         .dark ::-webkit-scrollbar-thumb { background: #475569; }
 
-        #invoice-render > div {
-            position: relative;
-            z-index: 10;
-        }
+        #invoice-render > div { position: relative; z-index: 10; }
 
-        /* --- MENÚ LIQUID GLASS --- */
         .nav-liquid {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border-radius: 2rem;
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); border-radius: 2rem;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .dark .nav-liquid { background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(51, 65, 85, 0.5); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
 
-        .dark .nav-liquid {
-            background: rgba(15, 23, 42, 0.85);
-            border: 1px solid rgba(51, 65, 85, 0.5);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-        }
-
-        .nav-link {
-            transition: all 0.3s ease;
-            position: relative;
-            color: #64748b;
-            border-radius: 1.5rem;
-        }
-
+        .nav-link { transition: all 0.3s ease; position: relative; color: #64748b; border-radius: 1.5rem; }
         .dark .nav-link { color: #94a3b8; }
-
         .nav-link:active { transform: scale(0.95); }
+        .nav-link.active { background: #0f172a; color: white !important; box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.3); }
+        .dark .nav-link.active { background: #3b82f6; box-shadow: 0 4px 15px -3px rgba(59, 130, 246, 0.4); }
 
-        .nav-link.active {
-            background: #0f172a;
-            color: white !important;
-            box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.3);
-        }
-
-        .dark .nav-link.active {
-            background: #3b82f6;
-            box-shadow: 0 4px 15px -3px rgba(59, 130, 246, 0.4);
-        }
-
-        /* Paneles con súper bordes redondeados */
-        .glass-panel {
-            background: white;
-            border: 1px solid #e2e8f0;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .dark .glass-panel {
-            background: #1e293b;
-            border-color: #334155;
-        }
+        .glass-panel { background: white; border: 1px solid #e2e8f0; transition: background-color 0.3s, border-color 0.3s; }
+        .dark .glass-panel { background: #1e293b; border-color: #334155; }
 
         input, select, textarea { font-size: 16px !important; }
-
-        .dark input, .dark select, .dark textarea {
-            background-color: #0f172a;
-            border-color: #334155;
-            color: #f1f5f9;
-        }
-        
+        .dark input, .dark select, .dark textarea { background-color: #0f172a; border-color: #334155; color: #f1f5f9; }
         .dark input::placeholder { color: #475569; }
 
-        /* PDF Styles */
-        #invoice-render, #history-report {
-            background: white !important;
-            color: #1e293b !important;
-        }
-        
-        #invoice-render {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
+        #invoice-render, #history-report { background: white !important; color: #1e293b !important; }
+        #invoice-render { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); position: relative; overflow: hidden; }
 
-        .line-accent {
-            height: 6px;
-            width: 60px;
-            background-color: #2563eb;
-            border-radius: 2px;
-        }
+        .line-accent { height: 6px; width: 60px; background-color: #2563eb; border-radius: 2px; }
 
         .section-content { animation: fadeIn 0.4s ease-out; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         #confirm-modal, #login-screen { backdrop-filter: blur(8px); }
         
         .mobile-viewport-wrapper {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            background: #f1f5f9;
-            border-radius: 1.5rem;
-            padding: 1rem;
-            min-height: 50vh;
-            overflow-x: auto;
+            width: 100%; display: flex; justify-content: center; align-items: flex-start;
+            background: #f1f5f9; border-radius: 1.5rem; padding: 1rem; min-height: 50vh; overflow-x: auto;
         }
-        .dark .mobile-viewport-wrapper {
-            background: #0f172a;
-            border: 1px solid #334155;
-        }
+        .dark .mobile-viewport-wrapper { background: #0f172a; border: 1px solid #334155; }
 
-        /* --- CALENDAR STYLES --- */
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.25rem;
-        }
-        .calendar-day {
-            aspect-ratio: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0.75rem;
-            font-size: 0.8rem;
-            font-weight: 800;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.2s;
-        }
-        .calendar-day:hover {
-            background-color: rgba(59, 130, 246, 0.1);
-        }
-        .calendar-day.selected {
-            background-color: #0f172a;
-            color: white;
-        }
-        .dark .calendar-day.selected {
-            background-color: #3b82f6;
-        }
-        .calendar-day.today {
-            border: 2px solid #3b82f6;
-        }
-        .calendar-day.empty {
-            pointer-events: none;
-        }
-        .event-dot {
-            width: 4px;
-            height: 4px;
-            background-color: #ef4444; 
-            border-radius: 50%;
-            margin-top: 2px;
-        }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.25rem; }
+        .calendar-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 0.75rem; font-size: 0.8rem; font-weight: 800; cursor: pointer; transition: all 0.2s; }
+        .calendar-day:hover { background-color: rgba(59, 130, 246, 0.1); }
+        .calendar-day.selected { background-color: #0f172a; color: white; }
+        .dark .calendar-day.selected { background-color: #3b82f6; }
+        .calendar-day.today { border: 2px solid #3b82f6; }
+        .calendar-day.empty { pointer-events: none; }
+        .event-dot { width: 4px; height: 4px; background-color: #ef4444; border-radius: 50%; margin-top: 2px; }
         .calendar-day.selected .event-dot { background-color: white; }
 
-        /* --- RESPONSIVE TABLE --- */
         @media (max-width: 640px) {
             .responsive-table thead { display: none; }
-            .responsive-table tbody tr {
-                display: block;
-                background: white;
-                border: 1px solid #e2e8f0;
-                border-radius: 1rem;
-                margin-bottom: 1rem;
-                padding: 1rem;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            }
-            .dark .responsive-table tbody tr {
-                background: #1e293b;
-                border-color: #334155;
-            }
-            .responsive-table tbody td {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 0.75rem 0;
-                border-bottom: 1px dashed #f1f5f9;
-                text-align: right;
-            }
+            .responsive-table tbody tr { display: block; background: white; border: 1px solid #e2e8f0; border-radius: 1rem; margin-bottom: 1rem; padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+            .dark .responsive-table tbody tr { background: #1e293b; border-color: #334155; }
+            .responsive-table tbody td { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px dashed #f1f5f9; text-align: right; }
             .dark .responsive-table tbody td { border-color: #334155; }
-            .responsive-table tbody td:last-child {
-                border-bottom: none;
-                justify-content: center;
-                padding-top: 1rem;
-                margin-top: 0.5rem;
-            }
-            .responsive-table td::before {
-                content: attr(data-label);
-                font-weight: 900;
-                color: #64748b;
-                text-transform: uppercase;
-                font-size: 0.7rem;
-                letter-spacing: 0.05em;
-                margin-right: 1rem;
-                text-align: left;
-            }
+            .responsive-table tbody td:last-child { border-bottom: none; justify-content: center; padding-top: 1rem; margin-top: 0.5rem; }
+            .responsive-table td::before { content: attr(data-label); font-weight: 900; color: #64748b; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.05em; margin-right: 1rem; text-align: left; }
             .dark .responsive-table td::before { color: #94a3b8; }
         }
 
-        /* --- TABS --- */
-        .tab-btn {
-            flex: 1;
-            text-align: center;
-            padding: 0.75rem;
-            font-size: 0.75rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s;
-            color: #64748b;
-        }
+        .tab-btn { flex: 1; text-align: center; padding: 0.75rem; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.3s; color: #64748b; }
         .dark .tab-btn { color: #94a3b8; }
-        
-        .tab-btn.active-tab {
-            color: #2563eb;
-            border-bottom-color: #2563eb;
-        }
-        .dark .tab-btn.active-tab {
-            color: #60a5fa;
-            border-bottom-color: #60a5fa;
-        }
-
-        /* Progreso Ventas */
-        .progress-bar-fill {
-            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .tab-btn.active-tab { color: #2563eb; border-bottom-color: #2563eb; }
+        .dark .tab-btn.active-tab { color: #60a5fa; border-bottom-color: #60a5fa; }
+        .progress-bar-fill { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
 <body class="pb-32 md:pb-10 bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-500 min-h-screen" id="main-body">
+
+    <!-- OVERLAY DE CARGA -->
+    <div id="loading-overlay" class="fixed inset-0 z-[10001] bg-slate-900 flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p class="text-white font-black uppercase tracking-widest text-xs animate-pulse">Cargando Sistema...</p>
+    </div>
 
     <!-- PANTALLA DE ACCESO (LOGIN / REGISTRO) -->
     <div id="login-screen" class="fixed inset-0 z-[9995] bg-slate-900/95 flex items-center justify-center p-4 transition-all duration-500 hidden opacity-0">
         <div class="bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-2xl max-w-sm w-full p-8 md:p-10 relative overflow-hidden transform transition-all">
             
             <div class="text-center mb-8">
+                <!-- Logotipo -->
                 <div class="w-32 h-32 mx-auto mb-4 flex items-center justify-center relative overflow-visible">
-                    <img src="https://image2url.com/r2/default/images/1775313561290-cda3b8ea-6f74-40a0-a278-a68e2e018713.png" alt="Logo Nodian" class="w-full h-full object-contain relative z-10 drop-shadow-2xl hover:scale-105 transition-transform duration-500">
+                    <img src="https://image2url.com/r2/default/images/1775313561290-cda3b8ea-6f74-40a0-a278-a68e2e018713.png" alt="Logo" class="w-full h-full object-contain drop-shadow-2xl relative z-10 transition-transform duration-500 hover:scale-105">
                 </div>
                 <h2 class="text-3xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Nodian</h2>
                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.3em] mt-1">Workspace</p>
             </div>
 
-            <!-- VISTA: CONFIGURAR ADMIN (Solo la primera vez) -->
+            <!-- VISTA: CONFIGURAR ADMIN -->
             <div id="login-setup-view" class="hidden space-y-4 animate-fade-in">
                 <div class="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 p-3 rounded-xl text-[10px] font-bold text-center border border-blue-100 dark:border-blue-800 mb-2 leading-relaxed">
                     Crea el <span class="font-black">Super Administrador</span> maestro para iniciar el sistema y gestionar a los clientes.
@@ -317,7 +146,7 @@
     </div>
 
     <!-- MENSAJE DE ESTADO -->
-    <div id="toast" class="fixed top-5 left-5 right-5 md:left-auto md:w-auto z-toast transform translate-y-[-150%] transition-transform duration-500 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl font-bold text-sm text-center dark:bg-white dark:text-slate-900 border border-white/20">
+    <div id="toast" class="fixed top-5 left-5 right-5 md:left-auto md:w-auto z-toast transform translate-y-[-150%] transition-transform duration-500 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl font-bold text-sm text-center dark:bg-white dark:text-slate-900 border border-white/20 flex items-center justify-center gap-2">
         <span id="toast-msg">Acción realizada con éxito</span>
     </div>
 
@@ -325,98 +154,47 @@
     <div id="confirm-modal" class="fixed inset-0 z-modal bg-slate-900/80 dark:bg-black/90 hidden flex items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl max-w-sm w-full p-8 transform transition-all scale-100 border border-transparent dark:border-slate-700 text-center">
             <div class="w-16 h-16 bg-red-50 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-6 text-red-500 text-3xl">
-                <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                    <line x1="12" y1="9" x2="12" y2="13"></line>
-                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mx-auto flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
             </div>
             <h3 class="text-2xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">¿Estás seguro?</h3>
             <p id="confirm-msg" class="text-sm text-slate-500 dark:text-slate-400 font-bold mt-2 mb-8 leading-relaxed">Esta acción eliminará el registro de forma permanente.</p>
             <div class="flex flex-col gap-3">
-                <button type="button" onclick="confirmAction()" id="confirm-btn-yes" class="w-full py-4 rounded-xl bg-red-500 text-white font-[900] text-xs uppercase tracking-widest hover:bg-red-600 active:scale-95 transition-all shadow-xl shadow-red-500/30">
-                    Sí, Eliminar
-                </button>
-                <button type="button" onclick="closeConfirm()" class="w-full py-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-[900] text-xs uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition-all">
-                    Cancelar
-                </button>
+                <button type="button" onclick="confirmAction()" class="w-full py-4 rounded-xl bg-red-500 text-white font-[900] text-xs uppercase tracking-widest hover:bg-red-600 active:scale-95 transition-all shadow-xl shadow-red-500/30">Sí, Eliminar</button>
+                <button type="button" onclick="closeConfirm()" class="w-full py-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-[900] text-xs uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition-all">Cancelar</button>
             </div>
         </div>
     </div>
 
     <!-- BOTÓN DE SESIÓN (ARRIBA DERECHA) -->
     <button onclick="logoutUser()" id="btn-logout" class="fixed top-4 right-4 z-[90] bg-white/90 dark:bg-slate-800/90 backdrop-blur-md px-5 py-3 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 text-[10px] font-[900] uppercase tracking-widest text-slate-700 dark:text-slate-300 flex items-center gap-2 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-all hidden">
-        <span id="current-user-display" class="hidden xs:flex items-center gap-1.5">
-            <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-            </svg> 
-            Usuario
-        </span>
-        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-        </svg>
+        <span id="current-user-display" class="hidden xs:flex items-center gap-1.5">Usuario</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
     </button>
 
-    <!-- NAVEGACIÓN ESTILO LIQUID GLASS (OCULTA POR DEFECTO CON hidden) -->
+    <!-- NAVEGACIÓN ESTILO LIQUID GLASS -->
     <nav id="main-nav" class="nav-liquid fixed bottom-6 left-4 right-4 md:left-1/2 md:right-auto md:-translate-x-1/2 z-50 p-1.5 flex justify-between md:justify-center gap-1 md:gap-2 md:top-6 md:bottom-auto max-w-lg mx-auto overflow-x-auto hidden">
-        <!-- VENDEDOR NAV -->
         <button onclick="showSection('crear')" id="nav-crear" class="nav-link active flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
-            <svg class="w-[22px] h-[22px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="12" y1="18" x2="12" y2="12"></line>
-                <line x1="9" y1="15" x2="15" y2="15"></line>
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[22px] h-[22px] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
             <span class="hidden xs:inline">Crear</span>
         </button>
         <button onclick="showSection('calendario')" id="nav-calendario" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
-            <svg class="w-[22px] h-[22px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[22px] h-[22px] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
             <span class="hidden xs:inline">Agenda</span>
         </button>
-
-        <!-- ADMIN NAV -->
         <button onclick="showSection('analisis')" id="nav-analisis" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]" style="display: none;">
-            <svg class="w-[22px] h-[22px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="20" x2="18" y2="10"></line>
-                <line x1="12" y1="20" x2="12" y2="4"></line>
-                <line x1="6" y1="20" x2="6" y2="14"></line>
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[22px] h-[22px] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
             <span class="hidden xs:inline">Análisis</span>
         </button>
         <button onclick="showSection('usuarios')" id="nav-usuarios" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]" style="display: none;">
-            <svg class="w-[22px] h-[22px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[22px] h-[22px] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             <span class="hidden xs:inline">Licencias</span>
         </button>
-
-        <!-- SHARED NAV -->
         <button onclick="showSection('registros')" id="nav-registros" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
-            <svg class="w-[22px] h-[22px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-                <polyline points="10 9 9 9 8 9"></polyline>
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[22px] h-[22px] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
             <span class="hidden xs:inline">Registros</span>
         </button>
         <button onclick="showSection('ajustes')" id="nav-ajustes" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
-            <svg class="w-[22px] h-[22px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="3"></circle>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[22px] h-[22px] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             <span class="hidden xs:inline">Ajustes</span>
         </button>
     </nav>
@@ -436,47 +214,29 @@
                     <div class="bg-blue-600 rounded-[2rem] p-6 shadow-xl shadow-blue-600/20 text-white transform hover:-translate-y-2 transition-transform duration-300">
                         <div class="flex justify-between items-start mb-2">
                             <p class="text-[10px] font-black uppercase tracking-widest opacity-80">Licencias Activas</p>
-                            <svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 opacity-80 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                         </div>
                         <h3 class="text-4xl font-[950] tracking-tighter break-words" id="stat-licenses">0</h3>
-                        <p class="text-[9px] font-bold uppercase mt-2 opacity-70">Clientes registrados</p>
                     </div>
                     <div class="bg-white dark:bg-slate-800 rounded-[2rem] p-6 shadow-xl border border-slate-100 dark:border-slate-700 transform hover:-translate-y-2 transition-transform duration-300">
                         <div class="flex justify-between items-start mb-2">
                             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Módulos Premium</p>
-                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                         </div>
                         <h3 class="text-4xl font-[950] text-emerald-500 tracking-tighter break-words" id="stat-premium">0</h3>
-                        <p class="text-[9px] font-bold uppercase mt-2 text-slate-400">Add-ons habilitados</p>
                     </div>
                     <div class="bg-white dark:bg-slate-800 rounded-[2rem] p-6 shadow-xl border border-slate-100 dark:border-slate-700 transform hover:-translate-y-2 transition-transform duration-300">
                         <div class="flex justify-between items-start mb-2">
                             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Facturas Emitidas</p>
-                            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
-                                <polyline points="10 9 9 9 8 9"></polyline>
-                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
                         </div>
                         <h3 class="text-4xl font-[950] text-slate-900 dark:text-white tracking-tighter" id="stat-count">0</h3>
-                        <p class="text-[9px] font-bold uppercase mt-2 text-slate-400">Documentos globales</p>
                     </div>
                 </div>
 
                 <div class="mt-10 pt-8 border-t border-slate-100 dark:border-slate-800 relative z-10">
                     <h3 class="text-sm font-[900] text-slate-900 dark:text-white uppercase tracking-widest mb-6">Uso del Sistema por Cliente</h3>
-                    <div id="stat-vendedores" class="space-y-5 max-w-3xl">
-                        <!-- JS Fill -->
-                    </div>
+                    <div id="stat-vendedores" class="space-y-5 max-w-3xl"></div>
                 </div>
             </div>
         </section>
@@ -490,9 +250,9 @@
                 <div class="bg-blue-50 dark:bg-slate-800/80 p-6 md:p-8 rounded-[2rem] border border-blue-100 dark:border-slate-700 mb-8 shadow-inner">
                     <p class="text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] text-center mb-6">Vender Nueva Licencia</p>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-                        <input type="text" id="new-user-name" placeholder="Nombre del cliente / negocio" class="px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-bold outline-none text-center sm:text-left focus:ring-4 focus:ring-blue-500/20">
+                        <input type="text" id="new-user-name" placeholder="Nombre del cliente / negocio" class="px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-bold outline-none focus:ring-4 focus:ring-blue-500/20">
                         <input type="password" id="new-user-pin" placeholder="PIN (4 dígitos)" maxlength="4" inputmode="numeric" class="px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-lg tracking-[0.5em] font-black outline-none text-center focus:ring-4 focus:ring-blue-500/20 placeholder:tracking-normal placeholder:font-medium placeholder:text-sm">
-                        <select id="new-user-plan" class="px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-bold outline-none text-center sm:text-left focus:ring-4 focus:ring-blue-500/20 cursor-pointer">
+                        <select id="new-user-plan" class="px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-bold outline-none cursor-pointer">
                             <option value="1">Plan 1 Mes</option>
                             <option value="6">Plan 6 Meses</option>
                             <option value="12">Plan 12 Meses</option>
@@ -500,15 +260,15 @@
                     </div>
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-6">
                         <div class="flex items-center gap-2">
-                            <input type="checkbox" id="new-user-registros" class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer">
+                            <input type="checkbox" id="new-user-registros" class="w-4 h-4 rounded border-slate-300 text-blue-600 cursor-pointer">
                             <label for="new-user-registros" class="text-[10px] font-black text-slate-600 dark:text-slate-300 uppercase tracking-widest cursor-pointer">Registros (Premium)</label>
                         </div>
                         <div class="flex items-center gap-2">
-                            <input type="checkbox" id="new-user-agenda" class="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer">
+                            <input type="checkbox" id="new-user-agenda" class="w-4 h-4 rounded border-slate-300 text-emerald-600 cursor-pointer">
                             <label for="new-user-agenda" class="text-[10px] font-black text-slate-600 dark:text-slate-300 uppercase tracking-widest cursor-pointer">Agenda (Premium)</label>
                         </div>
                         <div class="flex items-center gap-2">
-                            <input type="checkbox" id="new-user-saldo" class="w-4 h-4 rounded border-slate-300 text-amber-600 focus:ring-amber-500 cursor-pointer">
+                            <input type="checkbox" id="new-user-saldo" class="w-4 h-4 rounded border-slate-300 text-amber-600 cursor-pointer">
                             <label for="new-user-saldo" class="text-[10px] font-black text-slate-600 dark:text-slate-300 uppercase tracking-widest cursor-pointer">Saldo Pendiente (Premium)</label>
                         </div>
                     </div>
@@ -518,19 +278,20 @@
                 </div>
 
                 <h3 class="text-xs font-[900] text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-4">Clientes Activos</h3>
-                <div id="users-list" class="space-y-3">
-                    <!-- Populated by JS -->
-                </div>
+                <div id="users-list" class="space-y-3"></div>
             </div>
         </section>
 
-        <!-- SECCIÓN: CREAR DOCUMENTO (VENDEDOR) -->
+        <!-- SECCIÓN: CREAR DOCUMENTO -->
         <section id="sec-crear" class="section-content">
             <div id="form-container" class="glass-panel rounded-[2rem] md:rounded-[2.5rem] shadow-xl overflow-hidden transition-all duration-300">
                 <div id="form-header" class="bg-slate-900 p-8 md:p-12 text-white flex flex-col items-center text-center relative overflow-hidden">
                     <div class="absolute inset-0 bg-blue-600/10 mix-blend-overlay"></div>
-                    <div class="w-20 h-20 bg-white/10 backdrop-blur-md rounded-2xl mb-4 flex items-center justify-center border border-white/20 shadow-[0_0_20px_rgba(59,130,246,0.3)] relative z-10">
-                        <img src="https://image2url.com/r2/default/images/1775313561290-cda3b8ea-6f74-40a0-a278-a68e2e018713.png" alt="Logo" class="w-full h-full p-2 object-contain relative z-10 drop-shadow-xl">
+                    <div class="w-20 h-20 bg-white/10 backdrop-blur-md rounded-2xl mb-4 flex items-center justify-center border border-white/20 shadow-[0_0_20px_rgba(59,130,246,0.3)] relative z-10 p-2">
+                        <!-- Icono SVG en cabecera de crear -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-full h-full text-white drop-shadow-lg flex-shrink-0">
+                            <path d="M128 24L24 80v96l104 56 104-56V80L128 24zm0 22.5l82 44.5-82 44.5-82-44.5 82-44.5zM48 102.5l72 39v80l-72-39v-80zm88 119v-80l72-39v80l-72 39z" fill="currentColor"/>
+                        </svg>
                     </div>
                     <h1 id="app-header-title" class="text-3xl md:text-5xl font-[950] tracking-tighter uppercase text-white relative z-10">Sistema de Facturación</h1>
                     <p class="text-blue-300 text-[10px] mt-2 uppercase tracking-[0.4em] font-black relative z-10">Workspace</p>
@@ -539,46 +300,44 @@
                 <form id="invoiceForm" class="p-6 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                     <div class="space-y-1.5">
                         <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Nº de Factura</label>
-                        <input type="text" id="facturaNum" placeholder="Ej: 001" inputmode="numeric" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
+                        <input type="text" id="facturaNum" placeholder="Ej: 001" inputmode="numeric" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all">
                     </div>
                     <div class="space-y-1.5">
                         <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Nombre del Evento / Concepto</label>
-                        <input type="text" id="concepto" placeholder="Ej: Servicio general" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
+                        <input type="text" id="concepto" placeholder="Ej: Servicio general" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all">
                     </div>
                     <div class="space-y-1.5">
                         <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Cliente</label>
-                        <input type="text" id="clienteNombre" list="clientes-lista" placeholder="Nombre completo" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
+                        <input type="text" id="clienteNombre" list="clientes-lista" placeholder="Nombre completo" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all">
                         <datalist id="clientes-lista"></datalist>
                     </div>
                     <div class="space-y-1.5">
                         <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">NIT / Cédula</label>
-                        <input type="text" id="cc" placeholder="Documento de identidad" inputmode="numeric" required oninput="formatCurrencyInput(this)" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
+                        <input type="text" id="cc" placeholder="Documento de identidad" inputmode="numeric" required oninput="formatCurrencyInput(this)" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all">
                     </div>
                     <div class="space-y-1.5">
                         <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Fecha de Emisión</label>
-                        <input type="date" id="fechaServicio" required class="w-full px-4 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-600 dark:text-slate-300 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none">
+                        <input type="date" id="fechaServicio" required class="w-full px-4 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-600 dark:text-slate-300 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all appearance-none">
                     </div>
                     <div class="space-y-1.5">
                         <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Correo Electrónico</label>
-                        <input type="email" id="correo" placeholder="ejemplo@correo.com" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all">
+                        <input type="email" id="correo" placeholder="ejemplo@correo.com" required class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all">
                     </div>
                     
                     <div class="md:col-span-2 bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-700 grid grid-cols-1 sm:grid-cols-2 gap-6 transition-all" id="montos-wrapper">
                         <div class="space-y-1.5" id="monto-container">
                             <label id="monto-label" class="block text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">Abono Inicial</label>
-                            <input type="text" id="monto" placeholder="0" inputmode="numeric" required oninput="formatCurrencyInput(this)" class="w-full px-5 py-4 rounded-xl border border-blue-200 dark:border-blue-800 font-black text-xl text-blue-900 dark:text-blue-200 outline-none shadow-sm bg-white dark:bg-slate-900 focus:ring-4 focus:ring-blue-500/20">
+                            <input type="text" id="monto" placeholder="0" inputmode="numeric" required oninput="formatCurrencyInput(this)" class="w-full px-5 py-4 rounded-xl border border-blue-200 dark:border-blue-800 font-black text-xl text-blue-900 dark:text-blue-200 outline-none bg-white dark:bg-slate-900 focus:ring-4 focus:ring-blue-500/20">
                         </div>
                         <div class="space-y-1.5" id="saldo-container">
                             <label class="block text-[10px] font-black text-red-500 uppercase tracking-widest">Saldo Pendiente</label>
-                            <input type="text" id="saldoPendienteInput" placeholder="0" inputmode="numeric" oninput="formatCurrencyInput(this)" class="w-full px-5 py-4 rounded-xl border border-red-200 dark:border-red-900 font-bold text-red-600 dark:text-red-300 text-xl outline-none shadow-sm bg-white dark:bg-slate-900 focus:ring-4 focus:ring-red-500/20">
+                            <input type="text" id="saldoPendienteInput" placeholder="0" inputmode="numeric" oninput="formatCurrencyInput(this)" class="w-full px-5 py-4 rounded-xl border border-red-200 dark:border-red-900 font-bold text-red-600 dark:text-red-300 text-xl outline-none bg-white dark:bg-slate-900 focus:ring-4 focus:ring-red-500/20">
                         </div>
                     </div>
                     
                     <div class="md:col-span-2">
                         <label class="block text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2">Método de Pago Preferido</label>
-                        <select id="metodoPago" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white dark:bg-slate-900 text-sm font-bold outline-none focus:ring-4 focus:ring-blue-500/10">
-                            <!-- JS Population -->
-                        </select>
+                        <select id="metodoPago" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white dark:bg-slate-900 text-sm font-bold outline-none focus:ring-4 focus:ring-blue-500/10"></select>
                     </div>
                     
                     <div class="md:col-span-2 pt-6">
@@ -593,38 +352,28 @@
             <div id="preview-container" class="hidden space-y-6 py-4">
                 <div class="flex flex-col sm:flex-row gap-3">
                     <button onclick="cerrarPreview()" class="w-full sm:w-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-6 py-4 rounded-xl font-[900] text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg> 
-                        Editar
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Editar
                     </button>
                     <button onclick="compartirPDF()" id="btn-share" class="w-full sm:flex-grow bg-slate-900 dark:bg-blue-600 text-white py-4 rounded-xl font-[900] shadow-xl text-xs uppercase tracking-[0.2em] hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors flex items-center justify-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg> 
-                        Descargar PDF
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Descargar PDF
                     </button>
                 </div>
                 
                 <div class="mobile-viewport-wrapper">
-                    <!-- INVOICE RENDER -->
                     <div id="invoice-render" class="w-full max-w-2xl md:max-w-none md:w-[800px] bg-white p-8 md:p-12 flex flex-col relative mx-auto transition-all">
                         <div class="flex flex-col md:flex-row justify-between items-center md:items-start mb-6 md:mb-8 gap-6 md:gap-0">
                             <div class="space-y-3 text-center md:text-left w-full md:w-auto">
                                 <div>
                                     <div class="mb-4 flex justify-center md:justify-start">
-                                        <img id="pdf-logo" src="" alt="Logo de Empresa" class="hidden h-16 object-contain">
+                                        <img id="pdf-logo" src="" alt="Logo" class="hidden h-16 object-contain flex-shrink-0">
                                         <div id="pdf-line-accent" class="line-accent"></div>
                                     </div>
                                     <h1 class="text-3xl md:text-4xl font-[950] text-slate-900 tracking-tighter uppercase italic leading-none" id="pdf-empresa">NOMBRE EMPRESA</h1>
-                                    <p class="text-slate-800 font-black text-sm md:text-base tracking-[0.2em] mt-2" id="pdf-propietario">NOMBRE PROPIETARIO</p>
-                                    <p class="text-slate-500 font-bold text-[10px] md:text-xs uppercase tracking-widest mt-1" id="pdf-nit">NIT / C.C.</p>
+                                    <p class="text-slate-800 font-black text-sm md:text-base tracking-[0.2em] mt-2" id="pdf-propietario">PROPIETARIO</p>
+                                    <p class="text-slate-500 font-bold text-[10px] md:text-xs uppercase tracking-widest mt-1" id="pdf-nit">NIT</p>
                                 </div>
                                 <div class="text-[10px] text-slate-500 font-medium uppercase tracking-widest leading-relaxed">
-                                    <p id="pdf-ciudad">Ciudad, País</p>
+                                    <p id="pdf-ciudad">Ciudad</p>
                                     <p id="pdf-telefono">Teléfono</p>
                                     <p id="pdf-email">Email</p>
                                 </div>
@@ -660,14 +409,10 @@
                             <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-6">
                                 <div class="flex-grow text-center md:text-left">
                                     <h4 class="text-xl md:text-2xl font-[950] text-slate-900 uppercase leading-tight mb-2" id="pdf-concepto-text"></h4>
-                                    <p class="text-xs md:text-sm text-slate-600 font-medium leading-relaxed md:max-w-lg">
-                                        APLICAN TÉRMINOS Y CONDICIONES.
-                                    </p>
+                                    <p class="text-xs md:text-sm text-slate-600 font-medium leading-relaxed md:max-w-lg">APLICAN TÉRMINOS Y CONDICIONES.</p>
                                 </div>
                                 <div class="flex flex-col items-center justify-center bg-slate-50 border-2 border-slate-900 rounded-[1rem] overflow-hidden w-full md:w-auto md:min-w-[100px]">
-                                    <div class="bg-slate-900 w-full text-center py-1.5">
-                                        <p class="text-[8px] font-black text-white uppercase tracking-tighter">FECHA EVENTO</p>
-                                    </div>
+                                    <div class="bg-slate-900 w-full text-center py-1.5"><p class="text-[8px] font-black text-white uppercase tracking-tighter">FECHA EVENTO</p></div>
                                     <div class="p-3 text-center">
                                         <p class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-0.5" id="pdf-fecha-servicio-mes"></p>
                                         <p class="text-3xl font-[950] text-slate-900 leading-none tracking-tighter" id="pdf-fecha-servicio-dia"></p>
@@ -678,30 +423,14 @@
                         </div>
                         <div class="flex flex-col md:flex-row justify-end mt-6 pt-4 border-t border-slate-100 relative">
                             <p class="absolute bottom-4 left-0 text-[8px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                                Generado por:
-                                <svg class="w-3 h-3 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                                <span id="pdf-vendedor" class="font-black text-slate-900"></span>
+                                Generado por: <span id="pdf-vendedor" class="font-black text-slate-900"></span>
                             </p>
                             <div class="w-full md:w-72 space-y-3">
                                 <div class="flex justify-between text-xs font-bold text-slate-500 uppercase tracking-widest">
-                                    <span id="pdf-abono-label">Abono Realizado</span>
-                                    <span class="text-slate-900 font-black" id="calc-abono"></span>
-                                </div>
-                                <div id="row-iva" class="flex justify-between text-xs font-bold text-slate-400 uppercase tracking-widest">
-                                    <span>IVA (19%)</span>
-                                    <span class="text-slate-900" id="calc-iva"></span>
-                                </div>
-                                <div id="row-rete" class="hidden flex justify-between text-xs font-bold text-blue-600 uppercase tracking-widest">
-                                    <span>Retefuente (2.5%)</span>
-                                    <span id="calc-rete"></span>
-                                </div>
-                                <div id="row-arl" class="hidden flex justify-between text-xs font-bold text-slate-500 uppercase tracking-widest">
-                                    <span>Servicio ARL</span>
-                                    <span class="text-slate-900" id="calc-arl"></span>
+                                    <span id="pdf-abono-label">Abono Realizado</span><span class="text-slate-900 font-black" id="calc-abono"></span>
                                 </div>
                                 <div id="row-saldo" class="hidden flex justify-between text-xs font-black text-red-600 pt-2 border-t border-red-50 mb-1">
-                                    <span>SALDO PENDIENTE</span>
-                                    <span id="calc-saldo"></span>
+                                    <span>SALDO PENDIENTE</span><span id="calc-saldo"></span>
                                 </div>
                                 <div class="pt-4 border-t-[4px] border-slate-900 flex flex-col items-end">
                                     <span class="text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 mb-1">TOTAL DEL SERVICIO</span>
@@ -718,7 +447,7 @@
                             <div class="text-[8px] text-slate-400 font-bold leading-relaxed max-w-lg mx-auto uppercase">
                                 <p class="font-black mb-1">Retención en la fuente:</p>
                                 <p>El valor del servicio corresponde a un valor bruto.</p>
-                                <p class="mt-1">La retención en la fuente será practicada por el contratante en los términos del artículo 367 del Estatuto Tributario, y constituye un anticipo del impuesto sobre la renta, sin que ello implique descuento o reducción del valor del servicio.</p>
+                                <p class="mt-1">La retención en la fuente será practicada por el contratante en los términos del artículo 367 del Estatuto Tributario.</p>
                             </div>
                         </div>
                     </div>
@@ -732,16 +461,15 @@
                 <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
                     <h2 class="text-3xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Agenda</h2>
                     <div class="flex gap-2 bg-slate-50 dark:bg-slate-800 p-2 rounded-xl">
-                        <button onclick="changeMonth(-1)" class="bg-white dark:bg-slate-700 p-2 rounded-lg shadow-sm hover:scale-105 transition-transform text-slate-900 dark:text-white">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        <button onclick="changeMonth(-1)" class="bg-white dark:bg-slate-700 p-2 rounded-lg shadow-sm hover:scale-105 transition-transform text-slate-900 dark:text-white flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                         </button>
                         <span id="calendar-month-year" class="font-black text-slate-900 dark:text-white uppercase tracking-widest self-center text-xs px-4 min-w-[120px] text-center"></span>
-                        <button onclick="changeMonth(1)" class="bg-white dark:bg-slate-700 p-2 rounded-lg shadow-sm hover:scale-105 transition-transform text-slate-900 dark:text-white">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <button onclick="changeMonth(1)" class="bg-white dark:bg-slate-700 p-2 rounded-lg shadow-sm hover:scale-105 transition-transform text-slate-900 dark:text-white flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                         </button>
                     </div>
                 </div>
-                
                 <div class="mb-6">
                     <div class="grid grid-cols-7 gap-1 text-center mb-4">
                         <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Dom</div>
@@ -754,7 +482,6 @@
                     </div>
                     <div id="calendar-grid" class="calendar-grid"></div>
                 </div>
-                
                 <div class="border-t-[3px] border-slate-100 dark:border-slate-800 pt-8">
                     <h3 id="selected-date-title" class="text-sm font-[900] text-slate-900 dark:text-white uppercase tracking-widest mb-6">Eventos del día</h3>
                     <div id="day-events-list" class="space-y-4">
@@ -767,45 +494,30 @@
         <!-- SECCIÓN: REGISTROS UNIFICADOS -->
         <section id="sec-registros" class="section-content hidden">
             <div class="glass-panel rounded-[2.5rem] shadow-xl p-8 md:p-12">
-                
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
                     <h2 class="text-3xl md:text-4xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Registros</h2>
-                    
                     <div class="flex bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl w-full md:w-auto shadow-inner">
                         <button onclick="switchTab('facturas')" id="tab-btn-facturas" class="tab-btn active-tab rounded-xl">Facturas</button>
                         <button onclick="switchTab('clientes')" id="tab-btn-clientes" class="tab-btn rounded-xl">Clientes</button>
                     </div>
                 </div>
 
-                <!-- Contenido Tab Facturas -->
                 <div id="tab-content-facturas" class="block animate-fade-in">
                     <div class="mb-6 flex justify-end">
                         <button onclick="descargarHistorialPDF()" class="text-[10px] font-[900] bg-slate-900 dark:bg-blue-600 text-white px-5 py-3 rounded-xl uppercase tracking-[0.2em] hover:-translate-y-1 transition-all shadow-xl flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="7 10 12 15 17 10"></polyline>
-                                <line x1="12" y1="15" x2="12" y2="3"></line>
-                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                             Exportar Reporte
                         </button>
                     </div>
-                    <div class="space-y-4" id="lista-facturas">
-                        <!-- JS Fill -->
-                    </div>
+                    <div class="space-y-4" id="lista-facturas"></div>
                 </div>
 
-                <!-- Contenido Tab Clientes -->
                 <div id="tab-content-clientes" class="hidden animate-fade-in">
                     <div class="mb-6 relative">
                         <input type="text" id="clientSearch" placeholder="Buscar por nombre o documento..." oninput="filterClients(this.value)" class="w-full px-6 py-4 pl-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none">
-                        <svg class="absolute left-4 top-4 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-4 top-4 w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                     </div>
-                    
                     <p class="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-4" id="cliente-count">0 Clientes</p>
-                    
                     <div class="responsive-table">
                         <table class="w-full text-left">
                             <thead>
@@ -815,9 +527,7 @@
                                     <th class="pb-4 px-2 text-right">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="lista-clientes-tabla" class="text-sm font-bold text-slate-700 dark:text-slate-300 divide-y divide-slate-100 dark:divide-slate-800/50">
-                                <!-- JS fill -->
-                            </tbody>
+                            <tbody id="lista-clientes-tabla" class="text-sm font-bold text-slate-700 dark:text-slate-300 divide-y divide-slate-100 dark:divide-slate-800/50"></tbody>
                         </table>
                     </div>
                 </div>
@@ -843,7 +553,6 @@
                     </label>
                 </div>
 
-                <!-- DATOS DEL EMISOR (OCULTO PARA ADMIN, VISIBLE PARA VENDEDORES) -->
                 <form id="configForm" onsubmit="guardarConfig(event)" class="space-y-6">
                     <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest border-b-2 border-slate-100 dark:border-slate-800 pb-3">Tus Datos de Facturación</h3>
                     
@@ -856,6 +565,7 @@
                             <div class="flex-grow">
                                 <input type="file" id="cfg-logo" accept="image/*" class="w-full text-xs font-bold text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-black file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100 cursor-pointer" onchange="previewLogo(this)">
                                 <button type="button" onclick="removeLogo()" class="text-[9px] text-red-500 hover:text-red-600 font-black uppercase tracking-widest mt-2 block">Borrar Logo</button>
+                                <p class="text-[8px] text-slate-400 font-bold mt-1 uppercase tracking-widest">* La imagen se optimizará automáticamente</p>
                             </div>
                         </div>
                     </div>
@@ -887,7 +597,6 @@
                         </div>
                     </div>
                     
-                    <!-- GESTIÓN DE MÉTODOS DE PAGO -->
                     <div class="pt-8">
                         <div class="flex justify-between items-center mb-4 border-b-2 border-slate-100 dark:border-slate-800 pb-3">
                             <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest">Métodos de Pago</h3>
@@ -895,9 +604,7 @@
                                 + Añadir
                             </button>
                         </div>
-                        <div id="payment-methods-list" class="space-y-3">
-                            <!-- JS Generated -->
-                        </div>
+                        <div id="payment-methods-list" class="space-y-3"></div>
                     </div>
 
                     <div class="pt-8">
@@ -907,7 +614,6 @@
                     </div>
                 </form>
 
-                <!-- CAMBIO DE PIN DE ACCESO (SIEMPRE VISIBLE) -->
                 <form id="securityForm" onsubmit="changeUserPin(event)" class="mt-8 pt-8 border-t-[3px] border-slate-100 dark:border-slate-800 space-y-6">
                     <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest border-b-2 border-slate-100 dark:border-slate-800 pb-3">Seguridad y Acceso</h3>
                     
@@ -933,36 +639,21 @@
                     </div>
                 </form>
 
-                <!-- COPIAS DE SEGURIDAD (BACKUP) -->
                 <div id="backup-section" class="mt-8 pt-8 border-t-[3px] border-slate-100 dark:border-slate-800 space-y-6">
                     <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
                         <div>
                             <h3 class="text-xs font-[900] text-slate-900 dark:text-white uppercase tracking-widest flex items-center gap-2">
-                                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-                                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
-                                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
                                 Copia de Seguridad
                             </h3>
                             <p class="text-[10px] text-slate-500 mt-1 font-bold" id="backup-desc">Descarga o restaura tu información.</p>
                         </div>
                         <div class="flex gap-3 w-full sm:w-auto">
                             <button type="button" onclick="exportBackup()" class="flex-1 sm:flex-none bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 px-4 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-200 transition-colors flex items-center justify-center gap-2 shadow-sm">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="7 10 12 15 17 10"></polyline>
-                                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                                </svg> 
-                                Descargar
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Descargar
                             </button>
                             <label class="flex-1 sm:flex-none bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300 px-4 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-300 dark:hover:bg-slate-600 cursor-pointer transition-colors flex items-center justify-center gap-2 shadow-sm">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="17 8 12 3 7 8"></polyline>
-                                    <line x1="12" y1="3" x2="12" y2="15"></line>
-                                </svg> 
-                                Subir
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg> Subir
                                 <input type="file" id="import-backup-file" accept=".json" class="hidden" onchange="importBackup(event)">
                             </label>
                         </div>
@@ -1040,7 +731,6 @@
         const getCol = (colName) => collection(dbFirestore, 'artifacts', appId, 'public', 'data', colName);
         const getDocPath = (colName, docId) => doc(dbFirestore, 'artifacts', appId, 'public', 'data', colName, docId);
 
-        // ESTADO GLOBAL
         window.currentAppUser = null; 
         const defaultConfig = {
             empresa: "", propietario: "", nit: "", ciudad: "", telefono: "", email: "", darkMode: false, logo: null,
@@ -1054,18 +744,14 @@
 
         let initialLoadUsuarios = true;
 
-        // --- SISTEMA DE EXPIRACIÓN Y GRACIA ---
         window.calculateDaysRemaining = function(dateStr) {
             if(!dateStr) return { days: 9999, expired: false, inGrace: false, legacy: true };
             const exp = new Date(dateStr);
             const now = new Date();
             const diffTime = exp.getTime() - now.getTime();
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
-            // Periodo de gracia: 24 horas (86400000 ms) después de la hora exacta de expiración
             const inGrace = diffTime < 0 && diffTime >= -86400000;
             const expired = diffTime < -86400000;
-
             return { days: diffDays > 0 ? diffDays : 0, expired, inGrace, legacy: false };
         };
 
@@ -1093,7 +779,7 @@
                         window.applyRolePermissions();
                     }
                 }
-            }, (err) => console.error("Firebase Snapshot Error (Usuarios):", err));
+            }, (err) => console.error("Snapshot Error (Usuarios):", err));
 
             onSnapshot(getCol("facturas"), (snap) => {
                 window.db.facturas = snap.docs.map(d => d.data());
@@ -1102,31 +788,23 @@
                     if(window.currentAppUser.role === 'admin') window.renderAnalisis();
                     if(!document.getElementById('sec-calendario').classList.contains('hidden')) window.renderCalendar(currentCalendarDate);
                 }
-            }, (err) => console.error("Firebase Snapshot Error (Facturas):", err));
+            }, (err) => console.error("Snapshot Error (Facturas):", err));
 
             onSnapshot(getCol("clientes"), (snap) => {
                 window.db.clientes = {};
                 snap.docs.forEach(d => window.db.clientes[d.id] = d.data());
                 if(window.currentAppUser) window.renderListas();
-            }, (err) => console.error("Firebase Snapshot Error (Clientes):", err));
+            }, (err) => console.error("Snapshot Error (Clientes):", err));
 
             onSnapshot(getDocPath("config", "main"), (snap) => {
-                if(snap.exists()) {
-                    window.db.config = { ...defaultConfig, ...snap.data() };
-                }
-                if(window.currentAppUser) {
-                    window.updateAppHeader();
-                    window.applyTheme();
-                }
-            }, (err) => console.error("Firebase Snapshot Error (Config):", err));
+                if(snap.exists()) { window.db.config = { ...defaultConfig, ...snap.data() }; }
+                if(window.currentAppUser) { window.updateAppHeader(); window.applyTheme(); }
+            }, (err) => console.error("Snapshot Error (Config):", err));
         }
 
-        // FUNCIONES CORE
         window.getUserConfig = function() {
             if (window.currentAppUser) {
-                if (!window.currentAppUser.config) {
-                    window.currentAppUser.config = JSON.parse(JSON.stringify(window.db.config));
-                }
+                if (!window.currentAppUser.config) window.currentAppUser.config = JSON.parse(JSON.stringify(window.db.config));
                 return window.currentAppUser.config;
             }
             return window.db.config;
@@ -1146,14 +824,32 @@
             } catch(e) { console.error(e); window.showToast("Error al sincronizar"); }
         };
 
-        // --- LOGO UPLOAD ---
         let currentLogoBase64 = null;
         window.previewLogo = function(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    currentLogoBase64 = e.target.result;
-                    document.getElementById('logo-preview').innerHTML = `<img src="${currentLogoBase64}" class="w-full h-full object-contain">`;
+                    // Optimización de la imagen antes de subirla para evitar límite de Base de Datos
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 400;
+                        const MAX_HEIGHT = 400;
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > height && width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; } 
+                        else if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        currentLogoBase64 = canvas.toDataURL('image/png', 0.9);
+                        document.getElementById('logo-preview').innerHTML = `<img src="${currentLogoBase64}" class="w-full h-full object-contain">`;
+                    };
+                    img.src = e.target.result;
                 };
                 reader.readAsDataURL(input.files[0]);
             }
@@ -1164,7 +860,6 @@
             document.getElementById('logo-preview').innerHTML = `<span class="text-[9px] text-slate-400 font-bold uppercase">Sin logo</span>`;
         };
 
-        // --- AUTH & RBAC ---
         window.checkLoginState = function() {
             const loginScreen = document.getElementById('login-screen');
             const mainContent = document.getElementById('main-content');
@@ -1180,7 +875,6 @@
                 mainContent.classList.add('hidden');
                 btnLogout.classList.add('hidden');
                 if(mainNav) mainNav.classList.add('hidden');
-                
                 loginScreen.classList.remove('hidden');
                 setTimeout(() => loginScreen.classList.remove('opacity-0'), 50);
 
@@ -1192,7 +886,6 @@
                     document.getElementById('login-auth-view').classList.remove('hidden');
                 }
             } else {
-                // Chequeo de expiración al entrar si no es admin
                 const rem = window.calculateDaysRemaining(window.currentAppUser.fechaVencimiento);
                 if (rem.expired && window.currentAppUser.role !== 'admin') {
                     window.currentAppUser = null;
@@ -1210,11 +903,8 @@
                 window.updateAppHeader();
                 window.applyTheme();
                 
-                if (window.currentAppUser.role === 'admin') {
-                    window.showSection('analisis');
-                } else {
-                    window.showSection('crear');
-                }
+                if (window.currentAppUser.role === 'admin') window.showSection('analisis');
+                else window.showSection('crear');
             }
         }
 
@@ -1244,21 +934,12 @@
             if(!username || pin.length !== 4) { window.showToast("Ingresa nombre y PIN"); return; }
 
             const normalizeStr = (str) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            
             const user = window.db.usuarios.find(u => normalizeStr(u.nombre) === normalizeStr(username));
+            
             if(user && user.pin === pin) {
-                if (user.status === 'suspended') {
-                    window.showToast("Licencia suspendida. Contacte a soporte.");
-                    document.getElementById('login-pin').value = '';
-                    return;
-                }
-
+                if (user.status === 'suspended') { window.showToast("Licencia suspendida."); document.getElementById('login-pin').value = ''; return; }
                 const rem = window.calculateDaysRemaining(user.fechaVencimiento);
-                if (rem.expired && user.role !== 'admin') {
-                    window.showToast("Tu licencia ha vencido. Contacta al administrador.");
-                    document.getElementById('login-pin').value = '';
-                    return;
-                }
+                if (rem.expired && user.role !== 'admin') { window.showToast("Tu licencia ha vencido."); document.getElementById('login-pin').value = ''; return; }
                 
                 window.currentAppUser = user;
                 sessionStorage.setItem('currentLocalUserId', user.id);
@@ -1278,7 +959,6 @@
             window.checkLoginState();
         };
 
-        // --- CONTROL DE VISTAS POR ROL ---
         window.applyRolePermissions = function() {
             if (!window.currentAppUser) return;
             const role = window.currentAppUser.role;
@@ -1290,21 +970,14 @@
             if (role !== 'admin') {
                 const rem = window.calculateDaysRemaining(window.currentAppUser.fechaVencimiento);
                 if (!rem.legacy && !rem.expired) {
-                    if (rem.inGrace) {
-                        daysBadgeHtml = `<span class="ml-2 bg-red-100 text-red-600 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest animate-pulse border border-red-200">¡Último día!</span>`;
-                    } else if (rem.days <= 5) {
-                        daysBadgeHtml = `<span class="ml-2 bg-amber-100 text-amber-600 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-amber-200">${rem.days} días</span>`;
-                    } else {
-                        daysBadgeHtml = `<span class="ml-2 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-slate-200 dark:border-slate-600">${rem.days} días</span>`;
-                    }
+                    if (rem.inGrace) daysBadgeHtml = `<span class="ml-2 bg-red-100 text-red-600 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest animate-pulse border border-red-200">¡Último día!</span>`;
+                    else if (rem.days <= 5) daysBadgeHtml = `<span class="ml-2 bg-amber-100 text-amber-600 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-amber-200">${rem.days} días</span>`;
+                    else daysBadgeHtml = `<span class="ml-2 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-slate-200 dark:border-slate-600">${rem.days} días</span>`;
                 }
             }
 
             document.getElementById('current-user-display').innerHTML = `
-                <svg class="w-3.5 h-3.5 text-slate-500 mr-1.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-slate-500 mr-1.5 inline-block flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 ${window.currentAppUser.nombre} ${daysBadgeHtml}
             `;
 
@@ -1314,16 +987,16 @@
                 document.getElementById('nav-registros').style.display = 'none';
                 document.getElementById('nav-analisis').style.display = 'flex';
                 document.getElementById('nav-usuarios').style.display = 'flex';
-                document.getElementById('configForm').style.display = 'none'; // Admin no configura la data pública
-                document.getElementById('backup-desc').innerText = "Descarga o restaura TODA la base de datos (Usuarios, Facturas, Clientes).";
+                document.getElementById('configForm').style.display = 'none'; 
+                document.getElementById('backup-desc').innerText = "Descarga o restaura TODA la base de datos.";
             } else {
                 document.getElementById('nav-crear').style.display = 'flex';
                 document.getElementById('nav-calendario').style.display = hasAgenda ? 'flex' : 'none';
                 document.getElementById('nav-registros').style.display = hasRegistros ? 'flex' : 'none';
                 document.getElementById('nav-analisis').style.display = 'none';
                 document.getElementById('nav-usuarios').style.display = 'none';
-                document.getElementById('configForm').style.display = 'block'; // Usuarios si configuran su data
-                document.getElementById('backup-desc').innerText = "Descarga o restaura tu información personal y las facturas que has generado.";
+                document.getElementById('configForm').style.display = 'block'; 
+                document.getElementById('backup-desc').innerText = "Descarga o restaura tu información personal.";
             }
 
             const wrapper = document.getElementById('montos-wrapper');
@@ -1331,30 +1004,25 @@
                 if (hasSaldo) {
                     document.getElementById('saldo-container').style.display = 'block';
                     document.getElementById('monto-label').innerText = 'ABONO INICIAL';
-                    wrapper.classList.add('sm:grid-cols-2');
-                    wrapper.classList.remove('sm:grid-cols-1');
+                    wrapper.classList.add('sm:grid-cols-2'); wrapper.classList.remove('sm:grid-cols-1');
                 } else {
                     document.getElementById('saldo-container').style.display = 'none';
                     if(document.getElementById('saldoPendienteInput')) document.getElementById('saldoPendienteInput').value = '';
                     document.getElementById('monto-label').innerText = 'VALOR TOTAL DEL SERVICIO';
-                    wrapper.classList.remove('sm:grid-cols-2');
-                    wrapper.classList.add('sm:grid-cols-1');
+                    wrapper.classList.remove('sm:grid-cols-2'); wrapper.classList.add('sm:grid-cols-1');
                 }
             }
         }
 
-        // --- FUNCIONES DEL ADMIN (ANALISIS Y USUARIOS) ---
         window.renderAnalisis = function() {
             const clientes = window.db.usuarios.filter(u => u.role !== 'admin');
             const totalLicencias = clientes.length;
-            
             let totalPremium = 0;
             clientes.forEach(c => {
                 if(c.canViewRegistros) totalPremium++;
                 if(c.canViewAgenda) totalPremium++;
                 if(c.canViewSaldo) totalPremium++;
             });
-
             const totalFacturas = window.db.facturas.length;
 
             let usoPorCliente = {};
@@ -1370,7 +1038,6 @@
 
             const vContainer = document.getElementById('stat-vendedores');
             vContainer.innerHTML = '';
-            
             const maxUso = Math.max(...Object.values(usoPorCliente), 1);
 
             Object.entries(usoPorCliente).sort((a,b) => b[1]-a[1]).forEach(([nombre, count]) => {
@@ -1378,8 +1045,7 @@
                 vContainer.innerHTML += `
                     <div>
                         <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-2">
-                            <span>${nombre}</span>
-                            <span>${count} ${count === 1 ? 'factura' : 'facturas'}</span>
+                            <span>${nombre}</span><span>${count} ${count === 1 ? 'factura' : 'facturas'}</span>
                         </div>
                         <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-3">
                             <div class="bg-blue-600 h-3 rounded-full progress-bar-fill" style="width: 0%" data-width="${percent}%"></div>
@@ -1388,11 +1054,7 @@
                 `;
             });
 
-            setTimeout(() => {
-                document.querySelectorAll('.progress-bar-fill').forEach(bar => {
-                    bar.style.width = bar.getAttribute('data-width');
-                });
-            }, 100);
+            setTimeout(() => { document.querySelectorAll('.progress-bar-fill').forEach(bar => { bar.style.width = bar.getAttribute('data-width'); }); }, 100);
         }
 
         window.createUser = async function() {
@@ -1401,10 +1063,6 @@
             const name = document.getElementById('new-user-name').value.trim();
             const pin = document.getElementById('new-user-pin').value;
             const planMeses = document.getElementById('new-user-plan').value;
-            const role = 'user'; 
-            const canViewReg = document.getElementById('new-user-registros').checked;
-            const canViewAge = document.getElementById('new-user-agenda').checked;
-            const canViewSal = document.getElementById('new-user-saldo').checked;
             
             if(!name || pin.length !== 4) { window.showToast("Datos incompletos"); return; }
             
@@ -1415,18 +1073,13 @@
 
             const userConfig = JSON.parse(JSON.stringify(window.getUserConfig()));
             const userObj = { 
-                id: userId, 
-                nombre: name, 
-                pin: pin, 
-                role: role, 
-                status: 'active', 
-                canViewRegistros: canViewReg, 
-                canViewAgenda: canViewAge, 
-                canViewSaldo: canViewSal, 
+                id: userId, nombre: name, pin: pin, role: 'user', status: 'active', 
+                canViewRegistros: document.getElementById('new-user-registros').checked, 
+                canViewAgenda: document.getElementById('new-user-agenda').checked, 
+                canViewSaldo: document.getElementById('new-user-saldo').checked, 
                 fechaCreacion: fechaCreacion.toISOString(), 
                 fechaVencimiento: fechaVencimiento.toISOString(),
-                planMeses: parseInt(planMeses),
-                config: userConfig 
+                planMeses: parseInt(planMeses), config: userConfig 
             };
             
             try {
@@ -1441,31 +1094,22 @@
         };
 
         window.renovarLicencia = async function(userId, mesesAdd) {
-            if(window.currentAppUser.role !== 'admin') return;
-            if(!auth.currentUser) return;
-            
+            if(window.currentAppUser.role !== 'admin' || !auth.currentUser) return;
             const user = window.db.usuarios.find(u => u.id === userId);
             if(user) {
                 let baseDate = new Date();
                 if (user.fechaVencimiento) {
                     const currentExp = new Date(user.fechaVencimiento);
-                    if (currentExp > baseDate) baseDate = currentExp; // Se añade a partir de lo que ya le queda
+                    if (currentExp > baseDate) baseDate = currentExp; 
                 }
                 baseDate.setMonth(baseDate.getMonth() + parseInt(mesesAdd));
-                
-                await setDoc(getDocPath("usuarios", userId), { 
-                    ...user, 
-                    fechaVencimiento: baseDate.toISOString(), 
-                    status: 'active', // Reactivar si estaba suspendido
-                    planMeses: parseInt(mesesAdd)
-                });
-                window.showToast(`Licencia extendida por ${mesesAdd} meses`);
+                await setDoc(getDocPath("usuarios", userId), { ...user, fechaVencimiento: baseDate.toISOString(), status: 'active', planMeses: parseInt(mesesAdd) });
+                window.showToast(`Licencia extendida`);
             }
         };
 
         window.toggleUserStatus = async function(userId) {
-            if(window.currentAppUser.role !== 'admin') return;
-            if(!auth.currentUser) return;
+            if(window.currentAppUser.role !== 'admin' || !auth.currentUser) return;
             const user = window.db.usuarios.find(u => u.id === userId);
             if(user) {
                 const newStatus = (user.status || 'active') === 'active' ? 'suspended' : 'active';
@@ -1475,56 +1119,37 @@
         };
 
         window.toggleUserRegistros = async function(userId) {
-            if(window.currentAppUser.role !== 'admin') return;
-            if(!auth.currentUser) return;
+            if(window.currentAppUser.role !== 'admin' || !auth.currentUser) return;
             const user = window.db.usuarios.find(u => u.id === userId);
-            if(user) {
-                await setDoc(getDocPath("usuarios", userId), { ...user, canViewRegistros: !user.canViewRegistros });
-                window.showToast(!user.canViewRegistros ? "Módulo Registros Activado" : "Módulo Registros Desactivado");
-            }
+            if(user) { await setDoc(getDocPath("usuarios", userId), { ...user, canViewRegistros: !user.canViewRegistros }); }
         };
-
         window.toggleUserAgenda = async function(userId) {
-            if(window.currentAppUser.role !== 'admin') return;
-            if(!auth.currentUser) return;
+            if(window.currentAppUser.role !== 'admin' || !auth.currentUser) return;
             const user = window.db.usuarios.find(u => u.id === userId);
-            if(user) {
-                await setDoc(getDocPath("usuarios", userId), { ...user, canViewAgenda: !user.canViewAgenda });
-                window.showToast(!user.canViewAgenda ? "Módulo Agenda Activado" : "Módulo Agenda Desactivado");
-            }
+            if(user) { await setDoc(getDocPath("usuarios", userId), { ...user, canViewAgenda: !user.canViewAgenda }); }
         };
-
         window.toggleUserSaldo = async function(userId) {
-            if(window.currentAppUser.role !== 'admin') return;
-            if(!auth.currentUser) return;
+            if(window.currentAppUser.role !== 'admin' || !auth.currentUser) return;
             const user = window.db.usuarios.find(u => u.id === userId);
-            if(user) {
-                await setDoc(getDocPath("usuarios", userId), { ...user, canViewSaldo: !user.canViewSaldo });
-                window.showToast(!user.canViewSaldo ? "Módulo Saldo Activado" : "Módulo Saldo Desactivado");
-            }
+            if(user) { await setDoc(getDocPath("usuarios", userId), { ...user, canViewSaldo: !user.canViewSaldo }); }
         };
 
         window.togglePinDisplay = function(elementId, realPin) {
             if(window.currentAppUser.role !== 'admin') return;
             const el = document.getElementById(elementId);
             if (el.innerText.includes('****')) {
-                el.innerHTML = `${realPin} <svg class="w-4 h-4 inline-block ml-1 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+                el.innerHTML = `${realPin} <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block ml-1 opacity-70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
             } else {
-                el.innerHTML = `**** <svg class="w-4 h-4 inline-block ml-1 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+                el.innerHTML = `**** <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block ml-1 opacity-70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
             }
         };
 
         window.deleteUser = function(userId) {
-            if(window.currentAppUser.role !== 'admin') return;
-            if(!auth.currentUser) return;
+            if(window.currentAppUser.role !== 'admin' || !auth.currentUser) return;
             if(userId === window.currentAppUser.id) { window.showToast("No te puedes eliminar"); return; }
-            
             window.showConfirm("¿Eliminar usuario?", async () => {
-                try {
-                    await deleteDoc(getDocPath("usuarios", userId));
-                    window.closeConfirm();
-                    window.showToast("Usuario eliminado");
-                } catch(e) { window.showToast("Error al eliminar"); }
+                try { await deleteDoc(getDocPath("usuarios", userId)); window.closeConfirm(); window.showToast("Usuario eliminado"); } 
+                catch(e) { window.showToast("Error al eliminar"); }
             });
         };
 
@@ -1535,103 +1160,58 @@
             
             window.db.usuarios.forEach(u => {
                 const isAdmin = u.role === 'admin';
-                const hasReg = u.canViewRegistros === true;
-                const hasAge = u.canViewAgenda === true;
-                const hasSal = u.canViewSaldo === true;
+                const hasReg = u.canViewRegistros === true, hasAge = u.canViewAgenda === true, hasSal = u.canViewSaldo === true;
                 const isSuspended = u.status === 'suspended';
-                
                 const rem = window.calculateDaysRemaining(u.fechaVencimiento);
-                let daysBadge = '';
                 
-                if (isAdmin) {
-                    daysBadge = `<span class="bg-blue-100 text-blue-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">ADMINISTRADOR</span>`;
-                } else if (rem.legacy) {
-                    daysBadge = `<span class="bg-slate-100 text-slate-500 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">ILIMITADO</span>`;
-                } else if (rem.expired) {
-                    daysBadge = `<span class="bg-red-100 text-red-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black border border-red-200 shadow-sm">VENCIDO</span>`;
-                } else if (rem.inGrace) {
-                    daysBadge = `<span class="bg-amber-100 text-amber-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black border border-amber-200 shadow-sm">GRACIA (24H)</span>`;
-                } else if (rem.days <= 5) {
-                    daysBadge = `<span class="bg-amber-100 text-amber-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black border border-amber-200">Quedan ${rem.days} días</span>`;
-                } else {
-                    daysBadge = `<span class="bg-slate-100 text-slate-500 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">${rem.days} días</span>`;
-                }
-
-                if (isSuspended && !isAdmin) {
-                    daysBadge = `<span class="bg-red-100 text-red-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black border border-red-200">SUSPENDIDO</span>`;
-                }
+                let daysBadge = '';
+                if (isAdmin) daysBadge = `<span class="bg-blue-100 text-blue-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">ADMINISTRADOR</span>`;
+                else if (rem.legacy) daysBadge = `<span class="bg-slate-100 text-slate-500 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">ILIMITADO</span>`;
+                else if (rem.expired) daysBadge = `<span class="bg-red-100 text-red-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black border border-red-200 shadow-sm">VENCIDO</span>`;
+                else if (rem.inGrace) daysBadge = `<span class="bg-amber-100 text-amber-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black border border-amber-200 shadow-sm">GRACIA (24H)</span>`;
+                else if (rem.days <= 5) daysBadge = `<span class="bg-amber-100 text-amber-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black border border-amber-200">Quedan ${rem.days} días</span>`;
+                else daysBadge = `<span class="bg-slate-100 text-slate-500 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black">${rem.days} días</span>`;
+                if (isSuspended && !isAdmin) daysBadge = `<span class="bg-red-100 text-red-600 px-2 py-0.5 rounded text-[8px] uppercase tracking-widest font-black border border-red-200">SUSPENDIDO</span>`;
                 
                 const html = `
                     <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 transition-all">
                         <div class="w-full xl:w-auto">
                             <div class="flex items-center gap-2 mb-1 flex-wrap">
-                                <p class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
-                                    </svg>
-                                    ${u.nombre}
-                                </p>
+                                <p class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ${u.nombre}</p>
                                 ${daysBadge}
                             </div>
-                            
                             <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mt-1 pl-6 flex items-center gap-1">
-                                PIN: <span id="pin-display-${u.id}" class="cursor-pointer text-blue-500 hover:text-blue-600 transition-colors inline-flex items-center" onclick="togglePinDisplay('pin-display-${u.id}', '${u.pin}')">**** <svg class="w-4 h-4 inline-block ml-1 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></span>
+                                PIN: <span id="pin-display-${u.id}" class="cursor-pointer text-blue-500 hover:text-blue-600 transition-colors inline-flex items-center" onclick="togglePinDisplay('pin-display-${u.id}', '${u.pin}')">**** <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block ml-1 opacity-70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></span>
                             </p>
                         </div>
                         <div class="flex items-center gap-2 flex-wrap w-full xl:w-auto justify-end">
                             ${!isAdmin && u.id !== (window.currentAppUser ? window.currentAppUser.id : '') ? `
-                            <select onchange="if(this.value) { window.renovarLicencia('${u.id}', this.value); this.value=''; }" class="text-[9px] font-black uppercase tracking-widest px-2 py-2 rounded-lg bg-indigo-50 text-indigo-600 border border-indigo-200 outline-none cursor-pointer dark:bg-indigo-900/30 dark:border-indigo-800 dark:text-indigo-400">
-                                <option value="">Renovar...</option>
-                                <option value="1">+ 1 Mes</option>
-                                <option value="6">+ 6 Meses</option>
-                                <option value="12">+ 12 Meses</option>
-                            </select>
-                            <button type="button" onclick="toggleUserStatus('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2.5 rounded-lg transition-colors border ${isSuspended ? 'bg-red-50 text-red-600 border-red-200 dark:bg-red-900/30' : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800'}" title="Activar/Suspender Licencia">
-                                ${isSuspended ? 'Reactivar' : 'Suspender'}
-                            </button>
-                            <button type="button" onclick="toggleUserRegistros('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2.5 rounded-lg transition-colors border ${hasReg ? 'bg-blue-100 text-blue-600 border-blue-200 dark:bg-blue-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}" title="Alternar Módulo Registros">
-                                Reg: ${hasReg ? 'ON' : 'OFF'}
-                            </button>
-                            <button type="button" onclick="toggleUserAgenda('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2.5 rounded-lg transition-colors border ${hasAge ? 'bg-emerald-100 text-emerald-600 border-emerald-200 dark:bg-emerald-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}" title="Alternar Módulo Agenda">
-                                Age: ${hasAge ? 'ON' : 'OFF'}
-                            </button>
-                            <button type="button" onclick="toggleUserSaldo('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2.5 rounded-lg transition-colors border ${hasSal ? 'bg-amber-100 text-amber-600 border-amber-200 dark:bg-amber-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}" title="Alternar Módulo Saldo">
-                                Sal: ${hasSal ? 'ON' : 'OFF'}
-                            </button>` : ''}
+                            <select onchange="if(this.value) { window.renovarLicencia('${u.id}', this.value); this.value=''; }" class="text-[9px] font-black uppercase tracking-widest px-2 py-2 rounded-lg bg-indigo-50 text-indigo-600 border border-indigo-200 outline-none cursor-pointer dark:bg-indigo-900/30 dark:border-indigo-800 dark:text-indigo-400"><option value="">Renovar...</option><option value="1">+ 1 Mes</option><option value="6">+ 6 Meses</option><option value="12">+ 12 Meses</option></select>
+                            <button type="button" onclick="toggleUserStatus('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2.5 rounded-lg transition-colors border ${isSuspended ? 'bg-red-50 text-red-600 border-red-200 dark:bg-red-900/30' : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800'}">${isSuspended ? 'Reactivar' : 'Suspender'}</button>
+                            <button type="button" onclick="toggleUserRegistros('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2.5 rounded-lg transition-colors border ${hasReg ? 'bg-blue-100 text-blue-600 border-blue-200 dark:bg-blue-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}">Reg: ${hasReg ? 'ON' : 'OFF'}</button>
+                            <button type="button" onclick="toggleUserAgenda('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2.5 rounded-lg transition-colors border ${hasAge ? 'bg-emerald-100 text-emerald-600 border-emerald-200 dark:bg-emerald-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}">Age: ${hasAge ? 'ON' : 'OFF'}</button>
+                            <button type="button" onclick="toggleUserSaldo('${u.id}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2.5 rounded-lg transition-colors border ${hasSal ? 'bg-amber-100 text-amber-600 border-amber-200 dark:bg-amber-900/30' : 'bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800'}">Sal: ${hasSal ? 'ON' : 'OFF'}</button>` : ''}
                             ${u.id !== (window.currentAppUser ? window.currentAppUser.id : '') ? `
-                            <button type="button" onclick="deleteUser('${u.id}')" class="text-red-500 hover:scale-110 p-2 rounded transition-transform" title="Eliminar definitivamente">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                    <line x1="10" y1="11" x2="10" y2="17"></line>
-                                    <line x1="14" y1="11" x2="14" y2="17"></line>
-                                </svg>
-                            </button>` : ``}
+                            <button type="button" onclick="deleteUser('${u.id}')" class="text-red-500 hover:scale-110 p-2 rounded transition-transform"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>` : ``}
                         </div>
                     </div>`;
                 list.insertAdjacentHTML('beforeend', html);
             });
         }
 
-        // --- SISTEMA CORE FACTURACIÓN ---
-
         window.getSiguienteConsecutivo = function() {
             if (!window.currentAppUser) return "001";
-            const uid = window.currentAppUser.id;
-            const misFacturas = window.db.facturas.filter(f => f.userId === uid);
+            const misFacturas = window.db.facturas.filter(f => f.userId === window.currentAppUser.id);
             if (misFacturas.length === 0) return "001";
             const nums = misFacturas.map(f => parseInt(f.num, 10)).filter(n => !isNaN(n));
             if (nums.length === 0) return "001";
-            const max = Math.max(...nums);
-            return (max + 1).toString().padStart(3, '0');
+            return (Math.max(...nums) + 1).toString().padStart(3, '0');
         }
 
         window.guardarConfig = async function(e) {
             e.preventDefault();
             if(!auth.currentUser) return;
             const config = window.getUserConfig();
-            
             config.empresa = document.getElementById('cfg-empresa').value;
             config.propietario = document.getElementById('cfg-propietario').value;
             config.nit = document.getElementById('cfg-nit').value;
@@ -1641,7 +1221,6 @@
             config.logo = currentLogoBase64;
             
             await window.saveUserConfig(config);
-            
             if(window.currentAppUser.role === 'admin') window.showSection('analisis');
             else window.showSection('crear');
         };
@@ -1652,11 +1231,8 @@
             if(!auth.currentUser) return;
 
             const hasSaldo = window.currentAppUser.canViewSaldo === true;
-            
             const abono = window.getRawValue(document.getElementById('monto').value);
             const saldo = hasSaldo ? window.getRawValue(document.getElementById('saldoPendienteInput').value) : 0;
-            const total = abono + saldo;
-            const selectedMethodName = document.getElementById('metodoPago').value;
             const userId = window.currentAppUser ? window.currentAppUser.id : 'sistema';
 
             const docData = {
@@ -1667,12 +1243,9 @@
                 cc: document.getElementById('cc').value,
                 correo: document.getElementById('correo').value,
                 fechaServicio: document.getElementById('fechaServicio').value,
-                montoBase: abono,
-                saldo: saldo,
-                tieneIva: false,
-                tieneRete: false,
-                total: total,
-                metodo: selectedMethodName,
+                montoBase: abono, saldo: saldo, total: abono + saldo,
+                tieneIva: false, tieneRete: false,
+                metodo: document.getElementById('metodoPago').value,
                 fechaCreacion: new Date().toISOString(),
                 vendedor: window.currentAppUser ? window.currentAppUser.nombre : 'Sistema',
                 userId: userId
@@ -1694,37 +1267,22 @@
         window.eliminarCliente = function(docId) {
             if(!auth.currentUser) return;
             window.showConfirm(`¿Eliminar cliente?`, async () => {
-                try {
-                    await deleteDoc(getDocPath("clientes", docId));
-                    window.closeConfirm();
-                    window.showToast("Eliminado");
-                } catch(e) { window.showToast("Error"); }
+                try { await deleteDoc(getDocPath("clientes", docId)); window.closeConfirm(); window.showToast("Eliminado"); } catch(e) {}
             });
         };
 
         window.eliminarDoc = function(id) {
             if(!auth.currentUser) return;
-            if(window.currentAppUser && window.currentAppUser.role !== 'admin') {
-                window.showToast("Solo administradores pueden eliminar");
-                return;
-            }
+            if(window.currentAppUser && window.currentAppUser.role !== 'admin') { window.showToast("Solo administradores pueden eliminar"); return; }
             window.showConfirm(`¿Eliminar factura?`, async () => {
-                try {
-                    await deleteDoc(getDocPath("facturas", id));
-                    window.closeConfirm();
-                    window.showToast("Eliminada");
-                } catch(e) { window.showToast("Error"); }
+                try { await deleteDoc(getDocPath("facturas", id)); window.closeConfirm(); window.showToast("Eliminada"); } catch(e) {}
             });
         };
 
-        // UI & RENDER LOGIC
         window.renderListas = function() {
             const tBody = document.getElementById('lista-clientes-tabla');
             tBody.innerHTML = '';
-            
-            const clientArr = Object.values(window.db.clientes).filter(c => 
-                window.currentAppUser.role === 'admin' ? true : c.userId === window.currentAppUser.id
-            );
+            const clientArr = Object.values(window.db.clientes).filter(c => window.currentAppUser.role === 'admin' ? true : c.userId === window.currentAppUser.id);
             document.getElementById('cliente-count').innerText = `${clientArr.length} Clientes`;
 
             clientArr.sort((a,b) => a.nombre.localeCompare(b.nombre)).forEach(c => {
@@ -1735,17 +1293,10 @@
                     <td class="py-4 px-2 text-xs text-slate-500 font-bold tracking-widest" data-label="Documento">${c.cc}</td>
                     <td class="py-4 px-2 md:text-right" data-label="Acciones">
                         <div class="flex items-center justify-end gap-2">
-                            ${window.currentAppUser.role !== 'admin' ? 
-                            `<button class="btn-usar bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 hover:bg-blue-100 px-3 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 transition-all shadow-sm">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 16 16 12 12 8"></polyline><line x1="8" y1="12" x2="16" y2="12"></line></svg> Usar
-                             </button>` 
-                            : ''}
-                            <button class="btn-eliminar bg-slate-50 text-slate-400 dark:bg-slate-800 dark:text-slate-500 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-900/30 dark:hover:text-red-400 px-3 py-2 rounded-xl transition-colors shadow-sm" title="Eliminar Cliente">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                            </button>
+                            ${window.currentAppUser.role !== 'admin' ? `<button class="btn-usar bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 hover:bg-blue-100 px-3 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 transition-all shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg> Usar</button>` : ''}
+                            <button class="btn-eliminar bg-slate-50 text-slate-400 dark:bg-slate-800 dark:text-slate-500 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-900/30 dark:hover:text-red-400 px-3 py-2 rounded-xl transition-colors shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
                         </div>
                     </td>`;
-                
                 const docId = c.userId ? `${c.userId}_${c.cc}` : String(c.cc);
                 if(tr.querySelector('.btn-usar')) tr.querySelector('.btn-usar').onclick = () => window.selectingCliente(docId);
                 tr.querySelector('.btn-eliminar').onclick = () => window.eliminarCliente(docId);
@@ -1765,15 +1316,9 @@
                 card.className = "bg-slate-50 dark:bg-slate-800/50 p-5 rounded-3xl border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:-translate-y-1 hover:shadow-lg transition-all";
                 card.innerHTML = `
                     <div class="flex items-center gap-4 w-full md:w-auto">
-                        <div class="bg-blue-600 text-white w-12 h-12 rounded-2xl shadow-xl shadow-blue-600/30 flex-none flex items-center justify-center font-[900] text-sm italic tracking-tighter">
-                            ${f.num}
-                        </div>
+                        <div class="bg-blue-600 text-white w-12 h-12 rounded-2xl shadow-xl shadow-blue-600/30 flex-none flex items-center justify-center font-[900] text-sm italic tracking-tighter">${f.num}</div>
                         <div class="space-y-0.5 min-w-0">
-                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                                ${f.fechaServicio} • 
-                                <svg class="w-3 h-3 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                                ${f.vendedor || 'Admin'}
-                            </p>
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1">${f.fechaServicio} • <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 inline-block flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ${f.vendedor || 'Admin'}</p>
                             <p class="font-[900] text-slate-900 dark:text-white text-lg uppercase tracking-tight truncate">${f.cliente}</p>
                             <p class="text-xs font-bold text-slate-500 truncate">${f.concepto}</p>
                         </div>
@@ -1784,12 +1329,8 @@
                             <p class="text-[10px] font-black text-slate-400 uppercase">${f.metodo}</p>
                         </div>
                         <div class="flex gap-2">
-                            <button class="btn-ver-pdf bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 hover:bg-blue-100 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center shadow-sm transition-all" title="Descargar PDF">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                            </button>
-                            <button class="btn-eliminar-doc bg-red-50 text-red-500 dark:bg-red-900/30 dark:text-red-400 hover:bg-red-100 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center shadow-sm transition-all" title="Eliminar Factura">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                            </button>
+                            <button class="btn-ver-pdf bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 hover:bg-blue-100 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center shadow-sm transition-all"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
+                            <button class="btn-eliminar-doc bg-red-50 text-red-500 dark:bg-red-900/30 dark:text-red-400 hover:bg-red-100 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center shadow-sm transition-all"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
                         </div>
                     </div>`;
                 
@@ -1802,7 +1343,6 @@
 
         window.renderPDFContent = function(data, vIva, vRete) {
             const config = window.getUserConfig();
-            
             document.getElementById('pdf-empresa').innerText = config.empresa || "EMPRESA";
             document.getElementById('pdf-propietario').innerText = config.propietario || "PROPIETARIO";
             document.getElementById('pdf-nit').innerText = `NIT / C.C. ${config.nit || ""}`;
@@ -1813,13 +1353,9 @@
             const logoEl = document.getElementById('pdf-logo');
             const lineEl = document.getElementById('pdf-line-accent');
             if (config.logo) {
-                logoEl.src = config.logo;
-                logoEl.classList.remove('hidden');
-                lineEl.classList.add('hidden');
+                logoEl.src = config.logo; logoEl.classList.remove('hidden'); lineEl.classList.add('hidden');
             } else {
-                logoEl.src = '';
-                logoEl.classList.add('hidden');
-                lineEl.classList.remove('hidden');
+                logoEl.src = ''; logoEl.classList.add('hidden'); lineEl.classList.remove('hidden');
             }
 
             const methodDetails = (config.paymentMethods || []).find(m => m.name === data.metodo) || (config.paymentMethods || [])[0] || {account: '', bank: ''};
@@ -1837,38 +1373,27 @@
             document.getElementById('pdf-cliente-nombre').innerText = data.cliente;
             document.getElementById('pdf-cliente-cc').innerText = `NIT/C.C. ${data.cc}`;
             document.getElementById('pdf-cliente-correo').innerText = data.correo;
-            
             document.getElementById('pdf-concepto-text').innerText = data.concepto;
             
             const hasSaldo = window.currentAppUser.canViewSaldo === true;
             document.getElementById('pdf-abono-label').innerText = hasSaldo ? "Abono Realizado" : "Valor Servicio";
             document.getElementById('calc-abono').innerText = window.formatCOP(data.montoBase);
-            document.getElementById('calc-iva').innerText = window.formatCOP(vIva);
-            document.getElementById('row-iva').classList.toggle('hidden', !data.tieneIva);
-            document.getElementById('row-rete').classList.toggle('hidden', !data.tieneRete);
-            document.getElementById('calc-rete').innerText = `+ ${window.formatCOP(vRete)}`;
-            document.getElementById('row-arl').classList.add('hidden'); 
-            
             document.getElementById('row-saldo').classList.toggle('hidden', !hasSaldo || data.saldo <= 0);
             document.getElementById('calc-saldo').innerText = `+ ${window.formatCOP(data.saldo)}`;
             document.getElementById('calc-total').innerText = window.formatCOP(data.total);
             document.getElementById('pdf-vendedor').innerText = data.vendedor || 'Sistema';
         }
 
-        // OTROS HELPERS GLOBALES 
         window.showSection = function(section) {
             if (section === 'registros' && window.currentAppUser && window.currentAppUser.role === 'user' && !window.currentAppUser.canViewRegistros) {
-                window.showToast("Módulo Registros bloqueado. Adquiere el plan Premium.");
-                return;
+                window.showToast("Módulo bloqueado. Adquiere el plan Premium."); return;
             }
             if (section === 'calendario' && window.currentAppUser && window.currentAppUser.role === 'user' && !window.currentAppUser.canViewAgenda) {
-                window.showToast("Módulo Agenda bloqueado. Adquiere el plan Premium.");
-                return;
+                window.showToast("Módulo bloqueado. Adquiere el plan Premium."); return;
             }
 
             document.querySelectorAll('.section-content').forEach(s => s.classList.add('hidden'));
             document.getElementById(`sec-${section}`).classList.remove('hidden');
-            
             document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
             const activeNav = document.getElementById(`nav-${section}`);
             if (activeNav) activeNav.classList.add('active');
@@ -1883,10 +1408,8 @@
                     document.getElementById('facturaNum').value = window.getSiguienteConsecutivo();
                 }
                 window.updatePaymentSelect(); 
-                
-                // Limpiar inputs condicionales
-                if(window.currentAppUser && !window.currentAppUser.canViewSaldo) {
-                    if(document.getElementById('saldoPendienteInput')) document.getElementById('saldoPendienteInput').value = "0";
+                if(window.currentAppUser && !window.currentAppUser.canViewSaldo && document.getElementById('saldoPendienteInput')) {
+                    document.getElementById('saldoPendienteInput').value = "0";
                 }
             }
             if(section === 'historial' || section === 'registros') window.renderListas();
@@ -1895,7 +1418,6 @@
             if(section === 'usuarios') window.renderUsersList();
             if(section === 'ajustes') window.cargarAjustes();
             if(section === 'calendario') window.renderCalendar(currentCalendarDate);
-            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -1903,13 +1425,12 @@
             const config = window.getUserConfig();
             const btn = document.querySelector('button[onclick="descargarHistorialPDF()"]');
             const originalText = btn.innerHTML;
-            btn.innerHTML = `<svg class="animate-spin w-4 h-4 mr-2 inline-block" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Generando...`;
+            btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="animate-spin w-4 h-4 mr-2 inline-block flex-shrink-0" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Generando...`;
             btn.disabled = true;
 
             const tbody = document.getElementById('report-body');
             tbody.innerHTML = '';
             let grandTotal = 0;
-            
             const sortedFacturas = [...window.db.facturas]
                 .filter(f => window.currentAppUser.role === 'admin' ? true : f.userId === window.currentAppUser.id)
                 .sort((a, b) => new Date(b.fechaServicio) - new Date(a.fechaServicio));
@@ -1935,26 +1456,24 @@
 
             const container = document.getElementById('history-report-container');
             container.classList.remove('hidden');
-            const printWidth = 1080; 
-            container.style.width = `${printWidth}px`; 
+            const printWidth = 1080; container.style.width = `${printWidth}px`; 
             
             try {
                 await html2pdf().set({
-                    margin: [0.3, 0.3, 0.3, 0.3], 
-                    filename: `Reporte_${new Date().toISOString().split('T')[0]}.pdf`,
+                    margin: [0.3, 0.3, 0.3, 0.3], filename: `Reporte_${new Date().toISOString().split('T')[0]}.pdf`,
                     image: { type: 'jpeg', quality: 0.98 },
                     html2canvas: { scale: 2, useCORS: true, scrollY: 0, width: printWidth, windowWidth: printWidth },
                     jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
                 }).from(document.getElementById('history-report')).save();
                 window.showToast("Reporte descargado");
-            } catch (e) { window.showToast("Error al generar"); } 
+            } catch (e) {} 
             finally { container.classList.add('hidden'); container.style.width = ''; btn.innerHTML = originalText; btn.disabled = false; }
         };
 
         window.descargarFacturaItem = async function(index, event) {
             const btn = event.currentTarget; 
             const originalContent = btn.innerHTML;
-            btn.innerHTML = `<svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+            btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="animate-spin w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
             btn.disabled = true;
 
             try {
@@ -1992,7 +1511,7 @@
         window.compartirPDF = async function() {
             const btn = document.getElementById('btn-share');
             const originalText = btn.innerHTML;
-            btn.innerHTML = `<svg class="animate-spin w-4 h-4 mr-2 inline-block" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> PROCESANDO...`;
+            btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="animate-spin w-4 h-4 mr-2 inline-block flex-shrink-0" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> PROCESANDO...`;
             btn.disabled = true;
             
             const numFactura = document.getElementById('pdf-num-label').innerText.trim();
@@ -2010,363 +1529,182 @@
                     const a = document.createElement('a'); a.href = URL.createObjectURL(pdfAsBlob); a.download = `Factura_${numFactura}.pdf`; a.click();
                     window.showToast("PDF generado");
                 }
-            } catch (e) { window.showToast("Error"); } 
+            } catch (e) {} 
             finally { btn.innerHTML = originalText; btn.disabled = false; }
         };
 
-        // --- SOLUCIÓN A BUG DE CONFIRMACIÓN DE ELIMINACIÓN ---
         window.deleteCallback = null;
-
-        window.showConfirm = function(msg, callback) {
-            document.getElementById('confirm-msg').innerText = msg;
-            document.getElementById('confirm-modal').classList.remove('hidden');
-            window.deleteCallback = callback;
-        };
-
-        window.closeConfirm = function() {
-            document.getElementById('confirm-modal').classList.add('hidden');
-            window.deleteCallback = null;
-        };
-
-        window.confirmAction = function() {
-            if (window.deleteCallback) {
-                window.deleteCallback();
-            }
-        };
-
-        window.showToast = function(msg) {
-            const t = document.getElementById('toast');
-            document.getElementById('toast-msg').innerText = msg; 
-            t.style.transform = "translateY(0)";
-            setTimeout(() => t.style.transform = "translateY(-150%)", 3000);
-        }
-
-        window.formatCurrencyInput = function(input) {
-            let value = input.value.replace(/\D/g, "");
-            if (value === "") { input.value = ""; return; }
-            input.value = new Intl.NumberFormat('es-CO').format(value);
-        };
+        window.showConfirm = function(msg, callback) { document.getElementById('confirm-msg').innerText = msg; document.getElementById('confirm-modal').classList.remove('hidden'); window.deleteCallback = callback; };
+        window.closeConfirm = function() { document.getElementById('confirm-modal').classList.add('hidden'); window.deleteCallback = null; };
+        window.confirmAction = function() { if (window.deleteCallback) window.deleteCallback(); };
+        window.showToast = function(msg) { const t = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; t.style.transform = "translateY(0)"; setTimeout(() => t.style.transform = "translateY(-150%)", 3000); }
+        window.formatCurrencyInput = function(input) { let value = input.value.replace(/\D/g, ""); if (value === "") { input.value = ""; return; } input.value = new Intl.NumberFormat('es-CO').format(value); };
         window.getRawValue = function(val) { return parseFloat(val.toString().replace(/\./g, "")) || 0; }
         window.formatCOP = function(num) { return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(num); }
-
-        window.cerrarPreview = function() {
-            document.getElementById('preview-container').classList.add('hidden');
-            document.getElementById('form-container').classList.remove('hidden');
-        };
-
+        window.cerrarPreview = function() { document.getElementById('preview-container').classList.add('hidden'); document.getElementById('form-container').classList.remove('hidden'); };
         window.switchTab = function(tab) {
-            const act = "tab-btn active-tab rounded-xl";
-            const inact = "tab-btn rounded-xl";
-            
-            if (tab === 'facturas') {
-                document.getElementById('tab-btn-facturas').className = act;
-                document.getElementById('tab-btn-clientes').className = inact;
-                document.getElementById('tab-content-facturas').classList.remove('hidden');
-                document.getElementById('tab-content-clientes').classList.add('hidden');
-            } else {
-                document.getElementById('tab-btn-clientes').className = act;
-                document.getElementById('tab-btn-facturas').className = inact;
-                document.getElementById('tab-content-clientes').classList.remove('hidden');
-                document.getElementById('tab-content-facturas').classList.add('hidden');
-            }
+            const act = "tab-btn active-tab rounded-xl", inact = "tab-btn rounded-xl";
+            if (tab === 'facturas') { document.getElementById('tab-btn-facturas').className = act; document.getElementById('tab-btn-clientes').className = inact; document.getElementById('tab-content-facturas').classList.remove('hidden'); document.getElementById('tab-content-clientes').classList.add('hidden'); }
+            else { document.getElementById('tab-btn-clientes').className = act; document.getElementById('tab-btn-facturas').className = inact; document.getElementById('tab-content-clientes').classList.remove('hidden'); document.getElementById('tab-content-facturas').classList.add('hidden'); }
         };
-
         window.filterClients = function(query) {
             const rows = document.querySelectorAll('#lista-clientes-tabla tr');
             const lower = query.toLowerCase();
             rows.forEach(row => {
                 const name = row.querySelector('[data-label="Nombre"]').innerText.toLowerCase();
                 const doc = row.querySelector('[data-label="Documento"]').innerText.toLowerCase();
-                if (name.includes(lower) || doc.includes(lower)) row.classList.remove('hidden');
-                else row.classList.add('hidden');
+                if (name.includes(lower) || doc.includes(lower)) row.classList.remove('hidden'); else row.classList.add('hidden');
             });
         };
-
         window.selectingCliente = function(docId) {
             const c = window.db.clientes[docId] || Object.values(window.db.clientes).find(cl => cl.cc == docId);
             if(!c) return;
-            document.getElementById('clienteNombre').value = c.nombre;
-            document.getElementById('cc').value = c.cc;
-            document.getElementById('correo').value = c.correo;
-            window.showSection('crear');
-            window.showToast("Cliente cargado");
+            document.getElementById('clienteNombre').value = c.nombre; document.getElementById('cc').value = c.cc; document.getElementById('correo').value = c.correo;
+            window.showSection('crear'); window.showToast("Cliente cargado");
         };
-
         window.toggleDarkMode = function() {
-            const config = window.getUserConfig();
-            config.darkMode = document.getElementById('toggle-darkmode').checked;
-            window.saveUserConfig(config);
-            window.applyTheme();
+            const config = window.getUserConfig(); config.darkMode = document.getElementById('toggle-darkmode').checked;
+            window.saveUserConfig(config); window.applyTheme();
         };
-
         window.applyTheme = function() {
             const config = window.getUserConfig();
-            const isDark = config.darkMode;
-            const toggle = document.getElementById('toggle-darkmode');
-            if(toggle) toggle.checked = isDark;
-            document.documentElement.classList.toggle('dark', isDark);
+            if(document.getElementById('toggle-darkmode')) document.getElementById('toggle-darkmode').checked = config.darkMode;
+            document.documentElement.classList.toggle('dark', config.darkMode);
         }
-
         window.updateAppHeader = function() {
             const config = window.getUserConfig();
-            const t1 = document.getElementById('app-header-title');
-            if(t1) t1.innerText = config.empresa || "Sistema de Facturación"; 
-            const t2 = document.getElementById('hist-empresa');
-            if(t2) t2.innerText = config.empresa || "Workspace";
+            if(document.getElementById('app-header-title')) document.getElementById('app-header-title').innerText = config.empresa || "Sistema de Facturación"; 
+            if(document.getElementById('hist-empresa')) document.getElementById('hist-empresa').innerText = config.empresa || "Workspace";
         }
-
         window.cargarAjustes = function() {
             const config = window.getUserConfig();
-            document.getElementById('cfg-empresa').value = config.empresa || "";
-            document.getElementById('cfg-propietario').value = config.propietario || "";
-            document.getElementById('cfg-nit').value = config.nit || "";
-            document.getElementById('cfg-ciudad').value = config.ciudad || "";
-            document.getElementById('cfg-telefono').value = config.telefono || "";
-            document.getElementById('cfg-email').value = config.email || "";
+            document.getElementById('cfg-empresa').value = config.empresa || ""; document.getElementById('cfg-propietario').value = config.propietario || "";
+            document.getElementById('cfg-nit').value = config.nit || ""; document.getElementById('cfg-ciudad').value = config.ciudad || "";
+            document.getElementById('cfg-telefono').value = config.telefono || ""; document.getElementById('cfg-email').value = config.email || "";
             
             currentLogoBase64 = config.logo || null;
-            if (currentLogoBase64) {
-                document.getElementById('logo-preview').innerHTML = `<img src="${currentLogoBase64}" class="w-full h-full object-contain">`;
-            } else {
-                document.getElementById('logo-preview').innerHTML = `<span class="text-[9px] text-slate-400 font-bold uppercase">Sin logo</span>`;
-            }
-            
+            if (currentLogoBase64) document.getElementById('logo-preview').innerHTML = `<img src="${currentLogoBase64}" class="w-full h-full object-contain">`;
+            else document.getElementById('logo-preview').innerHTML = `<span class="text-[9px] text-slate-400 font-bold uppercase">Sin logo</span>`;
             window.renderSettingsMethods();
         }
-
         window.renderSettingsMethods = function() {
-            const config = window.getUserConfig();
-            const list = document.getElementById('payment-methods-list');
-            list.innerHTML = '';
+            const config = window.getUserConfig(); const list = document.getElementById('payment-methods-list'); list.innerHTML = '';
             (config.paymentMethods || []).forEach((method, index) => {
-                const div = document.createElement('div');
-                div.className = 'bg-slate-50 dark:bg-slate-800/50 p-3 rounded-md border border-slate-200 dark:border-slate-700 flex gap-2 items-start';
+                const div = document.createElement('div'); div.className = 'bg-slate-50 dark:bg-slate-800/50 p-3 rounded-md border border-slate-200 dark:border-slate-700 flex gap-2 items-start';
                 div.innerHTML = `
                     <div class="flex-grow grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        <input type="text" placeholder="Nombre (ej: Nequi)" value="${method.name}" onchange="window.updateMethod(${index}, 'name', this.value)" class="px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:border-blue-500 w-full">
+                        <input type="text" placeholder="Nombre" value="${method.name}" onchange="window.updateMethod(${index}, 'name', this.value)" class="px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:border-blue-500 w-full">
                         <input type="text" placeholder="Banco/Tipo" value="${method.bank}" onchange="window.updateMethod(${index}, 'bank', this.value)" class="px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:border-blue-500 w-full">
                         <input type="text" placeholder="No. Cuenta" value="${method.account}" onchange="window.updateMethod(${index}, 'account', this.value)" class="px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:border-blue-500 w-full">
                     </div>
-                    <button type="button" onclick="window.removeMethod(${index})" class="text-slate-400 hover:text-red-500 p-1.5 rounded transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                    <button type="button" onclick="window.removeMethod(${index})" class="text-slate-400 hover:text-red-500 p-1.5 rounded transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                 `;
                 list.appendChild(div);
             });
         }
         window.addPaymentMethodUI = function() {
-            const config = window.getUserConfig();
-            if(!config.paymentMethods) config.paymentMethods = [];
-            config.paymentMethods.push({ name: "", bank: "", account: "" });
-            window.saveUserConfig(config);
-            window.renderSettingsMethods();
+            const config = window.getUserConfig(); if(!config.paymentMethods) config.paymentMethods = [];
+            config.paymentMethods.push({ name: "", bank: "", account: "" }); window.saveUserConfig(config); window.renderSettingsMethods();
         };
-        window.updateMethod = function(index, field, value) {
-            const config = window.getUserConfig();
-            config.paymentMethods[index][field] = value;
-            window.saveUserConfig(config);
-        };
+        window.updateMethod = function(index, field, value) { const config = window.getUserConfig(); config.paymentMethods[index][field] = value; window.saveUserConfig(config); };
         window.removeMethod = function(index) {
-            const config = window.getUserConfig();
-            if((config.paymentMethods || []).length <= 1) { window.showToast("Mínimo un método"); return; }
-            config.paymentMethods.splice(index, 1);
-            window.saveUserConfig(config);
-            window.renderSettingsMethods();
+            const config = window.getUserConfig(); if((config.paymentMethods || []).length <= 1) { window.showToast("Mínimo un método"); return; }
+            config.paymentMethods.splice(index, 1); window.saveUserConfig(config); window.renderSettingsMethods();
         };
         window.updatePaymentSelect = function() {
-            const config = window.getUserConfig();
-            const select = document.getElementById('metodoPago');
-            if(!select) return;
-            const currentVal = select.value;
-            select.innerHTML = '';
-            (config.paymentMethods || []).forEach((method) => {
-                select.innerHTML += `<option value="${method.name}">${method.name}</option>`;
-            });
+            const config = window.getUserConfig(); const select = document.getElementById('metodoPago'); if(!select) return;
+            const currentVal = select.value; select.innerHTML = '';
+            (config.paymentMethods || []).forEach((method) => { select.innerHTML += `<option value="${method.name}">${method.name}</option>`; });
             if (currentVal && Array.from(select.options).some(o => o.value === currentVal)) select.value = currentVal;
         }
 
-        // --- FUNCIÓN CAMBIO DE PIN ---
         window.changeUserPin = async function(e) {
-            e.preventDefault();
-            if(!auth.currentUser || !window.currentAppUser) return;
-
+            e.preventDefault(); if(!auth.currentUser || !window.currentAppUser) return;
             const currentPin = document.getElementById('sec-pin-current').value;
             const newPin = document.getElementById('sec-pin-new').value;
             const confirmPin = document.getElementById('sec-pin-confirm').value;
 
-            // Validaciones
-            if (currentPin !== window.currentAppUser.pin) {
-                window.showToast("El PIN actual es incorrecto");
-                return;
-            }
-            if (newPin.length !== 4) {
-                window.showToast("El nuevo PIN debe tener 4 dígitos");
-                return;
-            }
-            if (newPin !== confirmPin) {
-                window.showToast("Los PINs no coinciden");
-                return;
-            }
-            if (currentPin === newPin) {
-                window.showToast("El PIN debe ser diferente al actual");
-                return;
-            }
+            if (currentPin !== window.currentAppUser.pin) { window.showToast("El PIN actual es incorrecto"); return; }
+            if (newPin.length !== 4) { window.showToast("El nuevo PIN debe tener 4 dígitos"); return; }
+            if (newPin !== confirmPin) { window.showToast("Los PINs no coinciden"); return; }
+            if (currentPin === newPin) { window.showToast("El PIN debe ser diferente al actual"); return; }
 
-            // Actualizar en base de datos
             try {
                 const updatedUser = { ...window.currentAppUser, pin: newPin };
                 await setDoc(getDocPath("usuarios", window.currentAppUser.id), updatedUser);
-                
                 window.currentAppUser = updatedUser;
-                
-                // Limpiar formulario
-                document.getElementById('sec-pin-current').value = '';
-                document.getElementById('sec-pin-new').value = '';
-                document.getElementById('sec-pin-confirm').value = '';
-                
+                document.getElementById('sec-pin-current').value = ''; document.getElementById('sec-pin-new').value = ''; document.getElementById('sec-pin-confirm').value = '';
                 window.showToast("PIN actualizado con éxito");
-            } catch (e) {
-                console.error(e);
-                window.showToast("Error al actualizar el PIN");
-            }
+            } catch (e) { window.showToast("Error al actualizar el PIN"); }
         };
 
-        // --- FUNCIONES DE BACKUP (COPIAS DE SEGURIDAD) ---
         window.exportBackup = function() {
             if(!window.currentAppUser) return;
             const backup = { version: 1, timestamp: new Date().toISOString() };
-            
             if (window.currentAppUser.role === 'admin') {
-                backup.type = 'admin_full';
-                backup.usuarios = window.db.usuarios;
-                backup.facturas = window.db.facturas;
-                backup.clientes = window.db.clientes;
-                backup.config = window.db.config;
+                backup.type = 'admin_full'; backup.usuarios = window.db.usuarios; backup.facturas = window.db.facturas; backup.clientes = window.db.clientes; backup.config = window.db.config;
             } else {
-                backup.type = 'user_partial';
-                backup.config = window.getUserConfig();
-                // El usuario solo exporta las facturas que le pertenecen
-                backup.facturas = window.db.facturas.filter(f => f.userId === window.currentAppUser.id);
+                backup.type = 'user_partial'; backup.config = window.getUserConfig(); backup.facturas = window.db.facturas.filter(f => f.userId === window.currentAppUser.id);
             }
-
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup));
-            const downloadAnchorNode = document.createElement('a');
-            downloadAnchorNode.setAttribute("href", dataStr);
-            downloadAnchorNode.setAttribute("download", `CopiaSeguridad_${window.currentAppUser.nombre}_${new Date().toISOString().split('T')[0]}.json`);
-            document.body.appendChild(downloadAnchorNode); 
-            downloadAnchorNode.click();
-            downloadAnchorNode.remove();
-            
+            const downloadAnchorNode = document.createElement('a'); downloadAnchorNode.setAttribute("href", dataStr); downloadAnchorNode.setAttribute("download", `CopiaSeguridad_${window.currentAppUser.nombre}_${new Date().toISOString().split('T')[0]}.json`);
+            document.body.appendChild(downloadAnchorNode); downloadAnchorNode.click(); downloadAnchorNode.remove();
             window.showToast("Copia descargada correctamente");
         };
 
         window.importBackup = async function(event) {
-            const file = event.target.files[0];
-            if(!file) return;
-
+            const file = event.target.files[0]; if(!file) return;
             const reader = new FileReader();
             reader.onload = async (e) => {
                 try {
-                    const data = JSON.parse(e.target.result);
-                    window.showToast("Restaurando datos, por favor espera...");
-                    
+                    const data = JSON.parse(e.target.result); window.showToast("Restaurando datos, por favor espera...");
                     const isLegacy = !data.type;
-                    
                     if (window.currentAppUser.role === 'admin' && (data.type === 'admin_full' || isLegacy)) {
-                        // RESTAURACIÓN GLOBAL (ADMIN)
-                        if(data.usuarios) {
-                            for (let u of data.usuarios) await setDoc(getDocPath("usuarios", u.id), u);
-                        }
-                        if(data.facturas) {
-                            for (let f of data.facturas) await setDoc(getDocPath("facturas", f.id), f);
-                        }
+                        if(data.usuarios) for (let u of data.usuarios) await setDoc(getDocPath("usuarios", u.id), u);
+                        if(data.facturas) for (let f of data.facturas) await setDoc(getDocPath("facturas", f.id), f);
                         if(data.clientes) {
                             const clientsList = Array.isArray(data.clientes) ? data.clientes : Object.values(data.clientes);
-                            for (let c of clientsList) {
-                                if(!c.cc) continue;
-                                const docId = c.userId ? `${c.userId}_${c.cc}` : String(c.cc);
-                                await setDoc(getDocPath("clientes", docId), c);
-                            }
+                            for (let c of clientsList) { if(!c.cc) continue; const docId = c.userId ? `${c.userId}_${c.cc}` : String(c.cc); await setDoc(getDocPath("clientes", docId), c); }
                         }
-                        if(data.config) {
-                            await setDoc(getDocPath("config", "main"), data.config);
-                        }
+                        if(data.config) await setDoc(getDocPath("config", "main"), data.config);
                         window.showToast("Restauración Global Completada");
-                        
                     } else if (window.currentAppUser.role === 'user' && (data.type === 'user_partial' || isLegacy)) {
-                        // RESTAURACIÓN PARCIAL (VENDEDOR)
-                        if (data.config) {
-                            await window.saveUserConfig(data.config);
-                        }
+                        if (data.config) await window.saveUserConfig(data.config);
                         if (data.facturas) {
-                            for (let f of data.facturas) {
-                                // Forzar que la factura quede atada a este usuario para que sea visible
-                                f.vendedor = window.currentAppUser.nombre; 
-                                f.userId = window.currentAppUser.id;
-                                await setDoc(getDocPath("facturas", f.id), f);
-                            }
+                            for (let f of data.facturas) { f.vendedor = window.currentAppUser.nombre; f.userId = window.currentAppUser.id; await setDoc(getDocPath("facturas", f.id), f); }
                         }
                         if (data.clientes) {
                             const clientsList = Array.isArray(data.clientes) ? data.clientes : Object.values(data.clientes);
-                            for (let c of clientsList) {
-                                if(!c.cc) continue;
-                                c.userId = window.currentAppUser.id;
-                                const docId = `${window.currentAppUser.id}_${c.cc}`;
-                                await setDoc(getDocPath("clientes", docId), c);
-                            }
+                            for (let c of clientsList) { if(!c.cc) continue; c.userId = window.currentAppUser.id; const docId = `${window.currentAppUser.id}_${c.cc}`; await setDoc(getDocPath("clientes", docId), c); }
                         }
                         window.showToast("Tus datos fueron restaurados");
-                        
-                    } else {
-                        window.showToast("El archivo no coincide con tus permisos.");
-                    }
-                } catch(err) {
-                    console.error(err);
-                    window.showToast("Error al leer el archivo. Asegúrate de que sea válido.");
-                }
-                event.target.value = ''; // Reset input
+                    } else { window.showToast("El archivo no coincide con tus permisos."); }
+                } catch(err) { window.showToast("Error al leer el archivo. Asegúrate de que sea válido."); }
+                event.target.value = '';
             };
             reader.readAsText(file);
         };
 
-        // CALENDARIO
         let currentCalendarDate = new Date();
-        window.changeMonth = function(offset) {
-            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + offset);
-            window.renderCalendar(currentCalendarDate);
-        };
+        window.changeMonth = function(offset) { currentCalendarDate.setMonth(currentCalendarDate.getMonth() + offset); window.renderCalendar(currentCalendarDate); };
         window.renderCalendar = function(date) {
-            const grid = document.getElementById('calendar-grid');
-            if(!grid) return;
-            grid.innerHTML = '';
+            const grid = document.getElementById('calendar-grid'); if(!grid) return; grid.innerHTML = '';
             const year = date.getFullYear(), month = date.getMonth();
             const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
             document.getElementById('calendar-month-year').innerText = `${monthNames[month]} ${year}`;
 
-            const getEventsForDate = (dateStr) => window.db.facturas.filter(f => 
-                f.fechaServicio === dateStr && (window.currentAppUser.role === 'admin' ? true : f.userId === window.currentAppUser.id)
-            );
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const getEventsForDate = (dateStr) => window.db.facturas.filter(f => f.fechaServicio === dateStr && (window.currentAppUser.role === 'admin' ? true : f.userId === window.currentAppUser.id));
+            const firstDay = new Date(year, month, 1).getDay(), daysInMonth = new Date(year, month + 1, 0).getDate();
+            for(let i=0; i < firstDay; i++) grid.innerHTML += `<div class="calendar-day empty"></div>`;
 
-            for(let i=0; i < firstDay; i++) {
-                grid.innerHTML += `<div class="calendar-day empty"></div>`;
-            }
-
-            const today = new Date();
-            const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
-
+            const today = new Date(), isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
             for(let d=1; d <= daysInMonth; d++) {
                 const dayDateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-                const events = getEventsForDate(dayDateStr);
-                const isToday = isCurrentMonth && today.getDate() === d;
-                
+                const events = getEventsForDate(dayDateStr), isToday = isCurrentMonth && today.getDate() === d;
                 const dayCell = document.createElement('div');
                 dayCell.className = `calendar-day bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 ${isToday ? 'today' : ''}`;
                 dayCell.innerHTML = `<span>${d}</span>${events.length > 0 ? '<div class="event-dot"></div>' : ''}`;
-                dayCell.onclick = () => {
-                    document.querySelectorAll('.calendar-day').forEach(el => el.classList.remove('selected'));
-                    dayCell.classList.add('selected');
-                    window.renderDayDetails(dayDateStr, events);
-                };
+                dayCell.onclick = () => { document.querySelectorAll('.calendar-day').forEach(el => el.classList.remove('selected')); dayCell.classList.add('selected'); window.renderDayDetails(dayDateStr, events); };
                 grid.appendChild(dayCell);
             }
         }
@@ -2376,37 +1714,26 @@
             document.getElementById('selected-date-title').innerText = `Eventos: ${dateObj.toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long' })}`;
             list.innerHTML = '';
             if (events.length === 0) { list.innerHTML = `<p class="text-center text-xs font-bold text-slate-400 uppercase tracking-widest py-4">No hay eventos</p>`; return; }
-
             events.forEach(ev => {
-                list.innerHTML += `
-                    <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 flex justify-between items-center shadow-sm">
-                        <div>
-                            <p class="font-[900] text-slate-900 dark:text-white uppercase tracking-tight">${ev.concepto}</p>
-                            <p class="text-xs font-bold text-slate-500 mt-1">${ev.cliente}</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Saldo</p>
-                            <p class="text-lg font-black text-red-500">${window.formatCOP(ev.saldo)}</p>
-                        </div>
-                    </div>`;
+                list.innerHTML += `<div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 flex justify-between items-center shadow-sm">
+                    <div><p class="font-[900] text-slate-900 dark:text-white uppercase tracking-tight">${ev.concepto}</p><p class="text-xs font-bold text-slate-500 mt-1">${ev.cliente}</p></div>
+                    <div class="text-right"><p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Saldo</p><p class="text-lg font-black text-red-500">${window.formatCOP(ev.saldo)}</p></div>
+                </div>`;
             });
         }
 
         window.onload = async function() {
             const loader = document.getElementById('loading-overlay');
-            if(loader) loader.remove();
-            
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-                setupListeners();
-            } catch (e) {
-                console.error("Auth init error:", e);
-                window.showToast("Error de conexión al servidor");
+            if(loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 500);
             }
+
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { await signInWithCustomToken(auth, __initial_auth_token); } 
+                else { await signInAnonymously(auth); }
+                setupListeners();
+            } catch (e) { window.showToast("Error de conexión al servidor"); }
         };
     </script>
 </body>
