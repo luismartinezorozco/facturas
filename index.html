@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nodian | Facturación Inteligente</title>
+    <title>Sistema de Facturación</title>
+    
+    <!-- FAVICON -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'></path><polyline points='14 2 14 8 20 8'></polyline><line x1='16' y1='13' x2='8' y2='13'></line><line x1='16' y1='17' x2='8' y2='17'></line><polyline points='10 9 9 9 8 9'></polyline></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -285,9 +288,11 @@
                 <div class="w-20 h-20 bg-gradient-to-br from-slate-900 to-blue-900 dark:from-slate-800 dark:to-blue-900 rounded-[1.5rem] mx-auto mb-5 flex items-center justify-center shadow-2xl shadow-blue-900/30 border border-white/10 relative overflow-hidden">
                     <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] opacity-20"></div>
                     <svg class="w-10 h-10 text-white relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                        <polyline points="2 17 12 22 22 17"></polyline>
-                        <polyline points="2 12 12 17 22 12"></polyline>
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
                     </svg>
                 </div>
                 <h2 class="text-3xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Nodian</h2>
@@ -533,12 +538,14 @@
                     <div class="absolute inset-0 bg-blue-600/10 mix-blend-overlay"></div>
                     <div class="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl mb-4 flex items-center justify-center border border-white/20 shadow-[0_0_20px_rgba(59,130,246,0.3)] relative z-10">
                         <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                            <polyline points="2 17 12 22 22 17"></polyline>
-                            <polyline points="2 12 12 17 22 12"></polyline>
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
                         </svg>
                     </div>
-                    <h1 id="app-header-title" class="text-3xl md:text-5xl font-[950] tracking-tighter uppercase text-white relative z-10">NODIAN</h1>
+                    <h1 id="app-header-title" class="text-3xl md:text-5xl font-[950] tracking-tighter uppercase text-white relative z-10">Sistema de Facturación</h1>
                     <p class="text-blue-300 text-[10px] mt-2 uppercase tracking-[0.4em] font-black relative z-10">Workspace</p>
                 </div>
                 
@@ -1623,8 +1630,11 @@
         // --- SISTEMA CORE FACTURACIÓN ---
 
         window.getSiguienteConsecutivo = function() {
-            if (window.db.facturas.length === 0) return "001";
-            const nums = window.db.facturas.map(f => parseInt(f.num, 10)).filter(n => !isNaN(n));
+            if (!window.currentAppUser) return "001";
+            const uid = window.currentAppUser.id;
+            const misFacturas = window.db.facturas.filter(f => f.userId === uid);
+            if (misFacturas.length === 0) return "001";
+            const nums = misFacturas.map(f => parseInt(f.num, 10)).filter(n => !isNaN(n));
             if (nums.length === 0) return "001";
             const max = Math.max(...nums);
             return (max + 1).toString().padStart(3, '0');
@@ -1660,6 +1670,7 @@
             const saldo = hasSaldo ? window.getRawValue(document.getElementById('saldoPendienteInput').value) : 0;
             const total = abono + saldo;
             const selectedMethodName = document.getElementById('metodoPago').value;
+            const userId = window.currentAppUser ? window.currentAppUser.id : 'sistema';
 
             const docData = {
                 id: Date.now().toString() + Math.random().toString(36).substr(2, 5),
@@ -1676,11 +1687,13 @@
                 total: total,
                 metodo: selectedMethodName,
                 fechaCreacion: new Date().toISOString(),
-                vendedor: window.currentAppUser ? window.currentAppUser.nombre : 'Sistema'
+                vendedor: window.currentAppUser ? window.currentAppUser.nombre : 'Sistema',
+                userId: userId
             };
 
             try {
-                await setDoc(getDocPath("clientes", String(docData.cc)), { nombre: docData.cliente, correo: docData.correo, cc: docData.cc });
+                const docIdCliente = userId + "_" + String(docData.cc);
+                await setDoc(getDocPath("clientes", docIdCliente), { nombre: docData.cliente, correo: docData.correo, cc: docData.cc, userId: userId });
                 await setDoc(getDocPath("facturas", docData.id), docData);
 
                 window.renderPDFContent(docData, 0, 0);
@@ -1691,11 +1704,11 @@
             } catch(e) { console.error(e); window.showToast("Error de conexión"); }
         };
 
-        window.eliminarCliente = function(cc) {
+        window.eliminarCliente = function(docId) {
             if(!auth.currentUser) return;
             window.showConfirm(`¿Eliminar cliente?`, async () => {
                 try {
-                    await deleteDoc(getDocPath("clientes", String(cc)));
+                    await deleteDoc(getDocPath("clientes", docId));
                     window.closeConfirm();
                     window.showToast("Eliminado");
                 } catch(e) { window.showToast("Error"); }
@@ -1721,7 +1734,10 @@
         window.renderListas = function() {
             const tBody = document.getElementById('lista-clientes-tabla');
             tBody.innerHTML = '';
-            const clientArr = Object.values(window.db.clientes);
+            
+            const clientArr = Object.values(window.db.clientes).filter(c => 
+                window.currentAppUser.role === 'admin' ? true : c.userId === window.currentAppUser.id
+            );
             document.getElementById('cliente-count').innerText = `${clientArr.length} Clientes`;
 
             clientArr.sort((a,b) => a.nombre.localeCompare(b.nombre)).forEach(c => {
@@ -1742,15 +1758,19 @@
                             </button>
                         </div>
                     </td>`;
-                if(tr.querySelector('.btn-usar')) tr.querySelector('.btn-usar').onclick = () => window.selectingCliente(String(c.cc));
-                tr.querySelector('.btn-eliminar').onclick = () => window.eliminarCliente(String(c.cc));
+                
+                const docId = c.userId ? `${c.userId}_${c.cc}` : String(c.cc);
+                if(tr.querySelector('.btn-usar')) tr.querySelector('.btn-usar').onclick = () => window.selectingCliente(docId);
+                tr.querySelector('.btn-eliminar').onclick = () => window.eliminarCliente(docId);
                 tBody.appendChild(tr);
             });
 
             const hDiv = document.getElementById('lista-facturas');
             hDiv.innerHTML = window.db.facturas.length === 0 ? `<div class="text-center py-20 opacity-30 font-black text-2xl uppercase tracking-[0.3em] text-slate-500">Sin Registros</div>` : '';
             
-            const sortedFacturas = [...window.db.facturas].sort((a, b) => new Date(b.fechaCreacion || b.fechaServicio) - new Date(a.fechaCreacion || a.fechaServicio));
+            const sortedFacturas = [...window.db.facturas]
+                .filter(f => window.currentAppUser.role === 'admin' ? true : f.userId === window.currentAppUser.id)
+                .sort((a, b) => new Date(b.fechaCreacion || b.fechaServicio) - new Date(a.fechaCreacion || a.fechaServicio));
 
             sortedFacturas.forEach((f, index) => {
                 const docIdentifier = f.id || f.num; 
@@ -1869,7 +1889,8 @@
             if(section === 'crear') {
                 window.cerrarPreview();
                 const currentVal = document.getElementById('facturaNum').value;
-                const exists = window.db.facturas.some(f => f.num === currentVal);
+                const misFacturas = window.db.facturas.filter(f => f.userId === window.currentAppUser.id);
+                const exists = misFacturas.some(f => f.num === currentVal);
                 if (exists || currentVal === "") {
                     document.getElementById('invoiceForm').reset();
                     document.getElementById('facturaNum').value = window.getSiguienteConsecutivo();
@@ -1902,7 +1923,9 @@
             tbody.innerHTML = '';
             let grandTotal = 0;
             
-            const sortedFacturas = [...window.db.facturas].sort((a, b) => new Date(b.fechaServicio) - new Date(a.fechaServicio));
+            const sortedFacturas = [...window.db.facturas]
+                .filter(f => window.currentAppUser.role === 'admin' ? true : f.userId === window.currentAppUser.id)
+                .sort((a, b) => new Date(b.fechaServicio) - new Date(a.fechaServicio));
 
             sortedFacturas.forEach(f => {
                 grandTotal += f.total;
@@ -2072,8 +2095,8 @@
             });
         };
 
-        window.selectingCliente = function(cc) {
-            const c = window.db.clientes[String(cc)];
+        window.selectingCliente = function(docId) {
+            const c = window.db.clientes[docId] || Object.values(window.db.clientes).find(cl => cl.cc == docId);
             if(!c) return;
             document.getElementById('clienteNombre').value = c.nombre;
             document.getElementById('cc').value = c.cc;
@@ -2100,9 +2123,9 @@
         window.updateAppHeader = function() {
             const config = window.getUserConfig();
             const t1 = document.getElementById('app-header-title');
-            if(t1) t1.innerText = config.empresa || "NODIAN"; 
+            if(t1) t1.innerText = config.empresa || "Sistema de Facturación"; 
             const t2 = document.getElementById('hist-empresa');
-            if(t2) t2.innerText = config.empresa || "NODIAN Workspace";
+            if(t2) t2.innerText = config.empresa || "Workspace";
         }
 
         window.cargarAjustes = function() {
@@ -2233,8 +2256,8 @@
             } else {
                 backup.type = 'user_partial';
                 backup.config = window.getUserConfig();
-                // El usuario solo exporta las facturas donde él fue el vendedor
-                backup.facturas = window.db.facturas.filter(f => f.vendedor === window.currentAppUser.nombre);
+                // El usuario solo exporta las facturas que le pertenecen
+                backup.facturas = window.db.facturas.filter(f => f.userId === window.currentAppUser.id);
             }
 
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup));
@@ -2314,7 +2337,9 @@
             const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
             document.getElementById('calendar-month-year').innerText = `${monthNames[month]} ${year}`;
 
-            const getEventsForDate = (dateStr) => window.db.facturas.filter(f => f.fechaServicio === dateStr);
+            const getEventsForDate = (dateStr) => window.db.facturas.filter(f => 
+                f.fechaServicio === dateStr && (window.currentAppUser.role === 'admin' ? true : f.userId === window.currentAppUser.id)
+            );
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
 
