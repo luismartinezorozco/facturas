@@ -336,7 +336,7 @@
             <h3 class="text-2xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">¿Estás seguro?</h3>
             <p id="confirm-msg" class="text-sm text-slate-500 dark:text-slate-400 font-bold mt-2 mb-8 leading-relaxed">Esta acción eliminará el registro de forma permanente.</p>
             <div class="flex flex-col gap-3">
-                <button type="button" id="confirm-btn-yes" class="w-full py-4 rounded-xl bg-red-500 text-white font-[900] text-xs uppercase tracking-widest hover:bg-red-600 active:scale-95 transition-all shadow-xl shadow-red-500/30">
+                <button type="button" onclick="confirmAction()" id="confirm-btn-yes" class="w-full py-4 rounded-xl bg-red-500 text-white font-[900] text-xs uppercase tracking-widest hover:bg-red-600 active:scale-95 transition-all shadow-xl shadow-red-500/30">
                     Sí, Eliminar
                 </button>
                 <button type="button" onclick="closeConfirm()" class="w-full py-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-[900] text-xs uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition-all">
@@ -1883,17 +1883,24 @@
             finally { btn.innerHTML = originalText; btn.disabled = false; }
         };
 
+        // --- SOLUCIÓN A BUG DE CONFIRMACIÓN DE ELIMINACIÓN ---
+        window.deleteCallback = null;
+
         window.showConfirm = function(msg, callback) {
             document.getElementById('confirm-msg').innerText = msg;
             document.getElementById('confirm-modal').classList.remove('hidden');
-            deleteCallback = callback;
+            window.deleteCallback = callback;
         };
+
         window.closeConfirm = function() {
             document.getElementById('confirm-modal').classList.add('hidden');
-            deleteCallback = null;
+            window.deleteCallback = null;
         };
-        document.getElementById('confirm-btn-yes').onclick = function() {
-            if (deleteCallback) deleteCallback();
+
+        window.confirmAction = function() {
+            if (window.deleteCallback) {
+                window.deleteCallback();
+            }
         };
 
         window.showToast = function(msg) {
