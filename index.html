@@ -1487,6 +1487,15 @@
 
         window.eliminarCliente = function(docId) {
             if(!auth.currentUser) return;
+            
+            if (window.currentAppUser && window.currentAppUser.role !== 'admin') {
+                 const c = window.db.clientes[docId] || Object.values(window.db.clientes).find(cl => String(cl.cc) === String(docId));
+                 if (!c || c.userId !== window.currentAppUser.id) {
+                     window.showToast("No tienes permiso para eliminar este cliente");
+                     return;
+                 }
+            }
+
             window.showConfirm(`¿Eliminar cliente?`, async () => {
                 try { 
                     await deleteDoc(getDocPath("clientes", docId)); 
@@ -1501,10 +1510,21 @@
 
         window.eliminarDoc = function(id) {
             if(!auth.currentUser) return;
-            if(window.currentAppUser && window.currentAppUser.role !== 'admin') { return; }
+            
+            const factura = window.db.facturas.find(f => f.id === id || f.num === id);
+            
+            if (window.currentAppUser && window.currentAppUser.role !== 'admin') {
+                if (!factura || factura.userId !== window.currentAppUser.id) {
+                    window.showToast("No tienes permiso para eliminar esta factura");
+                    return;
+                }
+            }
+
+            const docId = factura ? factura.id : id;
+
             window.showConfirm(`¿Eliminar factura?`, async () => {
                 try { 
-                    await deleteDoc(getDocPath("facturas", id)); 
+                    await deleteDoc(getDocPath("facturas", docId)); 
                     window.closeConfirm(); 
                     window.showToast("Factura eliminada");
                 } catch(e) { 
