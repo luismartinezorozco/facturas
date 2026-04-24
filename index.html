@@ -1774,78 +1774,62 @@
         };
 
         window.generarBlobFactura = async function(num, element) {
-            // Generación robusta de PDF en A4 (evita recortes en móvil)
-            const originalParent = element.parentNode;
-            const nextSibling = element.nextSibling;
-            const originalCss = element.style.cssText;
-            const imgOriginals = new Map();
-
-            // Página A4 portrait
-            const PAGE_WIDTH_MM = 210;
-            const PAGE_PADDING_MM = 12; // padding interior (box-sizing:border-box)
-            const PAGE_MARGIN_MM = 10; // margen para jsPDF
-
-            const tempContainer = document.createElement('div');
-            tempContainer.style.position = 'absolute';
-            tempContainer.style.left = '-9999px';
-            tempContainer.style.top = '0';
-            tempContainer.style.width = PAGE_WIDTH_MM + 'mm';
-            tempContainer.style.background = 'white';
-            tempContainer.style.overflow = 'hidden';
-            document.body.appendChild(tempContainer);
-
-            // Ajustes de imágenes (logo/firma) para evitar deformaciones
+            // Ensure white background and no transparency when capturing
+            const originalStyle = element.getAttribute('style') || '';
             try {
-                const logo = element.querySelector('#render-cobro-logo');
-                if (logo) {
-                    imgOriginals.set(logo, logo.getAttribute('style') || '');
-                    logo.style.cssText = 'width: auto !important; height: auto !important; max-width: 60mm !important; object-fit: contain !important; display: block !important; margin: 0 !important; padding: 0 !important;';
-                    logo.classList.remove('hidden');
+                // Forzar fondo blanco en el contenedor durante la captura
+                element.style.setProperty('background', '#ffffff', 'important');
+                element.style.setProperty('background-color', '#ffffff', 'important');
+                element.style.setProperty('box-shadow', 'none', 'important');
+                element.style.setProperty('filter', 'none', 'important');
+
+                // esperar fuentes si aplica
+                try { if (document.fonts) await document.fonts.ready; } catch(e) {}
+
+                // Ejecutar html2canvas directamente sobre el elemento con fondo blanco
+                const canvas = await html2canvas(element, { useCORS: true, backgroundColor: '#ffffff' });
+
+                // Convertir canvas a PNG
+                const imgData = canvas.toDataURL('image/png');
+
+                // Crear PDF con jsPDF y rellenar con blanco para evitar transparencias
+                let pdf = null;
+                if (window.jspdf && window.jspdf.jsPDF) {
+                    try { pdf = new window.jspdf.jsPDF('p', 'mm', 'a4'); } catch (e) { pdf = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' }); }
+                } else if (window.jsPDF) {
+                    try { pdf = new window.jsPDF('p', 'mm', 'a4'); } catch (e) { pdf = new window.jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' }); }
                 }
-            } catch (e) { console.error('logo adjust error', e); }
 
-            try {
-                const firma = element.querySelector('#render-cobro-firma-img');
-                if (firma) {
-                    imgOriginals.set(firma, firma.getAttribute('style') || '');
-                    firma.style.cssText = 'width: auto !important; height: auto !important; max-width: 80mm !important; max-height: 40mm !important; object-fit: contain !important; display: block !important; margin: 0 auto !important; padding: 0 !important;';
-                    firma.classList.remove('hidden');
+                if (!pdf) {
+                    // Fallback: usar html2pdf si jsPDF no está disponible
+                    const opt = { margin: 10, filename: `Documento_${num}.pdf`, image: { type: 'png', quality: 1.0 }, html2canvas: { useCORS: true, backgroundColor: '#ffffff' } , jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
+                    return await html2pdf().set(opt).from(element).output('blob');
                 }
-            } catch (e) { console.error('firma adjust error', e); }
 
-            // Mover elemento al contenedor y aplicar dimensiones en mm (box-sizing incluye padding)
-            tempContainer.appendChild(element);
-            element.style.cssText = `width: ${PAGE_WIDTH_MM}mm !important; max-width: ${PAGE_WIDTH_MM}mm !important; padding: ${PAGE_PADDING_MM}mm !important; background: white !important; margin: 0 !important; box-sizing: border-box !important; overflow: visible !important;`;
+                // Rellenar la página con blanco (evitar tonos grises por transparencias)
+                pdf.setFillColor(255,255,255);
+                pdf.rect(0, 0, 210, 297, 'F');
 
-            // Calcular ancho en pixels y escala apropiada para html2canvas (usa devicePixelRatio si aplica)
-            const pxWidth = Math.ceil(element.getBoundingClientRect().width) || 800;
-            const deviceScale = Math.max(2, Math.min(3, Math.round(window.devicePixelRatio || 2)));
+                // Calcular altura proporcional en mm (ancho fijo 210mm)
+                const imgWidthPx = canvas.width;
+                const imgHeightPx = canvas.height;
+                const targetWidthMm = 210; // ancho A4 en mm
+                const heightMm = (imgHeightPx * targetWidthMm) / imgWidthPx;
 
-            const opt = {
-                margin: PAGE_MARGIN_MM,
-                filename: `Documento_${num}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: deviceScale, useCORS: true, windowWidth: pxWidth, width: pxWidth, scrollX: 0, scrollY: 0 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                pagebreak: { mode: 'css' }
-            };
-
-            try {
-                return await html2pdf().set(opt).from(element).output('blob');
-            } finally {
-                // Restaurar estilos de imágenes modificadas
+                // Añadir imagen y forzar descarga
+                pdf.addImage(imgData, 'PNG', 0, 0, targetWidthMm, heightMm);
+                const blob = pdf.output('blob');
+                pdf.save(`Documento_${num}.pdf`);
+                return blob;
+            } catch (err) {
+                console.error('generarBlobFactura error', err);
                 try {
-                    imgOriginals.forEach((style, img) => {
-                        if (style) img.setAttribute('style', style);
-                        else img.removeAttribute('style');
-                    });
-                } catch (e) { console.error('restore img styles', e); }
-
-                // Restaurar elemento al DOM original
-                if (nextSibling) originalParent.insertBefore(element, nextSibling);
-                else originalParent.appendChild(element);
-                element.style.cssText = originalCss;
-                document.body.removeChild(tempContainer);
+                    await html2pdf().set({ margin: 10, filename: `Documento_${num}.pdf`, image: { type: 'png', quality: 1.0 }, html2canvas: { useCORS: true, backgroundColor: '#ffffff' }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }).from(element).save();
+                } catch (e) { console.error('fallback html2pdf failed', e); }
+                return null;
+            } finally {
+                // Restaurar estilos originales
+                try { element.setAttribute('style', originalStyle); } catch (e) { }
             }
         };
 
@@ -2439,33 +2423,79 @@
             const reportEl = document.getElementById('history-report');
             container.classList.remove('hidden');
             
-            // Usar tamaño A4 landscape en mm para evitar recortes en dispositivos móviles
-            const PAGE_WIDTH_MM = 297; // A4 landscape width
-            const PAGE_PADDING_MM = 10;
+            // Generación responsiva del reporte en A4 landscape
+            const PAGE_WIDTH_MM = 297;
+            const PAGE_HEIGHT_MM = 210;
             const PAGE_MARGIN_MM = 10;
 
-            const tempContainer = document.createElement('div');
-            tempContainer.style.position = 'absolute'; tempContainer.style.left = '-9999px'; tempContainer.style.top = '0'; tempContainer.style.width = PAGE_WIDTH_MM + 'mm'; tempContainer.style.background = 'white'; tempContainer.style.overflow = 'hidden';
-            document.body.appendChild(tempContainer);
+            const CSS_PX_PER_INCH = 96;
+            const MM_PER_INCH = 25.4;
+            const cssPxPerMm = CSS_PX_PER_INCH / MM_PER_INCH;
 
-            const originalParent = reportEl.parentNode;
-            tempContainer.appendChild(reportEl);
-            reportEl.style.cssText = `width: ${PAGE_WIDTH_MM}mm !important; padding: ${PAGE_PADDING_MM}mm !important; background: white !important; margin: 0 !important; border: none !important; box-sizing: border-box !important;`;
+            const targetCssPxWidth = Math.round(PAGE_WIDTH_MM * cssPxPerMm);
+            const targetCssPxHeight = Math.round(PAGE_HEIGHT_MM * cssPxPerMm);
+
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'absolute'; wrapper.style.left = '-9999px'; wrapper.style.top = '0'; wrapper.style.width = targetCssPxWidth + 'px'; wrapper.style.background = 'white'; wrapper.style.overflow = 'hidden'; wrapper.style.boxSizing = 'border-box'; wrapper.style.margin = '0'; wrapper.style.padding = '0';
+            document.body.appendChild(wrapper);
+
+            const clone = reportEl.cloneNode(true);
+            clone.style.boxSizing = 'border-box'; clone.style.margin = '0'; clone.style.padding = '0';
+            // Forzar fondo blanco en la copia usada para captura
+            try { clone.style.setProperty('background', '#ffffff', 'important'); clone.style.setProperty('background-color', '#ffffff', 'important'); clone.style.setProperty('box-shadow', 'none', 'important'); clone.style.setProperty('filter', 'none', 'important'); } catch(e) {}
+            wrapper.appendChild(clone);
+
+            try { clone.querySelectorAll('img').forEach(img => { img.style.maxWidth = '100%'; img.style.height = 'auto'; if(!img.getAttribute('crossorigin')) img.setAttribute('crossorigin','anonymous'); }); } catch(e) {}
+
+            try { if (document.fonts) await document.fonts.ready; } catch(e) {}
+            await new Promise(r => requestAnimationFrame(r));
+            await new Promise(r => setTimeout(r, 50));
+
+            const naturalRect = clone.getBoundingClientRect();
+            const naturalWidth = naturalRect.width || clone.scrollWidth || targetCssPxWidth;
+            const naturalHeight = clone.scrollHeight || naturalRect.height || targetCssPxHeight;
+
+            const scaleX = targetCssPxWidth / naturalWidth;
+            const scaleY = targetCssPxHeight / naturalHeight;
+            const fitScale = Math.min(1, scaleX, scaleY);
+            if (fitScale < 1) { clone.style.transformOrigin = 'top left'; clone.style.transform = `scale(${fitScale})`; wrapper.style.width = Math.ceil(naturalWidth * fitScale) + 'px'; wrapper.style.height = Math.ceil(naturalHeight * fitScale) + 'px'; }
+            else { wrapper.style.width = targetCssPxWidth + 'px'; }
+
+            await new Promise(r => requestAnimationFrame(r));
+
+            const captureRect = clone.getBoundingClientRect();
+            const captureWidthCss = Math.max(1, Math.ceil(captureRect.width));
+            const captureHeightCss = Math.max(1, Math.ceil(captureRect.height));
+            const devicePR = Math.max(1, window.devicePixelRatio || 1);
+            const renderScale = Math.min(3, Math.max(1, Math.round(devicePR * 2)));
 
             try {
-                const pxWidth = Math.ceil(reportEl.getBoundingClientRect().width) || 1080;
-                const deviceScale = Math.max(2, Math.min(3, Math.round(window.devicePixelRatio || 2)));
+                const canvas = await html2canvas(clone, { scale: renderScale, useCORS: true, backgroundColor: '#ffffff', width: captureWidthCss, height: captureHeightCss, windowWidth: captureWidthCss, scrollX:0, scrollY:0 });
+                const imgData = canvas.toDataURL('image/jpeg', 0.98);
 
-                await html2pdf().set({
-                    margin: PAGE_MARGIN_MM, filename: `Reporte_${new Date().toISOString().split('T')[0]}.pdf`,
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: deviceScale, useCORS: true, windowWidth: pxWidth, width: pxWidth, x:0, y:0, scrollX: 0, scrollY: 0 },
-                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }, pagebreak: { mode: 'css' }
-                }).from(reportEl).save();
-            } catch (e) { console.error(e); } 
-            finally { 
-                originalParent.appendChild(reportEl); document.body.removeChild(tempContainer);
-                container.classList.add('hidden'); reportEl.style.cssText = ''; btn.innerHTML = originalText; btn.disabled = false; 
+                const jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : (window.jsPDF ? window.jsPDF : null);
+                if (jsPDFCtor) {
+                    const pdf = new jsPDFCtor({ unit: 'mm', format: 'a4', orientation: 'landscape' });
+                    const usableWidthMm = PAGE_WIDTH_MM - PAGE_MARGIN_MM * 2;
+                    const imgWidthPx = canvas.width;
+                    const imgHeightPx = canvas.height;
+                    let imgHeightMm = (imgHeightPx / imgWidthPx) * usableWidthMm;
+                    const maxUsableHeightMm = PAGE_HEIGHT_MM - PAGE_MARGIN_MM * 2;
+                    if (imgHeightMm > maxUsableHeightMm) imgHeightMm = maxUsableHeightMm;
+                    const imgWidthMm = usableWidthMm;
+                    const x = (PAGE_WIDTH_MM - imgWidthMm) / 2;
+                    const y = PAGE_MARGIN_MM;
+                    // Asegurar fondo blanco en la página antes de añadir la imagen
+                    try { pdf.setFillColor(255,255,255); pdf.rect(0, 0, PAGE_WIDTH_MM, PAGE_HEIGHT_MM, 'F'); } catch(e) {}
+                    pdf.addImage(imgData, 'JPEG', x, y, imgWidthMm, imgHeightMm);
+                    pdf.save(`Reporte_${new Date().toISOString().split('T')[0]}.pdf`);
+                } else {
+                    await html2pdf().set({ margin: PAGE_MARGIN_MM, filename: `Reporte_${new Date().toISOString().split('T')[0]}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: renderScale, useCORS: true, windowWidth: captureWidthCss, width: captureWidthCss }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' } }).from(wrapper).save();
+                }
+            } catch (e) { console.error(e); }
+            finally {
+                try { if (wrapper && wrapper.parentNode) wrapper.parentNode.removeChild(wrapper); } catch(e) {}
+                container.classList.add('hidden'); btn.innerHTML = originalText; btn.disabled = false; reportEl.style.cssText = '';
             }
         };
 
