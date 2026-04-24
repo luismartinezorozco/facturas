@@ -1774,60 +1774,66 @@
         };
 
         window.generarBlobFactura = async function(num, element) {
-            // SOLUCIÓN PARA EVITAR PDF RODADO/DESCUADRADO
+            // Generación robusta de PDF en A4 (evita recortes en móvil)
             const originalParent = element.parentNode;
             const nextSibling = element.nextSibling;
             const originalCss = element.style.cssText;
-            // Guardar estilos originales de imágenes que podamos cambiar
             const imgOriginals = new Map();
 
-            // 1. Crear un contenedor estático fuera de la vista
+            // Página A4 portrait
+            const PAGE_WIDTH_MM = 210;
+            const PAGE_PADDING_MM = 12; // padding interior (box-sizing:border-box)
+            const PAGE_MARGIN_MM = 10; // margen para jsPDF
+
             const tempContainer = document.createElement('div');
-            tempContainer.style.position = 'absolute'; 
-            tempContainer.style.left = '-9999px'; 
-            tempContainer.style.top = '0'; 
-            tempContainer.style.width = '800px'; 
+            tempContainer.style.position = 'absolute';
+            tempContainer.style.left = '-9999px';
+            tempContainer.style.top = '0';
+            tempContainer.style.width = PAGE_WIDTH_MM + 'mm';
             tempContainer.style.background = 'white';
+            tempContainer.style.overflow = 'hidden';
             document.body.appendChild(tempContainer);
-            
-            // 2. Mover el elemento y forzar su diseño de escritorio (evita deformación móvil)
-            // Antes de mover: asegurar que el logo de cobro no se estire en el PDF
+
+            // Ajustes de imágenes (logo/firma) para evitar deformaciones
             try {
                 const logo = element.querySelector('#render-cobro-logo');
                 if (logo) {
                     imgOriginals.set(logo, logo.getAttribute('style') || '');
-                    // Permitir que el logo escale proporcionalmente sin deformación
-                    logo.style.cssText = 'width: auto !important; height: auto !important; max-width: 200px !important; object-fit: contain !important; display: block !important; margin: 0 !important; padding: 0 !important;';
+                    logo.style.cssText = 'width: auto !important; height: auto !important; max-width: 60mm !important; object-fit: contain !important; display: block !important; margin: 0 !important; padding: 0 !important;';
                     logo.classList.remove('hidden');
                 }
             } catch (e) { console.error('logo adjust error', e); }
 
-            // Ajustar también la firma (si existe) para que se muestre más grande y centrada en el PDF
             try {
                 const firma = element.querySelector('#render-cobro-firma-img');
                 if (firma) {
                     imgOriginals.set(firma, firma.getAttribute('style') || '');
-                    firma.style.cssText = 'width: auto !important; height: auto !important; max-width: 220px !important; max-height: 120px !important; object-fit: contain !important; display: block !important; margin: 0 auto !important; padding: 0 !important;';
+                    firma.style.cssText = 'width: auto !important; height: auto !important; max-width: 80mm !important; max-height: 40mm !important; object-fit: contain !important; display: block !important; margin: 0 auto !important; padding: 0 !important;';
                     firma.classList.remove('hidden');
                 }
             } catch (e) { console.error('firma adjust error', e); }
 
+            // Mover elemento al contenedor y aplicar dimensiones en mm (box-sizing incluye padding)
             tempContainer.appendChild(element);
-            element.style.cssText = 'width: 800px !important; max-width: 800px !important; padding: 40px 30px 30px 30px !important; background: white !important; margin: 0 !important; box-sizing: border-box !important;';
+            element.style.cssText = `width: ${PAGE_WIDTH_MM}mm !important; max-width: ${PAGE_WIDTH_MM}mm !important; padding: ${PAGE_PADDING_MM}mm !important; background: white !important; margin: 0 !important; box-sizing: border-box !important; overflow: visible !important;`;
 
-            // 3. Forzar coordenadas x:0, y:0 y Scroll en 0
+            // Calcular ancho en pixels y escala apropiada para html2canvas (usa devicePixelRatio si aplica)
+            const pxWidth = Math.ceil(element.getBoundingClientRect().width) || 800;
+            const deviceScale = Math.max(2, Math.min(3, Math.round(window.devicePixelRatio || 2)));
+
             const opt = {
-                margin: [5, 0, 5, 0], // Márgenes ligeros arriba y abajo
+                margin: PAGE_MARGIN_MM,
                 filename: `Documento_${num}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, windowWidth: 800, x: 0, y: 0, scrollX: 0, scrollY: 0 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                html2canvas: { scale: deviceScale, useCORS: true, windowWidth: pxWidth, width: pxWidth, scrollX: 0, scrollY: 0 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: 'css' }
             };
-            
+
             try {
                 return await html2pdf().set(opt).from(element).output('blob');
             } finally {
-                // Restaurar estilos de imagenes modificadas
+                // Restaurar estilos de imágenes modificadas
                 try {
                     imgOriginals.forEach((style, img) => {
                         if (style) img.setAttribute('style', style);
@@ -1835,12 +1841,9 @@
                     });
                 } catch (e) { console.error('restore img styles', e); }
 
-                // 4. Devolver el elemento a su lugar original intacto
-                if (nextSibling) {
-                    originalParent.insertBefore(element, nextSibling);
-                } else {
-                    originalParent.appendChild(element);
-                }
+                // Restaurar elemento al DOM original
+                if (nextSibling) originalParent.insertBefore(element, nextSibling);
+                else originalParent.appendChild(element);
                 element.style.cssText = originalCss;
                 document.body.removeChild(tempContainer);
             }
@@ -2436,20 +2439,28 @@
             const reportEl = document.getElementById('history-report');
             container.classList.remove('hidden');
             
+            // Usar tamaño A4 landscape en mm para evitar recortes en dispositivos móviles
+            const PAGE_WIDTH_MM = 297; // A4 landscape width
+            const PAGE_PADDING_MM = 10;
+            const PAGE_MARGIN_MM = 10;
+
             const tempContainer = document.createElement('div');
-            tempContainer.style.position = 'absolute'; tempContainer.style.left = '-9999px'; tempContainer.style.top = '0'; tempContainer.style.width = '1080px'; tempContainer.style.background = 'white';
+            tempContainer.style.position = 'absolute'; tempContainer.style.left = '-9999px'; tempContainer.style.top = '0'; tempContainer.style.width = PAGE_WIDTH_MM + 'mm'; tempContainer.style.background = 'white'; tempContainer.style.overflow = 'hidden';
             document.body.appendChild(tempContainer);
-            
+
             const originalParent = reportEl.parentNode;
             tempContainer.appendChild(reportEl);
-            reportEl.style.cssText = 'width: 1080px !important; padding: 40px !important; background: white !important; margin: 0 !important; border: none !important;';
-            
+            reportEl.style.cssText = `width: ${PAGE_WIDTH_MM}mm !important; padding: ${PAGE_PADDING_MM}mm !important; background: white !important; margin: 0 !important; border: none !important; box-sizing: border-box !important;`;
+
             try {
+                const pxWidth = Math.ceil(reportEl.getBoundingClientRect().width) || 1080;
+                const deviceScale = Math.max(2, Math.min(3, Math.round(window.devicePixelRatio || 2)));
+
                 await html2pdf().set({
-                    margin: 0, filename: `Reporte_${new Date().toISOString().split('T')[0]}.pdf`,
+                    margin: PAGE_MARGIN_MM, filename: `Reporte_${new Date().toISOString().split('T')[0]}.pdf`,
                     image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2, useCORS: true, windowWidth: 1080, x:0, y:0, scrollX: 0, scrollY: 0 },
-                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }, pagebreak: { mode: 'css' } 
+                    html2canvas: { scale: deviceScale, useCORS: true, windowWidth: pxWidth, width: pxWidth, x:0, y:0, scrollX: 0, scrollY: 0 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }, pagebreak: { mode: 'css' }
                 }).from(reportEl).save();
             } catch (e) { console.error(e); } 
             finally { 
