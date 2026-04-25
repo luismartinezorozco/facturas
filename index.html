@@ -102,6 +102,10 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
             <span class="hidden xs:inline">Facturar</span>
         </button>
+        <button onclick="showSection('registros')" id="nav-registros" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            <span class="hidden xs:inline">Registros</span>
+        </button>
         <button onclick="showSection('cobros')" id="nav-cobros" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
             <span class="hidden xs:inline">Cuentas</span>
@@ -110,16 +114,12 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
             <span class="hidden xs:inline">Agenda</span>
         </button>
-        <button onclick="showSection('registros')" id="nav-registros" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-            <span class="hidden xs:inline">Registros</span>
-        </button>
         <button onclick="showSection('analisis')" id="nav-analisis" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]" style="display: none;">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
             <span class="hidden xs:inline">Panel</span>
         </button>
         <button onclick="showSection('ajustes')" id="nav-ajustes" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0.33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0.33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0.33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 0.33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             <span class="hidden xs:inline">Ajustes</span>
         </button>
     </nav>
@@ -317,31 +317,12 @@
                             </div>
                         </div>
                         <div class="flex-grow">
-                            <div class="border-b-2 border-slate-900 pb-2 mb-4 text-center md:text-left">
-                                <p class="text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">Descripción del Servicio</p>
-                            </div>
-                            <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-6">
+                                <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-6">
                                 <div class="flex-grow text-center md:text-left w-full">
+                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">DESCRIPCIÓN DEL SERVICIO</p>
                                     <h4 class="text-xl md:text-2xl font-[950] text-slate-900 uppercase leading-tight mb-4" id="pdf-concepto-text"></h4>
                                     
-                                    <div class="bg-slate-50 rounded-xl p-4 md:p-5 border border-slate-200 text-left mb-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div>
-                                            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Fecha Prestación</p>
-                                            <p class="text-sm font-bold text-slate-800" id="pdf-fecha-prestacion"></p>
-                                        </div>
-                                        <div>
-                                            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Horario</p>
-                                            <p class="text-sm font-bold text-slate-800" id="pdf-horario"></p>
-                                        </div>
-                                        <div class="sm:col-span-2">
-                                            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Observación</p>
-                                            <p class="text-xs font-medium text-slate-700" id="pdf-observacion"></p>
-                                        </div>
-                                        <div class="sm:col-span-2">
-                                            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Condiciones del servicio</p>
-                                            <p class="text-[10px] font-medium text-slate-600 whitespace-pre-wrap leading-relaxed" id="pdf-condiciones"></p>
-                                        </div>
-                                    </div>
+                                    <!-- Fecha Prestación / Horario / Observación / Condiciones eliminados según solicitud del usuario -->
                                 </div>
                                 <div class="flex flex-col items-center justify-center bg-slate-50 border-2 border-slate-900 rounded-[1rem] overflow-hidden w-full md:w-auto md:min-w-[110px] flex-shrink-0">
                                     <div class="bg-slate-900 w-full text-center py-2"><p class="text-[8px] font-black text-white uppercase tracking-tighter">FECHA EVENTO</p></div>
@@ -1743,7 +1724,8 @@
                 correo: document.getElementById('correo').value,
                 fechaServicio: document.getElementById('fechaServicio').value,
                 
-                fechaPrestacion: document.getElementById('factura-fecha-prestacion')?.value || '',
+                // Mapear la fecha de prestación al campo que realmente existe en el formulario
+                fechaPrestacion: document.getElementById('fechaServicio').value || '',
                 horario: document.getElementById('factura-horario')?.value || '',
                 observacion: document.getElementById('factura-observacion')?.value || '',
                 condiciones: document.getElementById('factura-condiciones')?.value || '',
@@ -1774,62 +1756,75 @@
         };
 
         window.generarBlobFactura = async function(num, element) {
-            // Ensure white background and no transparency when capturing
-            const originalStyle = element.getAttribute('style') || '';
+            // SOLUCIÓN PARA EVITAR PDF RODADO/DESCUADRADO
+            const originalParent = element.parentNode;
+            const nextSibling = element.nextSibling;
+            const originalCss = element.style.cssText;
+            // Guardar estilos originales de imágenes que podamos cambiar
+            const imgOriginals = new Map();
+
+            // 1. Crear un contenedor estático fuera de la vista
+            const tempContainer = document.createElement('div');
+            tempContainer.style.position = 'absolute'; 
+            tempContainer.style.left = '-9999px'; 
+            tempContainer.style.top = '0'; 
+            tempContainer.style.width = '800px'; 
+            tempContainer.style.background = 'white';
+            document.body.appendChild(tempContainer);
+            
+            // 2. Mover el elemento y forzar su diseño de escritorio (evita deformación móvil)
+            // Antes de mover: asegurar que el logo de cobro no se estire en el PDF
             try {
-                // Forzar fondo blanco en el contenedor durante la captura
-                element.style.setProperty('background', '#ffffff', 'important');
-                element.style.setProperty('background-color', '#ffffff', 'important');
-                element.style.setProperty('box-shadow', 'none', 'important');
-                element.style.setProperty('filter', 'none', 'important');
-
-                // esperar fuentes si aplica
-                try { if (document.fonts) await document.fonts.ready; } catch(e) {}
-
-                // Ejecutar html2canvas directamente sobre el elemento con fondo blanco
-                const canvas = await html2canvas(element, { useCORS: true, backgroundColor: '#ffffff' });
-
-                // Convertir canvas a PNG
-                const imgData = canvas.toDataURL('image/png');
-
-                // Crear PDF con jsPDF y rellenar con blanco para evitar transparencias
-                let pdf = null;
-                if (window.jspdf && window.jspdf.jsPDF) {
-                    try { pdf = new window.jspdf.jsPDF('p', 'mm', 'a4'); } catch (e) { pdf = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' }); }
-                } else if (window.jsPDF) {
-                    try { pdf = new window.jsPDF('p', 'mm', 'a4'); } catch (e) { pdf = new window.jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' }); }
+                const logo = element.querySelector('#render-cobro-logo');
+                if (logo) {
+                    imgOriginals.set(logo, logo.getAttribute('style') || '');
+                    // Permitir que el logo escale proporcionalmente sin deformación
+                    logo.style.cssText = 'width: auto !important; height: auto !important; max-width: 200px !important; object-fit: contain !important; display: block !important; margin: 0 !important; padding: 0 !important;';
+                    logo.classList.remove('hidden');
                 }
+            } catch (e) { console.error('logo adjust error', e); }
 
-                if (!pdf) {
-                    // Fallback: usar html2pdf si jsPDF no está disponible
-                    const opt = { margin: 10, filename: `Documento_${num}.pdf`, image: { type: 'png', quality: 1.0 }, html2canvas: { useCORS: true, backgroundColor: '#ffffff' } , jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
-                    return await html2pdf().set(opt).from(element).output('blob');
+            // Ajustar también la firma (si existe) para que se muestre más grande y centrada en el PDF
+            try {
+                const firma = element.querySelector('#render-cobro-firma-img');
+                if (firma) {
+                    imgOriginals.set(firma, firma.getAttribute('style') || '');
+                    firma.style.cssText = 'width: auto !important; height: auto !important; max-width: 220px !important; max-height: 120px !important; object-fit: contain !important; display: block !important; margin: 0 auto !important; padding: 0 !important;';
+                    firma.classList.remove('hidden');
                 }
+            } catch (e) { console.error('firma adjust error', e); }
 
-                // Rellenar la página con blanco (evitar tonos grises por transparencias)
-                pdf.setFillColor(255,255,255);
-                pdf.rect(0, 0, 210, 297, 'F');
+            tempContainer.appendChild(element);
+            element.style.cssText = 'width: 800px !important; max-width: 800px !important; padding: 40px 30px 30px 30px !important; background: white !important; margin: 0 !important; box-sizing: border-box !important;';
 
-                // Calcular altura proporcional en mm (ancho fijo 210mm)
-                const imgWidthPx = canvas.width;
-                const imgHeightPx = canvas.height;
-                const targetWidthMm = 210; // ancho A4 en mm
-                const heightMm = (imgHeightPx * targetWidthMm) / imgWidthPx;
-
-                // Añadir imagen y forzar descarga
-                pdf.addImage(imgData, 'PNG', 0, 0, targetWidthMm, heightMm);
-                const blob = pdf.output('blob');
-                pdf.save(`Documento_${num}.pdf`);
-                return blob;
-            } catch (err) {
-                console.error('generarBlobFactura error', err);
-                try {
-                    await html2pdf().set({ margin: 10, filename: `Documento_${num}.pdf`, image: { type: 'png', quality: 1.0 }, html2canvas: { useCORS: true, backgroundColor: '#ffffff' }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }).from(element).save();
-                } catch (e) { console.error('fallback html2pdf failed', e); }
-                return null;
+            // 3. Forzar coordenadas x:0, y:0 y Scroll en 0
+            const opt = {
+                margin: [5, 0, 5, 0], // Márgenes ligeros arriba y abajo
+                filename: `Documento_${num}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, windowWidth: 800, x: 0, y: 0, scrollX: 0, scrollY: 0 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            try {
+                return await html2pdf().set(opt).from(element).output('blob');
             } finally {
-                // Restaurar estilos originales
-                try { element.setAttribute('style', originalStyle); } catch (e) { }
+                // Restaurar estilos de imagenes modificadas
+                try {
+                    imgOriginals.forEach((style, img) => {
+                        if (style) img.setAttribute('style', style);
+                        else img.removeAttribute('style');
+                    });
+                } catch (e) { console.error('restore img styles', e); }
+
+                // 4. Devolver el elemento a su lugar original intacto
+                if (nextSibling) {
+                    originalParent.insertBefore(element, nextSibling);
+                } else {
+                    originalParent.appendChild(element);
+                }
+                element.style.cssText = originalCss;
+                document.body.removeChild(tempContainer);
             }
         };
 
@@ -1941,80 +1936,81 @@
         };
 
         window.renderPDFContent = function(data) {
+            const setText = (id, txt) => { const el = document.getElementById(id); if (!el) return; el.innerText = txt || ''; };
+            const setCurrency = (id, val) => { const el = document.getElementById(id); if (!el) return; el.innerText = window.formatCOP(Number(val) || 0); };
+
+            // Restore company/header from config
             const config = window.getUserConfig();
-            document.getElementById('pdf-empresa').innerText = config.empresa || "EMPRESA";
-            document.getElementById('pdf-propietario').innerText = config.propietario || "PROPIETARIO";
-            document.getElementById('pdf-nit').innerText = `NIT / C.C. ${config.nit || ""}`;
-            document.getElementById('pdf-direccion-lbl').innerText = config.direccion || config.ciudad || "";
-            document.getElementById('pdf-ciudad').innerText = config.direccion ? (config.ciudad || "") : "";
-            document.getElementById('pdf-telefono').innerText = config.telefono || "";
-            document.getElementById('pdf-email').innerText = config.email || "";
+            try {
+                setText('pdf-empresa', config.empresa || 'NOMBRE EMPRESA');
+                setText('pdf-propietario', config.propietario || 'PROPIETARIO');
+                setText('pdf-nit', config.nit ? `NIT / C.C. ${config.nit}` : '');
+                setText('pdf-direccion-lbl', config.direccion || '');
+                setText('pdf-ciudad', config.ciudad || '');
+                setText('pdf-telefono', config.telefono || '');
+                setText('pdf-email', config.email || '');
 
-            const logoEl = document.getElementById('pdf-logo');
-            const lineEl = document.getElementById('pdf-line-accent');
-            if (config.logo && config.logo !== '') { logoEl.src = config.logo; logoEl.classList.remove('hidden'); lineEl.classList.add('hidden'); } 
-            else { logoEl.src = ''; logoEl.classList.add('hidden'); lineEl.classList.remove('hidden'); }
+                const logoEl = document.getElementById('pdf-logo');
+                const lineEl = document.getElementById('pdf-line-accent');
+                if (logoEl && config.logo) { logoEl.src = config.logo; logoEl.classList.remove('hidden'); if (lineEl) lineEl.classList.add('hidden'); }
+                else if (logoEl) { logoEl.src = ''; logoEl.classList.add('hidden'); if (lineEl) lineEl.classList.remove('hidden'); }
+            } catch (e) { console.error('renderPDFContent header error', e); }
 
+            // Fill invoice-specific fields from the form/document
+            setText('pdf-num-label', data.num || '');
+            const fechaText = data.fechaServicio || new Date(data.fechaCreacion || Date.now()).toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
+            setText('pdf-fecha-hoy', fechaText);
+            setText('pdf-concepto-text', data.concepto || '');
+            setText('pdf-cliente-nombre', data.cliente || '');
+            setText('pdf-cliente-cc', data.cc || '');
+            setText('pdf-cliente-correo', data.correo || '');
 
-            // --- Primer uso: detalles método de pago para factura ---
-            const methodDetailsFactura = (config.paymentMethods || []).find(m => m.name === data.metodo) || (config.paymentMethods || [])[0] || {account: '', bank: ''};
-            document.getElementById('pdf-pago-banco').innerText = data.metodo;
-            document.getElementById('pdf-cuenta').innerText = methodDetailsFactura ? methodDetailsFactura.account : '';
-            document.getElementById('pdf-banco').innerText = methodDetailsFactura ? methodDetailsFactura.bank : '';
+            // Payment details: prefer form value, fall back to first configured method
+            const metodoName = data.metodo || (config.paymentMethods && config.paymentMethods[0] && config.paymentMethods[0].name) || '';
+            setText('pdf-pago-banco', metodoName);
+            const methodDetails = (config.paymentMethods || []).find(m => m.name === metodoName) || (config.paymentMethods || [])[0] || { account: '', bank: '' };
+            setText('pdf-cuenta', methodDetails.account || '');
+            setText('pdf-banco', methodDetails.bank || '');
 
-            document.getElementById('pdf-fecha-prestacion').innerText = data.fechaPrestacion || 'No especificada';
-            document.getElementById('pdf-horario').innerText = data.horario || 'No especificado';
-            document.getElementById('pdf-observacion').innerText = data.observacion || 'Ninguna observación';
-            document.getElementById('pdf-condiciones').innerText = data.condiciones || 'Ninguna condición especial aplicable.';
+            // Totals
+            setCurrency('calc-abono', data.montoBase || 0);
+            if (data.saldo && Number(data.saldo) > 0) { const row = document.getElementById('row-saldo'); if (row) row.classList.remove('hidden'); setCurrency('calc-saldo', data.saldo); }
+            else { const row = document.getElementById('row-saldo'); if (row) row.classList.add('hidden'); setText('calc-saldo', ''); }
+            setCurrency('calc-total', data.total || (Number(data.montoBase || 0) + Number(data.saldo || 0)));
 
-            const isRetenciones = document.getElementById('cobro-toggle-retenciones').checked;
-            const blockNormal = document.getElementById('render-cobro-totales-normal');
-            const blockRete = document.getElementById('render-cobro-totales-retenciones');
+            // Descriptive fields (if provided)
+            setText('pdf-fecha-prestacion', data.fechaPrestacion || '');
+            setText('pdf-horario', data.horario || '');
+            setText('pdf-observacion', data.observacion || '');
+            setText('pdf-condiciones', data.condiciones || '');
 
-            if(isRetenciones) {
-                blockNormal.classList.add('hidden'); blockRete.classList.remove('hidden');
-                
-                // Aplicar porcentajes al texto
-                const pctFuente = document.getElementById('cobro-r-retefuente-pct').value || 0;
-                const pctIca = document.getElementById('cobro-r-reteica-pct').value || 0;
-                document.getElementById('render-cobro-lbl-retefuente').innerText = `Retefuente ${pctFuente}%:`;
-                document.getElementById('render-cobro-lbl-reteica').innerText = `Rete ICA ${pctIca}*1000:`;
-                
-                document.getElementById('render-cobro-r-bruto').innerText = document.getElementById('cobro-r-bruto').value || window.formatCOP(0);
-                document.getElementById('render-cobro-r-retefuente').innerText = document.getElementById('cobro-r-retefuente').value || window.formatCOP(0);
-                document.getElementById('render-cobro-r-reteica').innerText = document.getElementById('cobro-r-reteica').value || window.formatCOP(0);
-                document.getElementById('render-cobro-r-total').innerText = document.getElementById('cobro-r-total').value || window.formatCOP(0);
-            } else {
-                blockNormal.classList.remove('hidden'); blockRete.classList.add('hidden');
-                const subtotal = window.getRawValue(document.getElementById('cobro-valor').value);
-                const descuento = window.getRawValue(document.getElementById('cobro-desc').value) || 0;
-                document.getElementById('render-cobro-subtotal').innerText = window.formatCOP(subtotal);
-                document.getElementById('render-cobro-desc-disp').innerText = descuento > 0 ? `- ${window.formatCOP(descuento)}` : window.formatCOP(0);
-                document.getElementById('render-cobro-total').innerText = window.formatCOP(subtotal - descuento);
-            }
+            // FECHA EVENTO: llenar día/mes/año si existe fecha
+            try {
+                const fechaEventoStr = data.fechaPrestacion || data.fechaServicio || '';
+                if (fechaEventoStr) {
+                    const d = new Date(fechaEventoStr.includes('T') ? fechaEventoStr : `${fechaEventoStr}T00:00:00`);
+                    const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+                    setText('pdf-fecha-servicio-dia', String(d.getDate()).padStart(2,'0'));
+                    setText('pdf-fecha-servicio-mes', months[d.getMonth()] || '');
+                    setText('pdf-fecha-servicio-anio', d.getFullYear() || '');
+                } else {
+                    setText('pdf-fecha-servicio-dia', ''); setText('pdf-fecha-servicio-mes', ''); setText('pdf-fecha-servicio-anio', '');
+                }
+            } catch (e) { console.error('fecha evento parse error', e); }
 
+            // Mostrar firma de factura si el usuario la subió
+            try {
+                const firmaEl = document.getElementById('pdf-factura-firma');
+                if (firmaEl) {
+                    if (config.firmaBase64 && config.firmaBase64 !== '') { firmaEl.src = config.firmaBase64; firmaEl.classList.remove('hidden'); }
+                    else { firmaEl.src = ''; firmaEl.classList.add('hidden'); }
+                }
+                setText('pdf-factura-firma-nit', config.nit || '');
+            } catch (e) { console.error('firma render error', e); }
 
-            // --- Segundo uso: detalles método de pago para cobro ---
-            const metodoName = document.getElementById('cobro-metodo').value;
-            const methodDetailsCobro = (config.paymentMethods || []).find(m => m.name === metodoName) || {account: '', bank: ''};
-            document.getElementById('render-cobro-banco-nombre').innerText = metodoName;
-            document.getElementById('render-cobro-banco-tipo').innerText = methodDetailsCobro.bank ? `Tipo: ${methodDetailsCobro.bank}` : '';
-            document.getElementById('render-cobro-banco-cuenta').innerText = methodDetailsCobro.account ? `Cuenta Nº: ${methodDetailsCobro.account}` : '';
-            document.getElementById('render-cobro-notas-disp').innerText = document.getElementById('cobro-notas').value;
-
-            // FIRMA EN COBRO
-            const firmaCobro = document.getElementById('render-cobro-firma-img');
-            if (config.firmaBase64) {
-                firmaCobro.src = config.firmaBase64;
-                firmaCobro.classList.remove('hidden');
-            } else {
-                firmaCobro.src = '';
-                firmaCobro.classList.add('hidden');
-            }
-            document.getElementById('render-cobro-firmante-cc').innerText = config.nit || "";
-
-            document.getElementById('form-cobro-container').classList.add('hidden');
-            document.getElementById('preview-cobro-container').classList.remove('hidden');
+            // Show invoice preview and hide form
+            const formContainer = document.getElementById('form-container'); if (formContainer) formContainer.classList.add('hidden');
+            const preview = document.getElementById('preview-container'); if (preview) preview.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
