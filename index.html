@@ -27,6 +27,41 @@
         .mobile-viewport-wrapper{width:100%;display:flex;justify-content:center;align-items:flex-start;background:#f1f5f9;border-radius:1.5rem;padding:0.6rem;min-height:40vh;overflow-x:auto;-webkit-overflow-scrolling:touch;box-sizing:border-box}.dark .mobile-viewport-wrapper{background:#0f172a;border:1px solid #334155}
         .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.25rem}.calendar-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:0.75rem;font-size:0.8rem;font-weight:800;cursor:pointer;transition:all 0.2s}.calendar-day:hover{background-color:rgba(59,130,246,0.1)}.calendar-day.selected{background-color:#0f172a;color:#fff}.dark .calendar-day.selected{background-color:#3b82f6}.calendar-day.today{border:2px solid #3b82f6}.calendar-day.empty{pointer-events:none}.event-dot{width:4px;height:4px;background-color:#ef4444;border-radius:50%;margin-top:2px}.calendar-day.selected .event-dot{background-color:#fff}
         @media(max-width:640px){.responsive-table thead{display:none}.responsive-table tbody tr{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:1rem;margin-bottom:1rem;padding:1rem;box-shadow:0 2px 4px rgba(0,0,0,0.02)}.dark .responsive-table tbody tr{background:#1e293b;border-color:#334155}.responsive-table tbody td{display:flex;justify-content:space-between;align-items:center;padding:0.75rem 0;border-bottom:1px dashed #f1f5f9;text-align:right}.dark .responsive-table tbody td{border-color:#334155}.responsive-table tbody td:last-child{border-bottom:none;justify-content:center;padding-top:1rem;margin-top:0.5rem}.responsive-table td::before{content:attr(data-label);font-weight:900;color:#64748b;text-transform:uppercase;font-size:0.7rem;letter-spacing:0.05em;margin-right:1rem;text-align:left}.dark .responsive-table td::before{color:#94a3b8}}
+        /* Mobile: compactar vista previa de Cuentas de Cobro (solo CSS, sin tocar lógica) */
+        @media (max-width:640px) {
+            /* wrapper más ajustado */
+            #preview-cobro-container .mobile-viewport-wrapper{padding:0.4rem;min-height:28vh}
+            /* cobro render compacto */
+            #preview-cobro-container #cobro-render{padding:12px !important;min-height:520px !important;max-width:96%}
+            /* apilar cabecera */
+            #preview-cobro-container #cobro-render .flex.justify-between.items-center.mb-6,
+            #preview-cobro-container #cobro-render .flex.justify-between.items-center{flex-direction:column;align-items:flex-start;gap:6px}
+            #preview-cobro-container #cobro-render .w-1\/2{width:100%;padding:0}
+            /* etiquetas y valores más pequeños */
+            #preview-cobro-container #cobro-render .c-label{font-size:9px;padding:4px 8px}
+            #preview-cobro-container #cobro-render .c-val{font-size:11px;padding:4px 8px}
+            #preview-cobro-container #cobro-render .c-bg{padding:6px 8px}
+            #preview-cobro-container #cobro-render .p-4{padding:8px;font-size:13px}
+            #preview-cobro-container #cobro-render .min-h-\[100px\]{min-height:60px}
+            /* ajustar columnas de totales y paneles para que ocupen 100% */
+            #preview-cobro-container #cobro-render .w-3\/5,#preview-cobro-container #cobro-render .w-2\/5{width:100%}
+            /* reducir margenes y gaps */
+            #preview-cobro-container #cobro-render .mb-6,#preview-cobro-container #cobro-render .mb-8,#preview-cobro-container #cobro-render .mb-5{margin-bottom:8px}
+            #preview-cobro-container #cobro-render .gap-6,#preview-cobro-container #cobro-render .gap-4,#preview-cobro-container #cobro-render .gap-5{gap:6px}
+            /* firma más pequeña */
+            #preview-cobro-container #cobro-render #render-cobro-firma-img{max-height:64px}
+            /* botones de cabecera más compactos */
+            #preview-cobro-container .flex>button{padding:8px 10px;font-size:10px}
+            /* permitir scroll vertical si es necesario */
+            #preview-cobro-container #cobro-render{overflow-y:auto;-webkit-overflow-scrolling:touch;max-height:calc(100vh - 80px)}
+            /* apilar filas internas */
+            #preview-cobro-container #cobro-render .c-border .flex>div{display:block;width:100% !important}
+            #preview-cobro-container #cobro-render .c-border .flex .c-label{display:block;width:100% !important;border-right:none !important}
+            #preview-cobro-container #cobro-render .c-border .flex .c-val{display:block;width:100% !important;border-right:none !important}
+            /* ajustar tipografías globales dentro del render */
+            #preview-cobro-container #cobro-render h1,#preview-cobro-container #cobro-render h2,#preview-cobro-container #cobro-render h3,#preview-cobro-container #cobro-render h4,#preview-cobro-container #cobro-render p{font-size:14px}
+            #preview-cobro-container #cobro-render .text-2xl{font-size:18px}
+        }
         .tab-btn{flex:1;text-align:center;padding:0.75rem;font-size:0.75rem;font-weight:900;text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.3s;color:#64748b}.dark .tab-btn{color:#94a3b8}.tab-btn.active-tab{color:#2563eb;border-bottom-color:#2563eb}.dark .tab-btn.active-tab{color:#60a5fa;border-bottom-color:#60a5fa}
         #cobro-render{--theme:#0f172a}.c-border{border:2px solid var(--theme)}.c-border-t{border-top:2px solid var(--theme)}.c-border-b{border-bottom:2px solid var(--theme)}.c-border-l{border-left:2px solid var(--theme)}.c-border-r{border-right:2px solid var(--theme)}.c-bg{background-color:var(--theme);color:#fff}.c-text{color:var(--theme)}.c-label{font-size:10px;font-weight:800;padding:6px 10px;display:flex;align-items:center;text-transform:uppercase;letter-spacing:0.05em;line-height:1.2}.c-val{font-size:11px;font-weight:500;padding:6px 10px;display:flex;align-items:center;line-height:1.2}
     </style>
