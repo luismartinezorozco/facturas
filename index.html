@@ -24,7 +24,7 @@
         .line-accent{height:6px;width:60px;background-color:#2563eb;border-radius:2px}
         .section-content{animation:fadeIn 0.4s ease-out}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
         #confirm-modal,#login-screen{backdrop-filter:blur(8px)}
-        .mobile-viewport-wrapper{width:100%;display:flex;justify-content:center;align-items:flex-start;background:#f1f5f9;border-radius:1.5rem;padding:1rem;min-height:50vh;overflow-x:hidden;box-sizing:border-box}.dark .mobile-viewport-wrapper{background:#0f172a;border:1px solid #334155}
+        .mobile-viewport-wrapper{width:100%;display:flex;justify-content:center;align-items:flex-start;background:#f1f5f9;border-radius:1.5rem;padding:0.6rem;min-height:40vh;overflow-x:auto;-webkit-overflow-scrolling:touch;box-sizing:border-box}.dark .mobile-viewport-wrapper{background:#0f172a;border:1px solid #334155}
         .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.25rem}.calendar-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:0.75rem;font-size:0.8rem;font-weight:800;cursor:pointer;transition:all 0.2s}.calendar-day:hover{background-color:rgba(59,130,246,0.1)}.calendar-day.selected{background-color:#0f172a;color:#fff}.dark .calendar-day.selected{background-color:#3b82f6}.calendar-day.today{border:2px solid #3b82f6}.calendar-day.empty{pointer-events:none}.event-dot{width:4px;height:4px;background-color:#ef4444;border-radius:50%;margin-top:2px}.calendar-day.selected .event-dot{background-color:#fff}
         @media(max-width:640px){.responsive-table thead{display:none}.responsive-table tbody tr{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:1rem;margin-bottom:1rem;padding:1rem;box-shadow:0 2px 4px rgba(0,0,0,0.02)}.dark .responsive-table tbody tr{background:#1e293b;border-color:#334155}.responsive-table tbody td{display:flex;justify-content:space-between;align-items:center;padding:0.75rem 0;border-bottom:1px dashed #f1f5f9;text-align:right}.dark .responsive-table tbody td{border-color:#334155}.responsive-table tbody td:last-child{border-bottom:none;justify-content:center;padding-top:1rem;margin-top:0.5rem}.responsive-table td::before{content:attr(data-label);font-weight:900;color:#64748b;text-transform:uppercase;font-size:0.7rem;letter-spacing:0.05em;margin-right:1rem;text-align:left}.dark .responsive-table td::before{color:#94a3b8}}
         .tab-btn{flex:1;text-align:center;padding:0.75rem;font-size:0.75rem;font-weight:900;text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.3s;color:#64748b}.dark .tab-btn{color:#94a3b8}.tab-btn.active-tab{color:#2563eb;border-bottom-color:#2563eb}.dark .tab-btn.active-tab{color:#60a5fa;border-bottom-color:#60a5fa}
@@ -265,17 +265,17 @@
 
             <!-- VISTA PREVIA FACTURA -->
             <div id="preview-container" class="hidden space-y-6 py-4">
-                <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="flex flex-col sm:flex-row gap-3">
                     <button onclick="editarDesdePreview()" class="w-full sm:w-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-6 py-4 rounded-xl font-[900] text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Editar
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Editar
                     </button>
                     <button onclick="compartirPDF()" id="btn-share" class="w-full sm:flex-grow bg-slate-900 dark:bg-blue-600 text-white py-4 rounded-xl font-[900] shadow-xl text-xs uppercase tracking-[0.2em] hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors flex items-center justify-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Descargar PDF
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Descargar PDF
                     </button>
                 </div>
                 
                 <div class="mobile-viewport-wrapper relative">
-                    <div id="invoice-render" class="w-full max-w-2xl md:max-w-none md:w-[800px] bg-white p-8 md:p-12 flex flex-col relative mx-auto transition-all text-slate-900">
+                    <div id="invoice-render" class="w-full max-w-2xl md:max-w-none md:w-[800px] bg-white p-4 sm:p-6 md:p-12 flex flex-col relative mx-auto transition-all text-slate-900 min-h-[700px] md:min-h-[900px]">
                         <div class="flex flex-col md:flex-row justify-between items-center md:items-start mb-6 md:mb-8 gap-6 md:gap-0">
                             <div class="space-y-3 text-center md:text-left w-full md:w-auto">
                                 <div>
@@ -283,7 +283,7 @@
                                         <img id="pdf-logo" src="" alt="Logo" class="hidden h-16 object-contain flex-shrink-0">
                                         <div id="pdf-line-accent" class="line-accent"></div>
                                     </div>
-                                    <h1 class="text-3xl md:text-4xl font-[950] text-slate-900 tracking-tighter uppercase italic leading-none" id="pdf-empresa">NOMBRE EMPRESA</h1>
+                                    <h1 class="text-2xl md:text-4xl font-[950] text-slate-900 tracking-tighter uppercase italic leading-none" id="pdf-empresa">NOMBRE EMPRESA</h1>
                                     <p class="text-slate-800 font-black text-sm md:text-base tracking-[0.2em] mt-2" id="pdf-propietario">PROPIETARIO</p>
                                     <p class="text-slate-500 font-bold text-[10px] md:text-xs uppercase tracking-widest mt-1" id="pdf-nit">NIT</p>
                                 </div>
@@ -297,18 +297,18 @@
                             <div class="text-center md:text-right flex flex-col items-center md:items-end w-full md:w-auto">
                                 <div class="mb-4 w-full md:w-auto">
                                     <h2 class="text-xs font-black text-blue-600 tracking-[0.3em] uppercase mb-1">Comprobante No.</h2>
-                                    <p class="text-3xl md:text-4xl font-[950] text-slate-900 tracking-tighter" id="pdf-num-label"></p>
+                                    <p class="text-2xl md:text-4xl font-[950] text-slate-900 tracking-tighter" id="pdf-num-label"></p>
                                     <p class="text-slate-400 text-[9px] font-black uppercase tracking-[0.2em] mt-1" id="pdf-fecha-hoy"></p>
                                 </div>
                                 <div class="bank-info-box w-full md:min-w-[220px] py-3">
                                     <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Información de Pago:</p>
                                     <p class="text-xs font-[900] text-slate-900 uppercase" id="pdf-pago-banco"></p>
-                                    <p class="text-lg md:text-xl font-[950] text-slate-900 tracking-tighter mt-1" id="pdf-cuenta">No. Cuenta</p>
+                                    <p class="text-base md:text-xl font-[950] text-slate-900 tracking-tighter mt-1" id="pdf-cuenta">No. Cuenta</p>
                                     <p class="text-[8px] font-bold text-slate-500" id="pdf-banco">Banco / Tipo</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="bg-slate-900 text-white rounded-2xl p-5 md:p-6 flex flex-col md:flex-row justify-between items-center mb-6 md:mb-8 gap-4 md:gap-0 text-center md:text-left shadow-md">
+                        <div class="bg-slate-900 text-white rounded-2xl p-4 md:p-6 flex flex-col md:flex-row justify-between items-center mb-6 md:mb-8 gap-4 md:gap-0 text-center md:text-left shadow-md">
                             <div class="w-full md:w-auto">
                                 <p class="text-[9px] font-black text-blue-400 uppercase tracking-widest mb-1">Facturado a:</p>
                                 <h3 class="text-xl md:text-2xl font-[950] tracking-tight uppercase break-words" id="pdf-cliente-nombre"></h3>
@@ -330,7 +330,7 @@
                                     <div class="bg-slate-900 w-full text-center py-2"><p class="text-[8px] font-black text-white uppercase tracking-tighter">FECHA EVENTO</p></div>
                                     <div class="p-4 text-center">
                                         <p class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-0.5" id="pdf-fecha-servicio-mes"></p>
-                                        <p class="text-3xl font-[950] text-slate-900 leading-none tracking-tighter" id="pdf-fecha-servicio-dia"></p>
+                                        <p class="text-2xl md:text-3xl font-[950] text-slate-900 leading-none tracking-tighter" id="pdf-fecha-servicio-dia"></p>
                                         <p class="text-[9px] font-black text-slate-500 mt-1" id="pdf-fecha-servicio-anio"></p>
                                     </div>
                                 </div>
@@ -1977,14 +1977,14 @@
                                 <p class="text-[10px] font-black text-slate-400 uppercase">${f.metodo}</p>
                             </div>
                                     <div class="flex gap-2">
-                                        <button class="btn-editar-doc bg-white text-slate-600 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all" title="Editar factura">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                        <button class="btn-editar-doc bg-white text-slate-600 hover:scale-105 w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all" title="Editar factura">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                                         </button>
-                                        <button class="btn-descargar-doc bg-blue-50 text-blue-600 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all" title="Descargar factura">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                        <button class="btn-descargar-doc bg-blue-50 text-blue-600 hover:scale-105 w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all" title="Descargar factura">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                                         </button>
-                                        <button class="btn-eliminar-doc bg-red-50 text-red-500 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all" title="Eliminar factura">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                        <button class="btn-eliminar-doc bg-red-50 text-red-500 hover:scale-105 w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all" title="Eliminar factura">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                                         </button>
                                     </div>`;
 
@@ -2391,8 +2391,8 @@
                 const card = document.createElement('div');
                 card.className = "bg-indigo-50 dark:bg-indigo-900/10 p-5 rounded-3xl border border-indigo-100 dark:border-indigo-800/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:-translate-y-1 hover:shadow-lg transition-all";
                 card.innerHTML = `
-                    <div class="flex items-center gap-4 w-full md:w-auto">
-                        <div class="bg-indigo-600 text-white w-12 h-12 rounded-2xl shadow-xl shadow-indigo-600/30 flex-none flex items-center justify-center font-[900] text-sm italic tracking-tighter">${c.num}</div>
+                        <div class="flex items-center gap-4 w-full md:w-auto">
+                        <div class="bg-indigo-600 text-white w-10 h-10 sm:w-12 sm:h-12 rounded-2xl shadow-xl shadow-indigo-600/30 flex-none flex items-center justify-center font-[900] text-sm italic tracking-tighter">${c.num}</div>
                         <div class="space-y-0.5 min-w-0">
                             <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest flex items-center gap-1">${c.fecha}</p>
                             <p class="font-[900] text-slate-900 dark:text-white text-lg uppercase tracking-tight truncate">${c.cliente}</p>
@@ -2404,9 +2404,9 @@
                             <p class="text-2xl font-[950] text-indigo-600 dark:text-indigo-400 tracking-tighter">${window.formatCOP(c.valor)}</p>
                         </div>
                         <div class="flex gap-2">
-                            <button class="btn-editar-cobro bg-white text-indigo-600 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
-                            <button class="btn-descargar-cobro bg-indigo-100 text-indigo-600 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
-                            <button class="btn-eliminar-cobro bg-red-50 text-red-500 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
+                            <button class="btn-editar-cobro bg-white text-indigo-600 hover:scale-105 w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                            <button class="btn-descargar-cobro bg-indigo-100 text-indigo-600 hover:scale-105 w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
+                            <button class="btn-eliminar-cobro bg-red-50 text-red-500 hover:scale-105 w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
                         </div>
                     </div>`;
                 
