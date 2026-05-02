@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="es" style="box-sizing: border-box;">
 <head>
@@ -102,10 +104,6 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
             <span class="hidden xs:inline">Facturar</span>
         </button>
-        <button onclick="showSection('registros')" id="nav-registros" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-            <span class="hidden xs:inline">Registros</span>
-        </button>
         <button onclick="showSection('cobros')" id="nav-cobros" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
             <span class="hidden xs:inline">Cuentas</span>
@@ -114,12 +112,16 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
             <span class="hidden xs:inline">Agenda</span>
         </button>
+        <button onclick="showSection('registros')" id="nav-registros" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            <span class="hidden xs:inline">Registros</span>
+        </button>
         <button onclick="showSection('analisis')" id="nav-analisis" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]" style="display: none;">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
             <span class="hidden xs:inline">Panel</span>
         </button>
         <button onclick="showSection('ajustes')" id="nav-ajustes" class="nav-link flex-1 md:flex-none px-3 py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 min-w-[50px]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0.33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 0.33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0.33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0.33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             <span class="hidden xs:inline">Ajustes</span>
         </button>
     </nav>
@@ -264,7 +266,7 @@
             <!-- VISTA PREVIA FACTURA -->
             <div id="preview-container" class="hidden space-y-6 py-4">
                 <div class="flex flex-col sm:flex-row gap-3">
-                    <button onclick="cerrarPreview()" class="w-full sm:w-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-6 py-4 rounded-xl font-[900] text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-colors">
+                    <button onclick="editarDesdePreview()" class="w-full sm:w-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-6 py-4 rounded-xl font-[900] text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Editar
                     </button>
                     <button onclick="compartirPDF()" id="btn-share" class="w-full sm:flex-grow bg-slate-900 dark:bg-blue-600 text-white py-4 rounded-xl font-[900] shadow-xl text-xs uppercase tracking-[0.2em] hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors flex items-center justify-center gap-2">
@@ -536,7 +538,7 @@
                     <!-- VISTA PREVIA COBRO -->
                     <div id="preview-cobro-container" class="hidden space-y-6">
                         <div class="flex flex-col sm:flex-row gap-3">
-                            <button onclick="cerrarPreviewCobro()" class="w-full sm:w-auto bg-white dark:bg-slate-800 border border-slate-200 text-slate-900 dark:text-white px-6 py-4 rounded-xl font-[900] text-[10px] uppercase tracking-widest flex items-center justify-center gap-2">
+                            <button onclick="editarDesdePreviewCobro()" class="w-full sm:w-auto bg-white dark:bg-slate-800 border border-slate-200 text-slate-900 dark:text-white px-6 py-4 rounded-xl font-[900] text-[10px] uppercase tracking-widest flex items-center justify-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Editar
                             </button>
                             <button onclick="guardarYCompartirCobro()" id="btn-share-cobro" class="w-full sm:flex-grow bg-slate-900 dark:bg-blue-600 text-white py-4 rounded-xl font-[900] shadow-xl text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-2">
@@ -745,12 +747,7 @@
                 </div>
 
                 <div id="tab-content-facturas" class="block animate-fade-in">
-                    <div class="mb-6 flex justify-end">
-                        <button onclick="descargarHistorialPDF()" class="text-[10px] font-[900] bg-slate-900 dark:bg-blue-600 text-white px-5 py-3 rounded-xl uppercase tracking-[0.2em] shadow-xl flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                            Exportar Reporte
-                        </button>
-                    </div>
+                    <!-- Botón 'Exportar Reporte' removido en registros de facturas -->
                     <div class="space-y-4" id="lista-facturas"></div>
                 </div>
 
@@ -1031,6 +1028,8 @@
 
         window.currentAppUser = null; 
         window.deleteCallback = null;
+        window.editingInvoiceId = null;
+        window.editingCobroId = null;
         const defaultConfig = {
             empresa: "",propietario: "",nit: "",direccion: "",ciudad: "",telefono: "",email: "",darkMode: false,logo: "",firmaBase64: "",
             paymentMethods: [{name: "Bancolombia",bank: "Ahorros",account: "000-000-000-00"},{name: "Efectivo",bank: "Caja",account: "N/A"}]
@@ -1715,25 +1714,33 @@
             const saldo = hasSaldo ? window.getRawValue(document.getElementById('saldoPendienteInput').value) : 0;
             const userId = window.currentAppUser ? window.currentAppUser.id : 'sistema';
 
+            const isEditing = !!window.editingInvoiceId;
+            let fechaCreacion = new Date().toISOString();
+            if (isEditing) {
+                const existing = window.db.facturas.find(f => f.id === window.editingInvoiceId || f.num === window.editingInvoiceId);
+                if (existing && existing.fechaCreacion) fechaCreacion = existing.fechaCreacion;
+            }
+            const docId = isEditing ? window.editingInvoiceId : (Date.now().toString() + Math.random().toString(36).substr(2, 5));
+
             const docData = {
-                id: Date.now().toString() + Math.random().toString(36).substr(2, 5),
+                id: docId,
                 num: document.getElementById('facturaNum').value,
                 concepto: document.getElementById('concepto').value,
                 cliente: document.getElementById('clienteNombre').value,
                 cc: document.getElementById('cc').value,
                 correo: document.getElementById('correo').value,
                 fechaServicio: document.getElementById('fechaServicio').value,
-                
+
                 // Mapear la fecha de prestación al campo que realmente existe en el formulario
                 fechaPrestacion: document.getElementById('fechaServicio').value || '',
                 horario: document.getElementById('factura-horario')?.value || '',
                 observacion: document.getElementById('factura-observacion')?.value || '',
                 condiciones: document.getElementById('factura-condiciones')?.value || '',
-                
+
                 montoBase: abono, saldo: saldo, total: abono + saldo,
                 tieneIva: false, tieneRete: false,
                 metodo: document.getElementById('metodoPago').value,
-                fechaCreacion: new Date().toISOString(),
+                fechaCreacion: fechaCreacion,
                 vendedor: window.currentAppUser ? window.currentAppUser.nombre : 'Sistema',
                 userId: userId
             };
@@ -1742,6 +1749,9 @@
                 const docIdCliente = userId + "_" + String(docData.cc);
                 await setDoc(getDocPath("clientes", docIdCliente), { nombre: docData.cliente, correo: docData.correo, cc: docData.cc, userId: userId });
                 await setDoc(getDocPath("facturas", docData.id), docData);
+
+                // Mantener el id de la factura actual en modo edición para que el botón "Editar" de la vista previa funcione
+                window.editingInvoiceId = docData.id;
 
                 window.renderPDFContent(docData);
                 document.getElementById('form-container').classList.add('hidden');
@@ -1848,10 +1858,55 @@
             if(e) e.stopPropagation();
             const f = window.db.facturas[index];
             if(!f) return;
+            window.editingInvoiceId = f.id || f.num || null;
             window.renderPDFContent(f);
             document.getElementById('form-container').classList.add('hidden');
             document.getElementById('preview-container').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.editarFactura = function(identifier) {
+            // Switch to crear section first so the form is visible
+            if (typeof window.showSection === 'function') window.showSection('crear');
+            const f = window.db.facturas.find(doc => doc.id === identifier || doc.num === identifier);
+            if (!f) { if(window.showToast) window.showToast('Factura no encontrada'); return; }
+            window.editingInvoiceId = f.id || f.num || identifier;
+
+            if(document.getElementById('facturaNum')) document.getElementById('facturaNum').value = f.num || '';
+            if(document.getElementById('concepto')) document.getElementById('concepto').value = f.concepto || '';
+            if(document.getElementById('clienteNombre')) document.getElementById('clienteNombre').value = f.cliente || '';
+            if(document.getElementById('cc')) document.getElementById('cc').value = f.cc || '';
+            if(document.getElementById('correo')) document.getElementById('correo').value = f.correo || '';
+            if(document.getElementById('fechaServicio')) document.getElementById('fechaServicio').value = f.fechaServicio || '';
+            if(document.getElementById('monto')) { try { document.getElementById('monto').value = window.formatCOP(f.montoBase || 0); formatCurrencyInput(document.getElementById('monto')); } catch(e) {} }
+            if(document.getElementById('saldoPendienteInput')) { try { document.getElementById('saldoPendienteInput').value = window.formatCOP(f.saldo || 0); formatCurrencyInput(document.getElementById('saldoPendienteInput')); } catch(e) {} }
+            if(document.getElementById('metodoPago') && f.metodo) document.getElementById('metodoPago').value = f.metodo;
+
+            const formContainer = document.getElementById('form-container');
+            const preview = document.getElementById('preview-container');
+            if (formContainer) formContainer.classList.remove('hidden');
+            if (preview) preview.classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.descargarFacturaDirect = async function(identifier) {
+            const f = window.db.facturas.find(doc => doc.id === identifier || doc.num === identifier);
+            if (!f) return;
+            const previewContainer = document.getElementById('preview-container');
+            const previewWasHidden = previewContainer ? previewContainer.classList.contains('hidden') : true;
+
+            window.renderPDFContent(f);
+            try {
+                const renderEl = document.getElementById('invoice-render');
+                const pdfBlob = await window.generarBlobFactura(f.num, renderEl);
+                const a = document.createElement('a'); a.href = URL.createObjectURL(pdfBlob); a.download = `Factura_${f.num}.pdf`; a.click();
+            } catch (e) { console.error(e); if(window.showToast) window.showToast('Error al descargar'); }
+            finally { if (previewWasHidden) window.cerrarPreview(); }
+        };
+
+        window.editarDesdePreview = function() {
+            if (window.editingInvoiceId) return window.editarFactura(window.editingInvoiceId);
+            return window.cerrarPreview();
         };
 
         window.eliminarCliente = function(docId) {
@@ -1921,14 +1976,22 @@
                                 <p class="text-2xl font-[950] text-slate-900 dark:text-white tracking-tighter">${window.formatCOP(f.total)}</p>
                                 <p class="text-[10px] font-black text-slate-400 uppercase">${f.metodo}</p>
                             </div>
-                            <div class="flex gap-2">
-                                <button class="btn-ver-pdf bg-blue-50 text-blue-600 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
-                                <button class="btn-eliminar-doc bg-red-50 text-red-500 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
-                            </div>
-                        </div>`;
-                    
-                    const realIndex = window.db.facturas.findIndex(doc => doc.id === docIdentifier || doc.num === docIdentifier);
-                    card.querySelector('.btn-ver-pdf').onclick = (e) => window.descargarFacturaItem(realIndex, e);
+                                    <div class="flex gap-2">
+                                        <button class="btn-editar-doc bg-white text-slate-600 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all" title="Editar factura">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                        </button>
+                                        <button class="btn-descargar-doc bg-blue-50 text-blue-600 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all" title="Descargar factura">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                        </button>
+                                        <button class="btn-eliminar-doc bg-red-50 text-red-500 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all" title="Eliminar factura">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                        </button>
+                                    </div>`;
+
+                            const realIndex = window.db.facturas.findIndex(doc => doc.id === docIdentifier || doc.num === docIdentifier);
+                            card.querySelector('.btn-editar-doc').onclick = () => window.editarFactura(docIdentifier);
+                            card.querySelector('.btn-descargar-doc').onclick = () => window.descargarFacturaDirect(docIdentifier);
+                            card.querySelector('.btn-eliminar-doc').onclick = () => window.eliminarDoc(docIdentifier, 'facturas');
                     card.querySelector('.btn-eliminar-doc').onclick = () => window.eliminarDoc(docIdentifier, 'facturas');
                     hDiv.appendChild(card);
                 });
@@ -2225,8 +2288,12 @@
             const isRetenciones = document.getElementById('cobro-toggle-retenciones').checked;
             const totalRete = window.getRawValue(document.getElementById('cobro-r-total').value);
 
+            const isEditing = !!window.editingCobroId;
+            const docId = isEditing ? window.editingCobroId : (Date.now().toString() + Math.random().toString(36).substr(2, 5));
+            const fechaCreacionVal = isEditing ? ((window.db.cuentasCobro.find(c => c.id === window.editingCobroId) || {}).fechaCreacion || new Date().toISOString()) : new Date().toISOString();
+
             const docData = {
-                id: Date.now().toString() + Math.random().toString(36).substr(2, 5),
+                id: docId,
                 num: numVal,
                 cliente: document.getElementById('cobro-cliente').value,
                 fecha: document.getElementById('cobro-fecha').value,
@@ -2250,12 +2317,13 @@
 
                 valor: isRetenciones ? totalRete : (window.getRawValue(document.getElementById('cobro-valor').value) - (window.getRawValue(document.getElementById('cobro-desc').value) || 0)),
                 descuento: isRetenciones ? 0 : window.getRawValue(document.getElementById('cobro-desc').value),
-                fechaCreacion: new Date().toISOString(),
+                fechaCreacion: fechaCreacionVal,
                 userId: userId
             };
 
             try {
                 await setDoc(getDocPath("cuentasCobro", docData.id), docData);
+                window.editingCobroId = docData.id;
                 const renderEl = document.getElementById('cobro-render');
                 const pdfAsBlob = await window.generarBlobFactura(numVal, renderEl); 
                 
@@ -2269,6 +2337,7 @@
         window.descargarCobroDesdeHistorial = async function(id) {
              const cobro = window.db.cuentasCobro.find(c => c.id === id);
              if(!cobro) return;
+               window.editingCobroId = cobro.id;
              
              document.getElementById('cobro-num').value = cobro.num || '';
              document.getElementById('cobro-fecha').value = cobro.fecha || '';
@@ -2335,15 +2404,100 @@
                             <p class="text-2xl font-[950] text-indigo-600 dark:text-indigo-400 tracking-tighter">${window.formatCOP(c.valor)}</p>
                         </div>
                         <div class="flex gap-2">
-                            <button class="btn-ver-cobro bg-indigo-100 text-indigo-600 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                            <button class="btn-editar-cobro bg-white text-indigo-600 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                            <button class="btn-descargar-cobro bg-indigo-100 text-indigo-600 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
                             <button class="btn-eliminar-cobro bg-red-50 text-red-500 hover:scale-105 w-11 h-11 rounded-full flex items-center justify-center transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
                         </div>
                     </div>`;
                 
-                card.querySelector('.btn-ver-cobro').onclick = () => window.descargarCobroDesdeHistorial(c.id);
+                card.querySelector('.btn-editar-cobro').onclick = () => window.editarCobro(c.id);
+                card.querySelector('.btn-descargar-cobro').onclick = () => window.descargarCobroDirect(c.id);
                 card.querySelector('.btn-eliminar-cobro').onclick = () => window.eliminarDoc(c.id, 'cuentasCobro');
                 hDiv.appendChild(card);
             });
+        };
+
+        window.editarCobro = function(identifier) {
+            const f = window.db.cuentasCobro.find(c => c.id === identifier || c.num === identifier);
+            if(!f) return;
+            window.editingCobroId = f.id || identifier;
+            window.showSection('cobros');
+
+            document.getElementById('cobro-num').value = f.num || '';
+            document.getElementById('cobro-fecha').value = f.fecha || '';
+            document.getElementById('cobro-cliente').value = f.cliente || '';
+            document.getElementById('cobro-cc').value = f.cc || '';
+            document.getElementById('cobro-tel').value = f.tel || '';
+            document.getElementById('cobro-ciudad').value = f.ciudad || '';
+            document.getElementById('cobro-concepto').value = f.concepto || '';
+            document.getElementById('cobro-fecha-prestacion').value = f.fechaPrestacion || '';
+            document.getElementById('cobro-horario').value = f.horario || '';
+            document.getElementById('cobro-observacion').value = f.observacion || '';
+            document.getElementById('cobro-condiciones').value = f.condiciones || '';
+
+            if(f.isRetenciones) {
+                document.getElementById('cobro-toggle-retenciones').checked = true;
+                document.getElementById('cobro-r-retefuente-pct').value = f.rPctFuente || 6;
+                document.getElementById('cobro-r-reteica-pct').value = f.rPctIca || 6;
+                document.getElementById('cobro-r-bruto').value = window.formatCOP(f.rBruto || f.rBase || 0);
+                document.getElementById('cobro-r-retefuente').value = window.formatCOP(f.rRetefuente || 0);
+                document.getElementById('cobro-r-reteica').value = window.formatCOP(f.rReteica || 0);
+                document.getElementById('cobro-r-total').value = window.formatCOP(f.rTotal || 0);
+                window.toggleRetencionesCobro();
+            } else {
+                document.getElementById('cobro-toggle-retenciones').checked = false;
+                const sub = (f.valor || 0) + (f.descuento || 0);
+                document.getElementById('cobro-valor').value = window.formatCOP(sub);
+                document.getElementById('cobro-desc').value = window.formatCOP(f.descuento || 0);
+                window.toggleRetencionesCobro();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.descargarCobroDirect = async function(id) {
+            const cobro = window.db.cuentasCobro.find(c => c.id === id);
+            if(!cobro) return;
+            window.editingCobroId = cobro.id;
+
+            document.getElementById('cobro-num').value = cobro.num || '';
+            document.getElementById('cobro-fecha').value = cobro.fecha || '';
+            document.getElementById('cobro-cliente').value = cobro.cliente || '';
+            document.getElementById('cobro-cc').value = cobro.cc || '';
+            document.getElementById('cobro-tel').value = cobro.tel || '';
+            document.getElementById('cobro-ciudad').value = cobro.ciudad || '';
+            document.getElementById('cobro-concepto').value = cobro.concepto || '';
+            document.getElementById('cobro-fecha-prestacion').value = cobro.fechaPrestacion || '';
+            document.getElementById('cobro-horario').value = cobro.horario || '';
+            document.getElementById('cobro-observacion').value = cobro.observacion || '';
+            document.getElementById('cobro-condiciones').value = cobro.condiciones || '';
+
+            if(cobro.isRetenciones) {
+                document.getElementById('cobro-toggle-retenciones').checked = true;
+                document.getElementById('cobro-r-retefuente-pct').value = cobro.rPctFuente || 6;
+                document.getElementById('cobro-r-reteica-pct').value = cobro.rPctIca || 6;
+                document.getElementById('cobro-r-bruto').value = window.formatCOP(cobro.rBruto || cobro.rBase || 0);
+                document.getElementById('cobro-r-retefuente').value = window.formatCOP(cobro.rRetefuente || 0);
+                document.getElementById('cobro-r-reteica').value = window.formatCOP(cobro.rReteica || 0);
+                document.getElementById('cobro-r-total').value = window.formatCOP(cobro.rTotal || 0);
+                window.toggleRetencionesCobro();
+            } else {
+                document.getElementById('cobro-toggle-retenciones').checked = false;
+                const sub = (cobro.valor || 0) + (cobro.descuento || 0);
+                document.getElementById('cobro-valor').value = window.formatCOP(sub);
+                document.getElementById('cobro-desc').value = window.formatCOP(cobro.descuento || 0);
+                window.toggleRetencionesCobro();
+            }
+
+            window.generarPreviewCobro();
+            const renderEl = document.getElementById('cobro-render');
+            const pdfAsBlob = await window.generarBlobFactura(cobro.num, renderEl);
+            const a = document.createElement('a'); a.href = URL.createObjectURL(pdfAsBlob); a.download = `Cuenta_Cobro_${cobro.num}.pdf`; a.click();
+            window.cerrarPreviewCobro();
+        };
+
+        window.editarDesdePreviewCobro = function() {
+            if(window.editingCobroId) return window.editarCobro(window.editingCobroId);
+            return window.cerrarPreviewCobro();
         };
 
         // --- SISTEMA DE SECCIONES (NAVEGACIÓN) ---
@@ -2524,5 +2678,43 @@
             catch(e){console.error("Auth error:",e);window.showToast("Error de autenticación");}
         };
     </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
 </html>
