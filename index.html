@@ -1,4 +1,4 @@
-﻿<html lang="es" style="box-sizing: border-box;"><head>
+﻿﻿<html lang="es" style="box-sizing: border-box;"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sistema de Facturación</title>
@@ -175,7 +175,7 @@
     </div>
 
     <!-- BOTÓN DE SESIÓN -->
-    <button onclick="logoutUser()" id="btn-logout" class="fixed top-4 right-4 z-[90] bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-3.5 rounded-[1.1rem] shadow-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 transition-all hidden" title="Cerrar sesión">
+    <button type="button" onclick="logoutUser()" id="btn-logout" aria-label="Cerrar sesión" class="fixed top-4 right-4 z-[90] bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-3.5 rounded-[1.1rem] shadow-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 transition-all hidden" title="Cerrar sesión">
         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <path d="M16 17l5-5-5-5"></path>
@@ -377,10 +377,10 @@
             <!-- VISTA PREVIA FACTURA -->
             <div id="preview-container" class="hidden space-y-6 py-4">
                     <div class="flex flex-col sm:flex-row gap-3">
-                    <button onclick="editarDesdePreview()" class="w-full sm:w-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-6 py-4 rounded-xl font-[900] text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-colors">
+                    <button type="button" onclick="editarDesdePreview()" class="w-full sm:w-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white px-6 py-4 rounded-xl font-[900] text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Editar
                     </button>
-                    <button onclick="compartirPDF()" id="btn-share" class="w-full sm:flex-grow bg-slate-900 dark:bg-blue-600 text-white py-4 rounded-xl font-[900] shadow-xl text-xs uppercase tracking-[0.2em] hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors flex items-center justify-center gap-2">
+                    <button type="button" onclick="compartirPDF()" id="btn-share" class="w-full sm:flex-grow bg-slate-900 dark:bg-blue-600 text-white py-4 rounded-xl font-[900] shadow-xl text-xs uppercase tracking-[0.2em] hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors flex items-center justify-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Descargar PDF
                     </button>
                 </div>
@@ -649,10 +649,10 @@
                     <!-- VISTA PREVIA COBRO -->
                     <div id="preview-cobro-container" class="hidden space-y-6">
                         <div class="flex flex-col sm:flex-row gap-3">
-                            <button onclick="editarDesdePreviewCobro()" class="w-full sm:w-auto bg-white dark:bg-slate-800 border border-slate-200 text-slate-900 dark:text-white px-6 py-4 rounded-xl font-[900] text-[10px] uppercase tracking-widest flex items-center justify-center gap-2">
+                            <button type="button" onclick="editarDesdePreviewCobro()" class="w-full sm:w-auto bg-white dark:bg-slate-800 border border-slate-200 text-slate-900 dark:text-white px-6 py-4 rounded-xl font-[900] text-[10px] uppercase tracking-widest flex items-center justify-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Editar
                             </button>
-                            <button onclick="guardarYCompartirCobro()" id="btn-share-cobro" class="w-full sm:flex-grow bg-slate-900 dark:bg-blue-600 text-white py-4 rounded-xl font-[900] shadow-xl text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-2">
+                            <button type="button" onclick="guardarYCompartirCobro()" id="btn-share-cobro" class="w-full sm:flex-grow bg-slate-900 dark:bg-blue-600 text-white py-4 rounded-xl font-[900] shadow-xl text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Guardar y Descargar PDF
                             </button>
                         </div>
@@ -854,6 +854,10 @@
                         <h2 class="text-3xl md:text-4xl font-[950] text-slate-900 dark:text-white uppercase tracking-tighter">Registros</h2>
                         <p class="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-[0.3em] mt-2">Historial y seguimiento de facturas</p>
                     </div>
+                    <button type="button" onclick="descargarHistorialPDF()" class="w-full sm:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-[900] py-3 px-4 rounded-2xl uppercase tracking-[0.25em] text-[10px] hover:opacity-90 transition-all flex justify-center items-center gap-2 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Exportar Reporte
+                    </button>
                 </div>
 
                 <div id="tab-content-facturas" class="block animate-fade-in">
@@ -1171,14 +1175,29 @@
         };
 
         window.persistLocalData = function() {
+            if (!window.currentAppUser) return; // No persistir si no hay sesión
             try {
-                const dataToStore = {
-                    usuarios: Array.isArray(window.db.usuarios) ? window.db.usuarios : [],
-                    facturas: Array.isArray(window.db.facturas) ? window.db.facturas : [],
-                    clientes: window.db.clientes || {},
-                    cuentasCobro: Array.isArray(window.db.cuentasCobro) ? window.db.cuentasCobro : [],
-                    config: window.db.config || { ...defaultConfig }
-                };
+                let dataToStore;
+                if (window.currentAppUser.role === 'admin') {
+                    // El admin guarda todo para el funcionamiento del panel
+                    dataToStore = {
+                        usuarios: Array.isArray(window.db.usuarios) ? window.db.usuarios : [],
+                        facturas: Array.isArray(window.db.facturas) ? window.db.facturas : [],
+                        clientes: window.db.clientes || {},
+                        cuentasCobro: Array.isArray(window.db.cuentasCobro) ? window.db.cuentasCobro : [],
+                        config: window.db.config || { ...defaultConfig }
+                    };
+                } else {
+                    // Los usuarios normales solo guardan su propia información
+                    const userId = window.currentAppUser.id;
+                    dataToStore = {
+                        usuarios: [window.currentAppUser], // Solo el usuario actual
+                        facturas: (window.db.facturas || []).filter(f => f.userId === userId),
+                        clientes: Object.values(window.db.clientes || {}).filter(c => c.userId === userId).reduce((acc, c) => { acc[c.id] = c; return acc; }, {}),
+                        cuentasCobro: (window.db.cuentasCobro || []).filter(c => c.userId === userId),
+                        config: window.getUserConfig() // La configuración específica del usuario
+                    };
+                }
                 localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToStore));
             } catch (e) {
                 console.warn('No se pudo guardar el respaldo local', e);
@@ -1187,19 +1206,14 @@
 
         window.dedupeDocuments = function(list) {
             const seenIds = new Set();
-            const seenNums = new Set();
             const deduped = [];
             for (let i = list.length - 1; i >= 0; i--) {
                 const item = list[i];
                 if (!item) continue;
                 const id = item.id || null;
-                const num = item.num || null;
                 const idKey = id ? `id:${id}` : null;
-                const numKey = num ? `num:${num}` : null;
                 if (idKey && seenIds.has(idKey)) continue;
-                if (numKey && seenNums.has(numKey)) continue;
                 if (idKey) seenIds.add(idKey);
-                if (numKey) seenNums.add(numKey);
                 deduped.push(item);
             }
             return deduped.reverse();
@@ -1866,8 +1880,10 @@
 
         window.toggleUserPinDisplay = function(elementId, realPin) {
             if(window.currentAppUser.role!=='admin')return;
-            const el=document.getElementById(elementId),eyeSvg=`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block ml-1 opacity-70"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
-            el.innerText.includes('****')?el.innerHTML=`${realPin} ${eyeSvg}`:el.innerHTML=`**** ${eyeOffSvg}`;
+            const el=document.getElementById(elementId);
+            const eyeOnSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block ml-1 opacity-70"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+            const eyeOffSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block ml-1 opacity-70"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+            el.innerText.includes('****')?el.innerHTML=`${window.sanitizeHTML(realPin)} ${eyeOnSvg}`:el.innerHTML=`**** ${eyeOffSvg}`;
         };
 
         window.deleteUser = function(userId) {
@@ -1913,7 +1929,7 @@
                     <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 transition-all">
                         <div class="w-full xl:w-auto">
                             <div class="flex items-center gap-2 mb-1 flex-wrap">
-                                <p class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ${u.nombre}</p>
+                                <p class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ${window.sanitizeHTML(u.nombre)}</p>
                                 ${daysBadge}
                             </div>
                             <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mt-1 pl-6 flex items-center gap-1">PIN: <span id="pin-display-${u.id}" class="cursor-pointer text-blue-500 inline-flex items-center" onclick="togglePinDisplay('pin-display-${u.id}', '${u.pin}')">**** <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block ml-1 opacity-70"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></span></p>
@@ -2002,58 +2018,35 @@
         };
 
         window.generarBlobFactura = async function(num, element) {
-            const tempContainer = document.createElement('div');
-            tempContainer.style.position = 'absolute';
-            tempContainer.style.left = '-9999px';
-            tempContainer.style.top = '0';
-            tempContainer.style.width = '800px';
-            tempContainer.style.background = 'white';
-            tempContainer.style.padding = '0';
-            tempContainer.style.boxSizing = 'border-box';
-            tempContainer.style.overflow = 'hidden';
-            document.body.appendChild(tempContainer);
-
             const clone = element.cloneNode(true);
-            clone.style.cssText = 'width: 800px !important; max-width: 800px !important; padding: 40px 30px 30px 30px !important; background: white !important; margin: 0 !important; box-sizing: border-box !important; position: relative !important;';
+            
             clone.style.backgroundColor = '#ffffff';
+            clone.querySelectorAll('img.hidden').forEach(img => img.classList.remove('hidden'));
 
-            const imgOriginals = new Map();
             const adjustImage = (selector, style) => {
                 try {
                     const img = clone.querySelector(selector);
                     if (img) {
-                        imgOriginals.set(img, img.getAttribute('style') || '');
                         img.style.cssText = style;
                         img.classList.remove('hidden');
                     }
                 } catch (e) { console.error('image adjust error', e); }
             };
+
             adjustImage('#render-cobro-logo', 'width: auto !important; height: auto !important; max-width: 200px !important; object-fit: contain !important; display: block !important; margin: 0 !important; padding: 0 !important;');
             adjustImage('#pdf-logo', 'width: auto !important; height: auto !important; max-width: 200px !important; object-fit: contain !important; display: block !important; margin: 0 !important; padding: 0 !important;');
             adjustImage('#render-cobro-firma-img', 'width: auto !important; height: auto !important; max-width: 220px !important; max-height: 120px !important; object-fit: contain !important; display: block !important; margin: 0 auto !important; padding: 0 !important;');
             adjustImage('#pdf-factura-firma', 'width: auto !important; height: auto !important; max-width: 220px !important; max-height: 120px !important; object-fit: contain !important; display: block !important; margin: 0 auto !important; padding: 0 !important;');
 
-            tempContainer.appendChild(clone);
-
             const opt = {
                 margin: [5, 5, 5, 5],
                 filename: `Documento_${num}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, windowWidth: 800, width: 800, x: 0, y: 0, scrollX: 0, scrollY: 0, backgroundColor: '#ffffff' },
+                html2canvas: { scale: 2, useCORS: true, letterRendering: true, backgroundColor: '#ffffff' },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            try {
-                return await html2pdf().set(opt).from(clone).output('blob');
-            } finally {
-                try {
-                    imgOriginals.forEach((style, img) => {
-                        if (style) img.setAttribute('style', style);
-                        else img.removeAttribute('style');
-                    });
-                } catch (e) { console.error('restore img styles', e); }
-                if (tempContainer && tempContainer.parentNode) tempContainer.parentNode.removeChild(tempContainer);
-            }
+            return await html2pdf().set(opt).from(clone).output('blob');
         };
 
         window.compartirPDF = async function() {
@@ -2204,14 +2197,14 @@
                         <div class="flex items-center gap-4 w-full md:w-auto">
                             <div class="bg-blue-600 text-white w-12 h-12 rounded-2xl shadow-xl shadow-blue-600/30 flex-none flex items-center justify-center font-[900] text-sm italic tracking-tighter">${f.num}</div>
                             <div class="space-y-0.5 min-w-0">
-                                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1">${f.fechaServicio}</p>
-                                <p class="font-[900] text-slate-900 dark:text-white text-lg uppercase tracking-tight truncate">${f.cliente}</p>
+                                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1">${window.sanitizeHTML(f.fechaServicio)}</p>
+                                <p class="font-[900] text-slate-900 dark:text-white text-lg uppercase tracking-tight truncate">${window.sanitizeHTML(f.cliente)}</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-slate-200 dark:border-slate-700 pt-4 md:pt-0">
                             <div class="text-right">
                                 <p class="text-2xl font-[950] text-slate-900 dark:text-white tracking-tighter">${window.formatCOP(f.total)}</p>
-                                <p class="text-[10px] font-black text-slate-400 uppercase">${f.metodo}</p>
+                                <p class="text-[10px] font-black text-slate-400 uppercase">${window.sanitizeHTML(f.metodo)}</p>
                             </div>
                                     <div class="flex gap-2">
                                         <button class="btn-editar-doc bg-white text-slate-600 hover:scale-105 w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all" title="Editar factura">
@@ -2229,7 +2222,6 @@
                             card.querySelector('.btn-editar-doc').onclick = () => window.editarFactura(docIdentifier);
                             card.querySelector('.btn-descargar-doc').onclick = () => window.descargarFacturaDirect(docIdentifier);
                             card.querySelector('.btn-eliminar-doc').onclick = () => window.eliminarDoc(docIdentifier, 'facturas');
-                    card.querySelector('.btn-eliminar-doc').onclick = () => window.eliminarDoc(docIdentifier, 'facturas');
                     hDiv.appendChild(card);
                 });
             }
@@ -2650,9 +2642,9 @@
                         <div class="flex items-center gap-4 w-full md:w-auto">
                         <div class="bg-indigo-600 text-white w-10 h-10 sm:w-12 sm:h-12 rounded-2xl shadow-xl shadow-indigo-600/30 flex-none flex items-center justify-center font-[900] text-sm italic tracking-tighter">${c.num}</div>
                         <div class="space-y-0.5 min-w-0">
-                            <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest flex items-center gap-1">${c.fecha}</p>
-                            <p class="font-[900] text-slate-900 dark:text-white text-lg uppercase tracking-tight truncate">${c.cliente}</p>
-                            <p class="text-[10px] text-slate-500 truncate">${c.concepto}</p>
+                            <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest flex items-center gap-1">${window.sanitizeHTML(c.fecha)}</p>
+                            <p class="font-[900] text-slate-900 dark:text-white text-lg uppercase tracking-tight truncate">${window.sanitizeHTML(c.cliente)}</p>
+                            <p class="text-[10px] text-slate-500 truncate">${window.sanitizeHTML(c.concepto)}</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-indigo-100 dark:border-indigo-800/50 pt-4 md:pt-0">
@@ -2774,7 +2766,7 @@
             if(section === 'crear') {
                 window.cerrarPreview();
                 const currentVal = document.getElementById('facturaNum').value;
-                const misFacturas = window.db.facturas.filter(f => f.userId === window.currentAppUser.id);
+            const misFacturas = window.db.facturas.filter(f => window.currentAppUser.role === 'admin' ? true : f.userId === window.currentAppUser.id);
                 const exists = misFacturas.some(f => f.num === currentVal);
                 if (exists || currentVal === "") { document.getElementById('invoiceForm').reset(); document.getElementById('facturaNum').value = window.getSiguienteConsecutivo('factura'); }
                 window.updatePaymentSelect(); 
@@ -2782,7 +2774,13 @@
             }
             if (section === 'cobros') {
                 window.cerrarPreviewCobro();
-                if(document.getElementById('cobro-num').value === "") document.getElementById('cobro-num').value = window.getSiguienteConsecutivo('cobro');
+            const currentCobroVal = document.getElementById('cobro-num').value;
+            const misCobros = (window.db.cuentasCobro || []).filter(c => window.currentAppUser.role === 'admin' ? true : (window.currentAppUser && c.userId === window.currentAppUser.id));
+            const cobroExists = misCobros.some(c => c.num === currentCobroVal);
+            if (cobroExists || currentCobroVal === "") {
+                if(document.getElementById('cobroForm')) document.getElementById('cobroForm').reset();
+                document.getElementById('cobro-num').value = window.getSiguienteConsecutivo('cobro');
+            }
                 window.updatePaymentSelect(); window.switchCobroTab('generador');
             }
             if(section === 'historial' || section === 'registros' || section === 'clientes') window.renderListas();
@@ -2811,13 +2809,13 @@
                 grandTotal += f.total;
                 tbody.innerHTML += `
                     <tr class="border-b border-slate-100">
-                        <td class="py-2 pl-1 text-slate-900 align-top">${f.fechaServicio}</td>
-                        <td class="py-2 text-slate-700 align-top">${f.num}</td>
-                        <td class="py-2 text-slate-500 text-[10px] align-top">${f.cc}</td>
-                        <td class="py-2 text-slate-900 align-top">${f.cliente}</td>
-                        <td class="py-2 text-slate-500 text-[10px] align-top">${f.concepto}</td>
-                        <td class="py-2 text-slate-500 text-[10px] align-top">${f.metodo}</td>
-                        <td class="py-2 text-slate-600 text-[10px] align-top">${f.vendedor || 'N/A'}</td>
+                        <td class="py-2 pl-1 text-slate-900 align-top">${window.sanitizeHTML(f.fechaServicio)}</td>
+                        <td class="py-2 text-slate-700 align-top">${window.sanitizeHTML(f.num)}</td>
+                        <td class="py-2 text-slate-500 text-[10px] align-top">${window.sanitizeHTML(f.cc)}</td>
+                        <td class="py-2 text-slate-900 align-top">${window.sanitizeHTML(f.cliente)}</td>
+                        <td class="py-2 text-slate-500 text-[10px] align-top">${window.sanitizeHTML(f.concepto)}</td>
+                        <td class="py-2 text-slate-500 text-[10px] align-top">${window.sanitizeHTML(f.metodo)}</td>
+                        <td class="py-2 text-slate-600 text-[10px] align-top">${window.sanitizeHTML(f.vendedor) || 'N/A'}</td>
                         <td class="py-2 text-right font-medium text-slate-900 pr-1 align-top">${window.formatCOP(f.total)}</td>
                     </tr>`;
             });
@@ -2906,6 +2904,12 @@
             }
         };
 
+        window.sanitizeHTML = function(str) {
+            if (str === null || str === undefined) return '';
+            const temp = document.createElement('div');
+            temp.textContent = String(str);
+            return temp.innerHTML;
+        };
         window.formatCurrencyInput = function(input) { let value = input.value.replace(/\D/g, ""); input.value = value === "" ? "" : new Intl.NumberFormat('es-CO').format(value); };
         window.getRawValue = function(val) { return parseFloat((val||"0").toString().replace(/\./g, ""))||0; };
         window.formatCOP = function(num) { return new Intl.NumberFormat('es-CO', {style: 'currency',currency: 'COP',maximumFractionDigits: 0}).format(Number(num)||0); };
@@ -2947,18 +2951,20 @@
             const modal = document.getElementById('cliente-choice-modal');
             if(modal) modal.classList.add('hidden');
             if(target === 'cobro') {
+                window.editingCobroId = null;
+                window.showSection('cobros');
                 if(document.getElementById('cobro-cliente')) document.getElementById('cobro-cliente').value = c.nombre || '';
                 if(document.getElementById('cobro-cc')) document.getElementById('cobro-cc').value = c.cc || '';
                 if(document.getElementById('cobro-tel')) document.getElementById('cobro-tel').value = c.telefono || c.tel || '';
                 if(document.getElementById('cobro-ciudad')) document.getElementById('cobro-ciudad').value = c.ciudad || c.city || '';
                 if(document.getElementById('cobro-concepto')) document.getElementById('cobro-concepto').value = c.concepto || '';
-                window.showSection('cobros');
                 window.showToast('Cliente listo para cuenta de cobro');
             } else {
+                window.editingInvoiceId = null;
+                window.showSection('crear');
                 if(document.getElementById('clienteNombre')) document.getElementById('clienteNombre').value = c.nombre || '';
                 if(document.getElementById('cc')) document.getElementById('cc').value = c.cc || '';
                 if(document.getElementById('correo')) document.getElementById('correo').value = c.correo || '';
-                window.showSection('crear');
                 window.showToast('Cliente listo para factura');
             }
             window.pendingClienteSelection = null;
